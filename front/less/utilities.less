@@ -1,0 +1,37 @@
+.box-sizing(@sizing) {
+    -webkit-box-sizing: @sizing;
+       -moz-box-sizing: @sizing;
+            box-sizing: @sizing;
+}
+    
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
+}
+
+.transition(@transition) {
+    -webkit-transition: @transition;
+            transition: @transition;
+}
+
+.gradient(@direction: top; @from: white; @to: black ) {
+    background: -webkit-linear-gradient(@direction, @from, @to);   /* Safari 5.1, Chrome 10+ */
+    background:    -moz-linear-gradient(@direction, @from, @to);   /* Firefox 3.6+           */
+    background:     -ms-linear-gradient(@direction, @from, @to);   /* IE 10                  */
+    background:      -o-linear-gradient(@direction, @from, @to);   /* Opera 11.10+           */
+}

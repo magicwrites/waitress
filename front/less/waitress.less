@@ -1,0 +1,56 @@
+@import 'variables';
+
+.waitress {
+    h1,
+    h2 {
+        margin: 0.5em 0;
+        font-size: 2em;
+        font-weight: normal;
+    }
+    
+    .waitress-container {
+        margin: 4em auto;
+        width: @widthForContainer;
+    }
+    
+    .waitress-header {
+        position: fixed;
+        padding-top: 8em;
+        width: 10em;
+        
+        img {
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 1.5em;
+            right: 1.5em;
+            width: 7em;
+            height: 7em;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        p {
+            font-size: 0.75em;
+            color: @colorForReading * 2;
+            text-align: center;
+        }
+    }
+    
+    .waitress-section,
+    .waitress-footer {
+        padding-top: 8em;
+        padding-left: 16em;
+    }
+    
+    .waitress-section {
+        
+    }
+    
+    .waitress-footer {
+        text-align: right;
+        color: @colorForReadingMuted;
+    }
+}

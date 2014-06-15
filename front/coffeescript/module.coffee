@@ -1,0 +1,1 @@
+window.application = angular.module 'waitress', []

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Waitress</title>
+
+        <meta charset="utf-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        
+        <link href="http://fonts.googleapis.com/css?family=Montserrat&amp;subset=latin-ext" rel="stylesheet" type="text/css" />
+
+        <link href="images/favicon.png" rel="icon" type="image/x-icon" />
+        <link href="css/compiled.css" rel="stylesheet" />
+    </head>
+
+    <body data-ng-app="waitress" class="waitress">
+        
+        <div class="waitress-container">
+            <header  data-ng-include="getTemplateFrom('header')"  class="waitress-header"></header>
+            <section data-ng-include="getTemplateFrom('section')" class="waitress-section"></section>
+            <footer  data-ng-include="getTemplateFrom('footer')"  class="waitress-footer"></footer>
+        </div>
+        
+    </body>
+    
+    <script src="bower/jquery/dist/jquery.js"></script>
+    <script src="bower/angular/angular.js"></script>
+    <script src="bower/angular-route/angular-route.js"></script>
+    <script src="bower/angular-animate/angular-animate.js"></script>
+    <script src="bower/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
+    <script src="javascript/module.js"></script>
+    <script src="javascript/module/run.js"></script>
+</html>

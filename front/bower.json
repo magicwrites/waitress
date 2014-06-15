@@ -1,0 +1,15 @@
+{
+    "name": "waitress",
+    "description": "A collection of scripts to initialize simplified continuous integration environment.",
+    "version": "0.0.1",
+    "repository": {
+    "type": "git",
+        "url": "https://github.com/magicwrites/waitress.git"
+    },
+    "dependencies": {
+        "angular": "1.2.16",
+        "angular-bootstrap": "0.10.0",
+        "angular-animate": "1.2.16",
+        "jquery": "2.1.1"
+    }
+}
