@@ -7,7 +7,7 @@ module.exports = (grunt) ->
         connect:
             server:
                 options:
-                    port: 8000
+                    port: 8200
         watch:
             less:
                 files: 'less/**/*.less'

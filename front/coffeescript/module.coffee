@@ -1,1 +1,1 @@
-window.application = angular.module 'waitress', []
+window.application = angular.module 'waitress', ['ngRoute']

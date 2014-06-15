@@ -16,9 +16,9 @@
     <body data-ng-app="waitress" class="waitress">
         
         <div class="waitress-container">
-            <header  data-ng-include="getTemplateFrom('header')"  class="waitress-header"></header>
-            <section data-ng-include="getTemplateFrom('section')" class="waitress-section"></section>
-            <footer  data-ng-include="getTemplateFrom('footer')"  class="waitress-footer"></footer>
+            <header  class="waitress-header"  data-ng-include="getTemplateFrom('header')"></header>
+            <section class="waitress-section" data-ng-view></section>
+            <footer  class="waitress-footer"  data-ng-include="getTemplateFrom('footer')"></footer>
         </div>
         
     </body>
@@ -31,4 +31,5 @@
 
     <script src="javascript/module.js"></script>
     <script src="javascript/module/run.js"></script>
+    <script src="javascript/module/configuration.js"></script>
 </html>

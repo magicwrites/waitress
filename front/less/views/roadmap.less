@@ -1,0 +1,37 @@
+@import '../variables';
+
+.waitress-roadmap {
+    .special-character-on-list {
+        margin-left: -1.5em;
+        position: absolute;
+    }
+    
+    li {
+        list-style: none;
+
+        &:before {
+            content: '✖';
+            color: @colorForError;
+            
+            .special-character-on-list();
+        }
+    }
+
+    .done {
+        &:before {
+            content: '✔';
+            color: @colorForSuccess;
+            
+            .special-character-on-list();
+        }
+    }
+    
+    .work {
+        &:before {
+            content: '✒';
+            color: @colorForWarning;
+            
+            .special-character-on-list();
+        }
+    }
+}

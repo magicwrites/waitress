@@ -8,6 +8,12 @@
         font-weight: normal;
     }
     
+    h3 {
+        margin: 1em 0;
+        font-size: 1em;
+        font-weight: normal;
+    }
+    
     .waitress-container {
         margin: 4em auto;
         width: @widthForContainer;
@@ -36,6 +42,16 @@
             font-size: 0.75em;
             color: @colorForReading * 2;
             text-align: center;
+        }
+        
+        nav a {
+            padding-left: 2em;
+            
+            &:before {
+                margin-left: -1.5em;
+                position: absolute;
+                content: '➜';
+            }
         }
     }
     
