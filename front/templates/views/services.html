@@ -1,0 +1,54 @@
+<h2>Services</h2>
+<p>A list of system services installed and kept running by the waitress.</p>
+
+<table class="waitress-services">
+    <colgroup>
+        <col />
+        <col />
+        <col />
+        <col />
+    </colgroup>
+    
+    <thead>
+        <tr>
+            <th>Service</th>
+            <th>Is installed?</th>
+            <th>Is working?</th>
+            <th>Quick management</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        <tr>
+            <td>
+                <span>Nginx</span>
+            </td>
+            <td>
+                <span class="color-success">✔</span>
+            </td>
+            <td>
+                <span class="color-failure">✖</span>
+            </td>
+            <td>
+                <button>Start</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>Protractor server</span>
+            </td>
+            <td>
+                <span class="color-failure">✖</span>
+            </td>
+            <td>
+<!--                <span class="color-failure">✖</span>-->
+            </td>
+            <td>
+                <div class="waitress-loader">
+                    <span>Installing &hellip;</span>
+                    <img src="images/loader.gif" alt="loader" />
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

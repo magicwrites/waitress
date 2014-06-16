@@ -14,6 +14,88 @@
         font-weight: normal;
     }
     
+    pre {
+        padding: 0.5em 1em;
+        border: 1px dashed @colorForReading;
+    }
+    
+    button {
+        margin: 0 0 0 3em;
+        padding: 0;
+        display: inline;
+        font-size: 1em;
+        color: @colorForLink;
+        text-decoration: none;
+        border: none;
+        background: none;
+        cursor: pointer;
+
+        &:before {
+            margin-left: -1.5em;
+            position: absolute;
+            content: '➜';
+        }
+
+        &.active,
+        &:hover {
+            color: @colorForLinkHighlighted;
+            text-shadow: 0 0 0.25em @colorForShadow;
+        }
+    }
+    
+    table {
+        margin: 3em auto;
+        border-collapse: collapse;
+        width: 100%;
+        
+        td, th {
+            border-left: 2em solid transparent;
+            border-right: 2em solid transparent;
+            border-top: 0.5em solid transparent;
+            border-bottom: 0.5em solid transparent;
+            text-align: left;
+            
+            .waitress-loader {
+                display: inline-block;
+                
+                span {
+                    float: left;
+                }
+                
+                img {
+                    float: right;
+                    display: block;
+                    margin: 0.5em 0 0.5em 1em;
+                    height: 1em;
+                    width: 1em;
+                }
+            }
+        }
+        
+        tr:first-child th {
+            border-top: 0;
+        }
+        
+        tr:last-child td {
+            border-bottom: 0;
+        }
+        
+        tr td:first-child,
+        tr th:first-child {
+            border-left: 0;
+        }
+        
+        tr td:last-child,
+        tr th:last-child {
+            border-right: 0;
+        }
+        
+        th {
+            color: @colorForReadingMuted;
+            font-weight: normal;
+        }
+    }
+    
     .waitress-container {
         margin: 4em auto;
         width: @widthForContainer;
@@ -27,11 +109,11 @@
         img {
             position: absolute;
             display: block;
-            top: 0;
-            left: 1.5em;
-            right: 1.5em;
-            width: 7em;
-            height: 7em;
+            top: -3em;
+            left: 0;
+            right: 0;
+            width: 10em;
+            height: 10em;
         }
         
         h1 {
@@ -40,17 +122,20 @@
         
         p {
             font-size: 0.75em;
-            color: @colorForReading * 2;
+            color: @colorForReadingMuted;
             text-align: center;
         }
         
-        nav a {
-            padding-left: 2em;
-            
-            &:before {
-                margin-left: -1.5em;
-                position: absolute;
-                content: '➜';
+        nav {
+            a {
+                display: block;
+                padding-left: 2em;
+
+                &:before {
+                    margin-left: -1.5em;
+                    position: absolute;
+                    content: '➜';
+                }
             }
         }
     }

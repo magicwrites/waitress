@@ -1,7 +1,9 @@
-## waitress
+## Waitress
 
-### installation
+### Installation
 
-In order to install waitress, simply paste the following into the ubuntu console (you might want to use sudo): `(apt-get install git && git clone https://github.com/magicwrites/waitress waitress && . /waitress/start.sh)`, and visit `localhost:8200`, or enter through the publicly available IP of your server!
+In order to install waitress, simply paste the following into the ubuntu console (you might want to use sudo):
 
-Console is cool, but automation is better :-)
+`(apt-get install git -y && git clone https://github.com/magicwrites/waitress waitress && . /waitress/start.sh)`
+
+Then visit `localhost:8200`, or any IP you were provided by your administrator service. That's it, enjoy.

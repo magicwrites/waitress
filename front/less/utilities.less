@@ -1,3 +1,5 @@
+@import 'variables';
+
 .box-sizing(@sizing) {
     -webkit-box-sizing: @sizing;
        -moz-box-sizing: @sizing;
@@ -5,15 +7,23 @@
 }
     
 .text-center {
-    text-align: center;
+    text-align: center !important;
 }
 
 .text-left {
-    text-align: left;
+    text-align: left !important;
 }
 
 .text-right {
-    text-align: right;
+    text-align: right !important;
+}
+
+.color-success {
+    color: @colorForSuccess;
+}
+
+.color-failure {
+    color: @colorForFailure;
 }
 
 .pull-right {
