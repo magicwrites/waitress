@@ -1,7 +1,3 @@
-# variables
-
-waitressLocation = ${PWD##*/}/waitress/
-
 # install nvm
 
 git clone https://github.com/creationix/nvm.git ~/.nvm
@@ -20,5 +16,5 @@ npm install bower -g
 # install nginx
 
 apt-get install nginx -y
-
-# configure nginx to expose waitress web panel
+cp /var/www/waitress/back/templates/nginx/waitress /etc/nginx/sites-available/waitress
+ln -s /etc/nginx/sites-available/waitress /etc/nginx/sites-enabled/waitress
