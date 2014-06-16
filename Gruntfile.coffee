@@ -31,7 +31,7 @@ module.exports = (grunt) ->
                 dest: 'css/compiled.css'
         shell:
             bower:
-                command: 'bower install'
+                command: 'bower install --allow-root'
 
     grunt.initConfig configuration
 
