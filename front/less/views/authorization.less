@@ -1,0 +1,59 @@
+@import '../variables';
+@import '../components';
+
+
+
+.waitress-authorization {
+    height: auto;
+    overflow: hidden;
+    
+    form {
+        display: inline-block;
+        margin: 1em 0;
+    }
+    
+    fieldset {
+        margin: 1em 0;
+        padding: 0;
+        border: 0;
+        height: auto;
+        overflow: hidden;
+    }
+    
+    input,
+    label {
+        display: inline-block;
+        padding: 0.25em 0.33em;
+        width: 12em;
+    }
+    
+    label {
+        padding-left: 0;
+    }
+    
+    input[type="submit"] {
+        float: right;
+        cursor: pointer;
+        padding: 0.25em 0.33em;
+        width: 6em;
+    }
+    
+    
+    
+    aside {
+        float: right;
+        padding-top: 2em;
+        width: 32em;
+        font-size: 0.75em;
+        line-height: 2em;
+        color: @colorForReadingMuted;
+        
+        p {
+            margin-bottom: 3em;
+            
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

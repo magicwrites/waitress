@@ -3,6 +3,10 @@ window.application.config ($routeProvider) ->
         templateUrl: 'templates/views/home.html'
     $routeProvider.when '/roadmap',
         templateUrl: 'templates/views/roadmap.html'
+    $routeProvider.when '/authorization',
+        controller: 'authorization'
+        templateUrl: 'templates/views/authorization.html'
+        
     $routeProvider.when '/services',
         templateUrl: 'templates/views/services.html'
     $routeProvider.when '/websites',

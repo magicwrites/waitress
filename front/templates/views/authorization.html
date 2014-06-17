@@ -1,0 +1,59 @@
+<section class="waitress-authorization" data-ng-hide="user.isCreated">
+    <h2>Authorization &mdash; Creation</h2>
+    <p>It seems that you are visiting waitress for the first time. She is not pleased with the security of her work, please come up with an username and password you will use to authorize your access to the waitress services.</p>
+    
+    <aside>
+        <p>Please note that once you will set the username and password, there is no other way to change it other than by entering the host machine, and removing the <code>authorization.json</code> file from the waitress configuration directory.</p>
+        <p>Write your username and password down, or ensure in any other way that you can remember it!</p>
+    </aside>
+
+    <form>
+        <fieldset data-ng-disabled="isCreating">
+            <label>Username</label>
+            <input type="text" data-ng-model="forms.create.username" />
+        </fieldset>
+
+        <fieldset data-ng-disabled="isCreating">
+            <label>Password</label>
+            <input type="text" data-ng-model="forms.create.password" />
+        </fieldset>
+        
+        <input type="submit" value="Create" data-ng-hide="isCreating" data-ng-click="create()" />
+
+        <div class="waitress-loader pull-right" data-ng-show="isCreating">
+            <span>Creating account &hellip;</span>
+            <img src="images/loader.gif" alt="loader" />
+        </div>
+    </form>
+</section>
+
+<section class="waitress-authorization" data-ng-show="user.isCreated && !user.isAuthorized">
+    <h2>Authorization</h2>
+    <p>Please provide username and password so that waitress can perform sensitive system and web operations with confidence.</p>
+
+    <form>
+        <fieldset data-ng-disabled="isCreating">
+            <label>Username</label>
+            <input type="text" data-ng-model="forms.authorize.username" />
+        </fieldset>
+
+        <fieldset data-ng-disabled="isCreating">
+            <label>Password</label>
+            <input type="password" data-ng-model="forms.authorize.password" />
+        </fieldset>
+        
+        <input type="submit" value="Authorize" data-ng-hide="isAuthorizing" data-ng-click="authorize()" />
+
+        <div class="waitress-loader pull-right" data-ng-show="isAuthorizing">
+            <span>Authorizing &hellip;</span>
+            <img src="images/loader.gif" alt="loader" />
+        </div>
+    </form>
+</section>
+
+<section class="waitress-authorization" data-ng-show="user.isAuthorized">
+    <h2>Authorization &mdash; validated</h2>
+    <p>Your credentials are fine, please feel free to browse things as you see fit.</p>
+    
+    <button data-ng-click="deauthorize()">Deauthorize</button>
+</section>
