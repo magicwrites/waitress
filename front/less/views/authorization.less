@@ -6,6 +6,7 @@
 .waitress-authorization {
     height: auto;
     overflow: hidden;
+    min-height: 28em;
     
     form {
         display: inline-block;
@@ -32,6 +33,7 @@
     }
     
     input[type="submit"] {
+        margin: 0;
         float: right;
         cursor: pointer;
         padding: 0.25em 0.33em;
@@ -42,17 +44,23 @@
     
     aside {
         float: right;
-        padding-top: 2em;
-        width: 32em;
-        font-size: 0.75em;
-        line-height: 2em;
-        color: @colorForReadingMuted;
+        padding-top: 1.25em;
+        width: 24em;
         
         p {
-            margin-bottom: 3em;
+            margin-bottom: 2.25em;
             
             &:last-child {
                 margin-bottom: 0;
+            }
+        }
+        
+        &.waitress-sidenote {
+            padding-top: 2em;
+            width: 32em;
+            
+            p {
+                margin-bottom: 3em;
             }
         }
     }

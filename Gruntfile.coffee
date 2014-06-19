@@ -32,6 +32,8 @@ module.exports = (grunt) ->
         shell:
             bower:
                 command: 'bower install --allow-root'
+            socket:
+                command: 'coffee ../back/coffee/socket.coffee'
 
     grunt.initConfig configuration
 

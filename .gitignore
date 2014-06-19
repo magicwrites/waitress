@@ -28,3 +28,5 @@ node_modules
 bower
 javascript
 css
+
+configuration/user.json
