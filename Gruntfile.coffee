@@ -32,8 +32,10 @@ module.exports = (grunt) ->
         shell:
             bower:
                 command: 'bower install --allow-root'
+        bgShell:
             socket:
-                command: 'coffee ../back/coffee/socket.coffee'
+                cmd: 'coffee ../back/coffee/socket.coffee'
+                bg: yes
 
     grunt.initConfig configuration
 
@@ -42,8 +44,9 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-contrib-connect'
     grunt.loadNpmTasks 'grunt-shell'
+    grunt.loadNpmTasks 'grunt-bg-shell'
 
     grunt.file.setBase 'front/'
 
     grunt.registerTask 'setup', ['shell', 'less', 'coffee']
-    grunt.registerTask 'default', ['setup', 'connect', 'watch']
+    grunt.registerTask 'default', ['setup', 'bgShell', 'connect', 'watch']

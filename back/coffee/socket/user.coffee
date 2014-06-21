@@ -7,7 +7,7 @@ _ = require 'lodash'
 # private
 
 userFile =
-    path: process.cwd() + '/configuration/user.json'
+    path: './../configuration/user.json'
 
 # public
 

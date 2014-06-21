@@ -3,10 +3,8 @@
 websocket = require 'socket.io'
 winston = require 'winston'
 
-currentDirectory = process.cwd() + '/back/coffee/';
-
-utility = require currentDirectory + 'utility.coffee'
-user = require currentDirectory + 'socket/user.coffee'
+utility = require './utility.coffee'
+user = require './socket/user.coffee'
 
 # private
 

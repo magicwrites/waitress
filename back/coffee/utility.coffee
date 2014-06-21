@@ -16,7 +16,7 @@ constants =
             file:
                 colorize: yes
                 timestamp: getNiceTimestamp
-                filename: process.cwd() + '/logs/back.json'
+                filename: './../logs/back.json'
     events:
         delimiter: ':'
 
