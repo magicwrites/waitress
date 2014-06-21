@@ -7,34 +7,35 @@ module.exports = (grunt) ->
         connect:
             server:
                 options:
+                    base: 'front'
                     port: 2000
         watch:
             less:
-                files: 'less/**/*.less'
+                files: 'front/less/**/*.less'
                 tasks: ['less']
             coffee:
-                files: 'coffeescript/**/*.coffee'
+                files: 'front/coffeescript/**/*.coffee'
                 tasks: ['coffee']
             bower:
-                files: ['bower.json', '.bowerrc']
+                files: ['front/bower.json', 'front/.bowerrc']
                 tasks: ['shell']
         coffee:
             compile:
                 expand: true,
-                cwd: 'coffeescript/'
-                src: '**/*.coffee',
-                dest: 'javascript/',
+                cwd: 'front/coffeescript/'
+                src: 'front/**/*.coffee',
+                dest: 'front/javascript/',
                 ext: '.js'
         less:
             compile:
-                src: ['less/**/*.less']
-                dest: 'css/compiled.css'
+                src: ['front/less/**/*.less']
+                dest: 'front/css/compiled.css'
         shell:
             bower:
-                command: 'bower install --allow-root'
+                command: '(cd front && bower install --allow-root)'
         bgShell:
             socket:
-                cmd: 'coffee ../back/coffee/socket.coffee'
+                cmd: 'coffee back/coffee/socket.coffee'
                 bg: yes
 
     grunt.initConfig configuration
@@ -45,8 +46,6 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-connect'
     grunt.loadNpmTasks 'grunt-shell'
     grunt.loadNpmTasks 'grunt-bg-shell'
-
-    grunt.file.setBase 'front/'
 
     grunt.registerTask 'setup', ['shell', 'less', 'coffee']
     grunt.registerTask 'default', ['setup', 'bgShell', 'connect', 'watch']
