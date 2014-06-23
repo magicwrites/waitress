@@ -1,11 +1,13 @@
-window.application.service 'user', ($q, $timeout, $rootScope, websocket) ->
+window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSession) ->
+    
+    emptyUserModel =
+        username: ''
+        password: ''
     
     model =
-        isAuthorized: no
-        isCreated: no
-        user:
-            username: ''
-            password: ''
+        isAuthorized: userSession.model.isSet
+        isCreated: userSession.model.isSet
+        user: if userSession.model.isSet then userSession.get() else emptyUserModel
             
     # private
     
@@ -14,7 +16,6 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket) ->
         model.user.password = window.md5 form.password
             
     $rootScope.$on websocket.events.connect, () ->
-        console.info 'emitting ' + websocket.events.waitress.user.isCreated
         websocket.socket.emit websocket.events.waitress.user.isCreated
         websocket.socket.on websocket.events.waitress.user.isCreated, (isCreated) ->
             model.isCreated = isCreated
@@ -33,6 +34,7 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket) ->
         websocket.socket.on websocket.events.waitress.user.isAuthorized, (isAuthorized) ->
             model.isAuthorized = isAuthorized
 
+            if isAuthorized then userSession.setFrom form
             if isAuthorized then deferred.resolve() else deferred.reject()
                 
             console.info 'waitress has received user authorization response - ' + isAuthorized
@@ -40,9 +42,9 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket) ->
         deferred.promise
         
     deauthorize = () ->
-        model.user.username = ''
-        model.user.password = ''
+        model.user = emptyUserModel
         model.isAuthorized = no
+        userSession.remove()
         
     create = (form) ->
         deferred = $q.defer()
@@ -53,6 +55,8 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket) ->
         websocket.socket.on websocket.events.waitress.user.create, () ->
             model.isAuthorized = yes
             model.isCreated = yes
+            userSession.setFrom form
+            
             deferred.resolve()
             
             console.info 'waitress has created an user authorization data'
