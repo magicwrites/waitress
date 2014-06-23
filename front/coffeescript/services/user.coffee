@@ -14,6 +14,7 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket) ->
         model.user.password = window.md5 form.password
             
     $rootScope.$on websocket.events.connect, () ->
+        console.info 'emitting ' + websocket.events.waitress.user.isCreated
         websocket.socket.emit websocket.events.waitress.user.isCreated
         websocket.socket.on websocket.events.waitress.user.isCreated, (isCreated) ->
             model.isCreated = isCreated

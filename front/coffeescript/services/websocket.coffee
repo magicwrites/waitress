@@ -17,13 +17,13 @@ window.application.service 'websocket', ($rootScope, websocketEvents) ->
     socket.on websocketEvents.model.connect, () ->
         model.isConnected = yes
         $rootScope.$apply()
-        $rootScope.$broadcast websocketEvents.connect
+        $rootScope.$broadcast websocketEvents.model.connect
         console.info 'service of websocket has connected'
         
     socket.on websocketEvents.model.disconnect, () ->
         model.isConnected = no
         $rootScope.$apply()
-        $rootScope.$broadcast websocketEvents.disconnect
+        $rootScope.$broadcast websocketEvents.model.disconnect
         console.info 'service of websocket has disconnected'
     
     exposed =
