@@ -1,4 +1,4 @@
-window.application.service 'websocket', ($rootScope) ->
+window.application.service 'websocket', ($rootScope, websocketEvents) ->
     
     model =
         isConnected: no
@@ -14,20 +14,21 @@ window.application.service 'websocket', ($rootScope) ->
     socketDestination = model.protocol + '://' + model.host + ':' + model.port
     socket = io.connect socketDestination
     
-    socket.on 'connect', () ->
+    socket.on websocketEvents.model.connect, () ->
         model.isConnected = yes
         $rootScope.$apply()
-        $rootScope.$broadcast 'connect'
+        $rootScope.$broadcast websocketEvents.connect
         console.info 'service of websocket has connected'
         
-    socket.on 'disconnect', () ->
+    socket.on websocketEvents.model.disconnect, () ->
         model.isConnected = no
         $rootScope.$apply()
-        $rootScope.$broadcast 'disconnect'
+        $rootScope.$broadcast websocketEvents.disconnect
         console.info 'service of websocket has disconnected'
     
     exposed =
         model: model
+        events: websocketEvents.model
         set: set
         socket: socket
     

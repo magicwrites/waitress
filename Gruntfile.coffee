@@ -23,8 +23,8 @@ module.exports = (grunt) ->
             compile:
                 expand: true,
                 cwd: 'front/coffeescript/'
-                src: 'front/**/*.coffee',
-                dest: 'front/javascript/',
+                src: '**/*.coffee'
+                dest: 'front/javascript/'
                 ext: '.js'
         less:
             compile:

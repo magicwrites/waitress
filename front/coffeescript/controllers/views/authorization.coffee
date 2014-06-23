@@ -36,8 +36,6 @@ window.application.controller 'authorization', ($scope, $q, user, websocket) ->
             .catch () ->
                 $scope.isAuthorizing = no
                 $scope.failedAuthorizations += 1
-                
-            # finally instead of then & fail ?
         
     $scope.deauthorize = () ->
         user.deauthorize()

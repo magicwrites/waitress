@@ -1,6 +1,6 @@
-window.application.run ($rootScope) ->
+window.application.run ($rootScope, $location, user) ->
     $rootScope.getTemplateFrom = (location) ->
         templateLocation = 'templates/' + location + '.html'
 
-    $rootScope.getSvgFrom = (location) ->
-        svgLocation = 'images/' + location + '.svg'
+    $rootScope.$on '$routeChangeStart', (event, nextRoute) ->
+        if nextRoute.isRestricted and !user.model.isAuthorized then $location.path 'authorization'
