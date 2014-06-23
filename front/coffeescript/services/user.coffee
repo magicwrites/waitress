@@ -33,7 +33,6 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket) ->
         websocket.socket.on websocket.events.waitress.user.isAuthorized, (isAuthorized) ->
             model.isAuthorized = isAuthorized
 
-            if isAuthorized then console.log 'cool'
             if isAuthorized then deferred.resolve() else deferred.reject()
                 
             console.info 'waitress has received user authorization response - ' + isAuthorized
