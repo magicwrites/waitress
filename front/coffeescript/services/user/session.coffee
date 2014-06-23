@@ -5,6 +5,8 @@ window.application.service 'userSession', () ->
     
     # public
     
+    console.info 'user session initial presence is resolved to %s', model.isSet
+    
     get = () ->
         storedUser = window.localStorage.getItem 'user'
         storedUser = JSON.parse storedUser
@@ -14,9 +16,13 @@ window.application.service 'userSession', () ->
         window.localStorage.setItem 'user', user
         model.isPresent = yes
         
+        console.info 'user session is set with username %s', model.username
+        
     remove = () ->
         window.localStorage.removeItem 'user'
         model.isPresent = no
+        
+        console.info 'user session is cleared'
         
     # exposed
     

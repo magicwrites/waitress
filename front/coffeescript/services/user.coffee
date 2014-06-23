@@ -37,7 +37,7 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
             if isAuthorized then userSession.setFrom form
             if isAuthorized then deferred.resolve() else deferred.reject()
                 
-            console.info 'waitress has received user authorization response - ' + isAuthorized
+            console.info 'waitress has received user authorization response - %s', isAuthorized
         
         deferred.promise
         
