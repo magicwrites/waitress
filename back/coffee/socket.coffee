@@ -5,6 +5,7 @@ winston = require 'winston'
 
 utility = require './utility.coffee'
 user = require './socket/user.coffee'
+website = require './socket/website.coffee'
 
 # private
 
@@ -19,6 +20,8 @@ io.sockets.on 'connection', (socket) ->
     socket.on 'waitress user isCreated', user.isCreated
     socket.on 'waitress user isAuthorized', user.isAuthorized
     socket.on 'waitress user create', user.create
+    
+    socket.on 'waitress website publish', website.publish
     
     socket.on 'disconnect', () ->
         winston.info 'web socket has disconnected'

@@ -12,8 +12,9 @@ window.application.config ($routeProvider) ->
         isRestricted: yes
     $routeProvider.when '/websites',
         templateUrl: 'templates/views/websites.html'
+        controller: 'websites'
         isRestricted: yes
-    $routeProvider.when '/websites/:domain',
+    $routeProvider.when '/websites/:website',
         templateUrl: 'templates/views/websites/details.html'
         isRestricted: yes
         

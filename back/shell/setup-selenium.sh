@@ -1,4 +1,4 @@
-# ni chuja nie wiem jak to uruchomic
+# ni cholery nie wiem jak to uruchomic :-/ polski wkurw
 
 #echo ''
 #echo '[ waitress ] install java'

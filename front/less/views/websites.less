@@ -1,25 +1,27 @@
 .waitress-websites {
     col:nth-child(1) {
-        width: 12em;
+        width: auto;
     }
     
     col:nth-child(2),
-    col:nth-child(3),
-    col:nth-child(4) {
-        width: 6em;
+    col:nth-child(3) {
+        width: 8em;
     }
     
     td:nth-child(2),
     td:nth-child(3),
-    td:nth-child(4),
     th:nth-child(2),
-    th:nth-child(3),
-    th:nth-child(4) {
-        text-align: center;
-    }
-
-    td:nth-child(5),
-    th:nth-child(5) {
+    th:nth-child(3) {
         text-align: right;
+    }
+}
+
+.waitress-websites-form {
+    input[type="text"] {
+        width: 36em;
+    }
+    
+    input[type="submit"] {
+        float: right;
     }
 }

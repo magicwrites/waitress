@@ -9,22 +9,22 @@
         <p>It seems that you are visiting waitress for the first time. She is not pleased with the security of her work, please come up with an username and password you will use to authorize your access to the waitress services.</p>
 
         <aside class="waitress-sidenote">
-            <p>Please note that once you will set the username and password, there is no other way to change it other than by entering the host machine, and removing the <code>authorization.json</code> file from the waitress configuration directory.</p>
+            <p>Please note that once you will set the username and password, there is no other way to change it other than by entering the host machine, and removing the <code>user.json</code> file from the waitress configuration directory.</p>
             <p>Write your username and password down, or ensure in any other way that you can remember it!</p>
         </aside>
 
         <form>
             <fieldset data-ng-disabled="isCreating">
-                <label>Username</label>
-                <input type="text" data-ng-model="forms.create.username" />
+                <label for="username">Username</label>
+                <input  id="username" type="text" data-ng-model="forms.create.username" placeholder="Username" />
             </fieldset>
 
             <fieldset data-ng-disabled="isCreating">
-                <label>Password</label>
-                <input type="text" data-ng-model="forms.create.password" />
+                <label for="password">Password</label>
+                <input  id="password" type="text" data-ng-model="forms.create.password" placeholder="Password" />
             </fieldset>
 
-            <input type="submit" value="Create" data-ng-hide="isCreating" data-ng-click="create()" />
+            <input class="waitress-button" type="submit" value="✔  Create" data-ng-hide="isCreating" data-ng-click="create()" />
 
             <div class="waitress-loader pull-right" data-ng-show="isCreating">
                 <span>Creating account &hellip;</span>
@@ -40,21 +40,21 @@
         <aside data-ng-show="failedAuthorizations >= 1">
             <p class="color-failure">✖ Your credentials are invalid, please try again.</p>
 
-            <p data-ng-show="failedAuthorizations >= 3" class="waitress-sidenote">If you have forgotten the credentials, your only option is to log into the host machine and remove <code>authorization.json</code> file from the configuration directory. You have been warned.</p>
+            <p data-ng-show="failedAuthorizations >= 3" class="waitress-sidenote">If you have forgotten the credentials, your only option is to log into the host machine and remove <code>user.json</code> file from the configuration directory. You have been warned.</p>
         </aside>
 
         <form>
             <fieldset data-ng-disabled="isCreating">
-                <label>Username</label>
-                <input type="text" data-ng-model="forms.authorize.username" />
+                <label for="username">Username</label>
+                <input  id="username" type="text" data-ng-model="forms.authorize.username" placeholder="Username" />
             </fieldset>
 
             <fieldset data-ng-disabled="isCreating">
-                <label>Password</label>
-                <input type="password" data-ng-model="forms.authorize.password" />
+                <label for="password">Password</label>
+                <input  id="password" type="password" data-ng-model="forms.authorize.password" placeholder="Password" />
             </fieldset>
 
-            <input type="submit" value="Authorize" data-ng-hide="isAuthorizing" data-ng-click="authorize()" />
+            <input class="waitress-button" type="submit" value="✔  Authorize" data-ng-hide="isAuthorizing" data-ng-click="authorize()" />
 
             <div class="waitress-loader pull-right" data-ng-show="isAuthorizing">
                 <span>Authorizing &hellip;</span>
@@ -67,6 +67,6 @@
         <h2>Authorization &mdash; validated</h2>
         <p>Your credentials are fine, please feel free to browse things as you see fit.</p>
 
-        <button class="pull-right" data-ng-click="deauthorize()">Deauthorize</button>
+        <button class="pull-right waitress-button" data-ng-click="deauthorize()">✖ &nbsp;Deauthorize</button>
     </section>
 </section>

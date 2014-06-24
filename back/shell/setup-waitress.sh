@@ -34,7 +34,7 @@ echo ''
 ( cd /var/www/waitress && npm install )
 ( cd /var/www/waitress/front && grunt setup )
 
-mkdir /var/www/logs
+mkdir /var/www/logs --parents
 
 echo ''
 echo '[ waitress ] enable the waitress'
