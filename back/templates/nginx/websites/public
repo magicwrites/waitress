@@ -1,0 +1,9 @@
+server {
+    listen {{ some-port }};
+    
+    root /var/www/{{ some-name }}/public/;
+    
+    location / {
+        autoindex off;
+    }
+}
