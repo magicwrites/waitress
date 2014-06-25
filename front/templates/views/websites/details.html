@@ -1,23 +1,54 @@
-<h2>partofuniverse.net</h2>
+<h2>Websites &bull; {{ repository.author }}/{{ repository.name }}</h2>
 <p>Configuration of the website.</p>
 
-<h3>Nginx</h3>
-<pre contenteditable="true">
-server {
-    # simple reverse-proxy
-    listen       80;
-    server_name  domain2.com www.domain2.com;
-    access_log   logs/domain2.access.log  main;
+<section class="waitress-websites-details-list">
+    <section>
+        <dl>
+            <dt>Repository</dt>    
+            <dd>
+                <span>{{ repository.author }}/{{ repository.name }}</span>
+            </dd>
+        </dl>
+    </section>
+    
+    <section class="pull-left">
+        <dl>    
+            <dt>Internal port</dt>
+            <dd>
+                <span>3000</span>
+            </dd>
+        </dl>
+        <dl>    
+            <dt>Domains</dt>
+            <dd>
+                <span>www.maciejmazur.com</span>
+                <span>www.magicwrites.net</span>
+                <span>*.maciejmazur.com</span>
+                <span>*.magicwrites.net</span>
+            </dd>
+        </dl>
+    </section>
 
-    # serve static files
-    location ~ ^/(images|javascript|js|css|flash|media|static)/  {
-      root    /var/www/virtual/big.server.com/htdocs;
-      expires 30d;
-    }
-
-    # pass requests for dynamic content to rails/turbogears/zope, et al
-    location / {
-      proxy_pass      http://127.0.0.1:8080;
-    }
-}
-</pre>
+    <section class="pull-right">
+        <dl>
+            <dt>Latest version</dt>    
+            <dd>
+                <span>0.2.1</span>
+            </dd>
+        </dl>
+        <dl>
+            <dt>Public version</dt>    
+            <dd>
+                <span>0.2.0</span>
+            </dd>
+        </dl>
+        <dl>
+            <dt>Archived versions</dt>    
+            <dd>
+                <span>0.1.6</span>
+                <span>0.1.3</span>
+                <span>0.0.5</span>
+            </dd>
+        </dl>
+    </section>
+</section>

@@ -14,8 +14,9 @@ window.application.config ($routeProvider) ->
         templateUrl: 'templates/views/websites.html'
         controller: 'websites'
         isRestricted: yes
-    $routeProvider.when '/websites/:website',
+    $routeProvider.when '/websites/:repositoryauthor/:repositoryname',
         templateUrl: 'templates/views/websites/details.html'
+        controller: 'websitesDetails'
         isRestricted: yes
         
     $routeProvider.otherwise

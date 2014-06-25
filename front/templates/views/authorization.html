@@ -1,11 +1,11 @@
 <section data-ng-hide="websocket.isConnected">
-    <h2>Authorization &mdash; Connecting</h2>
+    <h2>Authorization &bull; Connecting</h2>
     <p>Please wait for the websocket to establish a connection with the back end. It should not take long.</p>
 </section>
 
 <section data-ng-show="websocket.isConnected">
     <section class="waitress-authorization" data-ng-hide="user.isCreated">
-        <h2>Authorization &mdash; Creation</h2>
+        <h2>Authorization &bull; Creation</h2>
         <p>It seems that you are visiting waitress for the first time. She is not pleased with the security of her work, please come up with an username and password you will use to authorize your access to the waitress services.</p>
 
         <aside class="waitress-sidenote">
@@ -64,7 +64,7 @@
     </section>
 
     <section class="waitress-authorization" data-ng-show="user.isAuthorized">
-        <h2>Authorization &mdash; validated</h2>
+        <h2>Authorization &bull; validated</h2>
         <p>Your credentials are fine, please feel free to browse things as you see fit.</p>
 
         <button class="pull-right waitress-button" data-ng-click="deauthorize()">✖ &nbsp;Deauthorize</button>
