@@ -3,6 +3,7 @@
 winston = require 'winston'
 fileSystem = require 'q-io/fs'
 _ = require 'lodash'
+q = require 'q'
 
 # private
 
@@ -22,13 +23,34 @@ exports.isCreated = () ->
             winston.info 'waitress has responsed with user existence status - ' + isCreated
         .fail (error) ->
             winston.error 'waitress has failed to respond with an user existence status', error
+
+exports.isAuthorizedProperly = (userFromClient) ->
+    winston.info 'waitress is authorizing request'
     
+    deferred = q.defer()
+    
+    fileSystem.read userFile.path
+        .then (userFromFile) ->
+            userFromFile = JSON.parse userFromFile
+            
+            if _.isEqual userFromFile, userFromClient
+                winston.info 'waitress has authorized the request'
+                deferred.resolve()
+            else
+                winston.info 'waitress has not authorized the request'
+                deferred.reject()
+        .fail (error) ->
+            winston.error 'waitress was unable to authorize the request'
+            deferred.reject error
+        
+    deferred.promise
+            
 exports.isAuthorized = (userFromClient) ->
     winston.info 'waitress has received an user authorization request'
     
     socket = this
     
-    fileSystem.read userFile.path, userFile.options
+    fileSystem.read userFile.path
         .then (userFromFile) ->
             userFromFile = JSON.parse userFromFile
             isAuthorized = if _.isEqual userFromFile, userFromClient then yes else no

@@ -34,7 +34,7 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
         websocket.socket.on websocket.events.waitress.user.isAuthorized, (isAuthorized) ->
             model.isAuthorized = isAuthorized
 
-            if isAuthorized then userSession.setFrom form
+            if isAuthorized then userSession.setFrom model.user
             if isAuthorized then deferred.resolve() else deferred.reject()
                 
             console.info 'waitress has received user authorization response - %s', isAuthorized

@@ -9,6 +9,8 @@ window.application.service 'websocketEvents', () ->
                 isCreated: 'waitress user isCreated'
                 isAuthorized: 'waitress user isAuthorized'
                 create: 'waitress user create'
+            website:
+                create: 'waitress website create'
     
     exposed =
         model: model

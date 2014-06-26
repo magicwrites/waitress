@@ -19,7 +19,7 @@
     <tbody>
         <tr data-ng-repeat="website in websites">
             <td>
-                <a data-ng-href="#/websites/{{ website.name }}">{{ website.name }}</a>
+                <a data-ng-href="#/websites/{{ website.repository }}">{{ website.repository }}</a>
             </td>
             <td>
                 <span class="color-success">{{ website.public }}</span>
@@ -31,7 +31,7 @@
     </tbody>
 </table>
 
-<form class="waitress-websites-form">
-    <input type="text" placeholder="github-username/github-repositoryname" />
+<form class="waitress-websites-form" data-ng-submit="create()">
+    <input type="text" placeholder="github-username/github-repositoryname" data-ng-model="newRepository" />
     <input type="submit" class="waitress-button" value="✚  Add new website" />
 </form>
