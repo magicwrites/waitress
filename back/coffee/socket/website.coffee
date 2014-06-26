@@ -34,7 +34,7 @@ exports.list = (data) ->
             fileSystem
                 .list '/var/www'
                 .then listWebsites
-        
+
     listWebsites = (authors) ->
         listingPromises = []
         

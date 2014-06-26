@@ -1,4 +1,4 @@
-window.application.service 'websites', ($q, $rootScope, websocket, userAuthorizer) ->
+window.application.service 'websites', ($q, websocket, userAuthorizer) ->
     
     model =
         isListing: yes
@@ -11,13 +11,11 @@ window.application.service 'websites', ($q, $rootScope, websocket, userAuthorize
         
         userAuthorizer.addAuthorization requestData
                 
-        websocket.socket.emit websocket.events.waitress.website.list, requestData
-        websocket.socket.on websocket.events.waitress.website.list, (websites) ->
+        websocket.emit websocket.events.waitress.website.list, requestData
+        websocket.on websocket.events.waitress.website.list, (websites) ->
             model.isListing = yes
             model.list = websites
             model.isListing = no
-            
-            $rootScope.$apply()
             
             console.info 'waitress has listed websites'
     
@@ -29,8 +27,8 @@ window.application.service 'websites', ($q, $rootScope, websocket, userAuthorize
             
         requestData = userAuthorizer.addAuthorization requestData
         
-        websocket.socket.emit websocket.events.waitress.website.create, requestData
-        websocket.socket.on websocket.events.waitress.website.create, (website) ->
+        websocket.emit websocket.events.waitress.website.create, requestData
+        websocket.on websocket.events.waitress.website.create, (website) ->
             model.push website
             
             deferred.resolve website

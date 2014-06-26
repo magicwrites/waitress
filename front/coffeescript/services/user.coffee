@@ -17,12 +17,10 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
         model.user.password = window.md5 form.password
             
     $rootScope.$on websocket.events.connect, () ->
-        websocket.socket.emit websocket.events.waitress.user.isCreated
-        websocket.socket.on websocket.events.waitress.user.isCreated, (isCreated) ->
+        websocket.emit websocket.events.waitress.user.isCreated
+        websocket.on websocket.events.waitress.user.isCreated, (isCreated) ->
             model.isCreated = isCreated
             model.initialization.resolve()
-            
-            $rootScope.$apply()
             
             console.info 'waitress user existence informations has been retrieved'
             
@@ -33,8 +31,8 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
         
         setUserFrom form
         
-        websocket.socket.emit websocket.events.waitress.user.isAuthorized, model.user
-        websocket.socket.on websocket.events.waitress.user.isAuthorized, (isAuthorized) ->
+        websocket.emit websocket.events.waitress.user.isAuthorized, model.user
+        websocket.on websocket.events.waitress.user.isAuthorized, (isAuthorized) ->
             model.isAuthorized = isAuthorized
 
             if isAuthorized then userSession.setFrom model.user
@@ -54,8 +52,8 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
         
         setUserFrom form
         
-        websocket.socket.emit websocket.events.waitress.user.create, model.user
-        websocket.socket.on websocket.events.waitress.user.create, () ->
+        websocket.emit websocket.events.waitress.user.create, model.user
+        websocket.on websocket.events.waitress.user.create, () ->
             model.isAuthorized = yes
             model.isCreated = yes
             userSession.setFrom form
