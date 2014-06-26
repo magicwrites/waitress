@@ -18,6 +18,7 @@
         <li>Utility script that will revert the public version of the website.</li>
         <li>Utility script that will deploy the public version of the website.</li>
         <li>Utility script that will deploy the latest version of the website.</li>
+        <li class="done">Improved quality of the websockets communication.</li>
         <li class="done">Utility script that will list the websites present in the system.</li>
         <li class="done">Utility script that will perform the initial setup of a new website.</li>
         <li class="done">Basic security, restriction of unauthorized access.</li>
@@ -43,6 +44,15 @@
         <li>Make the waitress use sci fi ui module.</li>
         <li>Make the waitress more linux-friendly, handle user rights, be packaged or something. Such stuff.</li>
         <li>Make an utility script that will install and expose protractor service (this is hardcore, possibly useless).</li>
+    </ul>
+    
+    <h3>Possible refactor</h3>
+    <ul>
+        <li>Review <code>website</code> vs <code>websites</code> dilema, services, front and backend wise.</li>
+        <li>Review whether websocket can be further encapsulated with getters.</li>
+        <li>Review whether putting event strings into constants really has any value.</li>
+        <li>Review whether isLoading type of state information should be stored inside service or a controller.</li>
+        <li>Review whether isolating sockets from the flow is worthwhile. See emitting data.</li>
     </ul>
 
     <h3>Community suggestions</h3>

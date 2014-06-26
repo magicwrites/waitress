@@ -1,11 +1,17 @@
 <h2>Websites &bull; {{ repository.author }}/{{ repository.name }}</h2>
 <p>Configuration of the website.</p>
 
-<section class="waitress-websites-details-list">
+<p data-ng-show="website.isLoading">Website data is loading &hellip;</p>
+<p data-ng-show="isRemoved">The website is removed.</p>
+
+<section class="waitress-websites-details-list" data-ng-hide="website.isLoading || isRemoved">
     <section>
         <dl>
             <dt>Repository</dt>    
             <dd>
+                <menu>
+                    <button data-ng-click="remove()">✖</button>
+                </menu>
                 <span>{{ repository.author }}/{{ repository.name }}</span>
             </dd>
         </dl>
@@ -13,17 +19,35 @@
     
     <section class="pull-left">
         <dl>    
+            <dt>Auto&dash;pulling</dt>
+            <dd>
+                <span class="color-success">✔</span>
+            </dd>
+        </dl>
+        <dl>    
             <dt>Internal port</dt>
             <dd>
                 <span>3000</span>
             </dd>
         </dl>
-        <dl>    
+        <dl>
             <dt>Domains</dt>
             <dd>
+                <menu>
+                    <button>✖</button>
+                </menu>
                 <span>www.maciejmazur.com</span>
+                <menu>
+                    <button>✖</button>
+                </menu>
                 <span>www.magicwrites.net</span>
+                <menu>
+                    <button>✖</button>
+                </menu>
                 <span>*.maciejmazur.com</span>
+                <menu>
+                    <button>✖</button>
+                </menu>
                 <span>*.magicwrites.net</span>
             </dd>
         </dl>
@@ -33,6 +57,9 @@
         <dl>
             <dt>Latest version</dt>    
             <dd>
+                <menu>
+                    <button>✔</button>
+                </menu>
                 <span>0.2.1</span>
             </dd>
         </dl>
@@ -45,8 +72,17 @@
         <dl>
             <dt>Stored versions</dt>    
             <dd>
+                <menu>
+                    <button>↻</button>
+                </menu>
                 <span>0.1.6</span>
+                <menu>
+                    <button>↻</button>
+                </menu>
                 <span>0.1.3</span>
+                <menu>
+                    <button>↻</button>
+                </menu>
                 <span>0.0.5</span>
             </dd>
         </dl>

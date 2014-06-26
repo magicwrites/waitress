@@ -3,8 +3,8 @@ window.application.service 'websites', ($q, websocket, userAuthorizer) ->
     model =
         isListing: yes
         list: []
-
-    do () ->
+        
+    list = () ->
         console.info 'waitress is listing websites'
             
         requestData = {}
@@ -25,18 +25,21 @@ window.application.service 'websites', ($q, websocket, userAuthorizer) ->
         requestData =
             repository: repository
             
-        requestData = userAuthorizer.addAuthorization requestData
+        userAuthorizer.addAuthorization requestData
         
         websocket.emit websocket.events.waitress.website.create, requestData
         websocket.on websocket.events.waitress.website.create, (website) ->
-            model.push website
+            model.list.push website
             
             deferred.resolve website
             
             console.info 'waitress has created a website from repository %s', repository
         
         deferred.promise
+
+    do list
     
     exposed =
         model: model
         create: create
+        list: list

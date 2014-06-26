@@ -21,11 +21,12 @@ module.exports = (grunt) ->
                 tasks: ['shell']
         coffee:
             compile:
-                expand: true,
+                expand: yes
                 cwd: 'front/coffeescript/'
                 src: '**/*.coffee'
                 dest: 'front/javascript/'
                 ext: '.js'
+                sourceMap: yes
         less:
             compile:
                 src: ['front/less/**/*.less']

@@ -35,5 +35,3 @@ echo -e '\e[0m'
 echo -e '\e[0;32m'
 echo '[ waitress ] refresh the maintanance scripts'
 echo -e '\e[0m'
-
-touch 'create-is-run.test'

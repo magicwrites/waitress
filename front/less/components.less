@@ -33,6 +33,26 @@
     .waitress-button();
 }
 
+.waitress-menu-button {
+    .transition(all @timeForTransition);
+    
+    margin: 0 0 0 0.25em;
+    padding: 0 0.25em;
+    display: inline;
+    font-size: 1em;
+    border: none;
+    border-radius: 0.25em;
+    color: @colorForBackground;
+    background: @colorForLink;
+    cursor: pointer;
+    line-height: 1.5em;
+    
+    &:hover {
+        color: @colorForBackgroundEmphased;
+        background: @colorForLinkHighlighted;
+    }
+}
+
 .waitress-loader {
     display: inline-block;
 
