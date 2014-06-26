@@ -1,37 +1,43 @@
 <h2>Websites</h2>
 <p>A list of nginx hosted websites installed and kept running by the waitress.</p>
 
-<table class="waitress-websites">
-    <colgroup>
-        <col />
-        <col />
-        <col />
-    </colgroup>
-    
-    <thead>
-        <tr>
-            <th>Website</th>
-            <th>Public</th>
-            <th>Latest</th>
-        </tr>
-    </thead>
-    
-    <tbody>
-        <tr data-ng-repeat="website in websites">
-            <td>
-                <a data-ng-href="#/websites/{{ website.repository }}">{{ website.repository }}</a>
-            </td>
-            <td>
-                <span class="color-success">{{ website.public }}</span>
-            </td>
-            <td>
-                <span class="color-success">{{ website.latest }}</span>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<section data-ng-show="websites.isListing">
+    <p>Please wait, listing the websites.</p>
+</section>
 
-<form class="waitress-websites-form" data-ng-submit="create()">
-    <input type="text" placeholder="github-username/github-repositoryname" data-ng-model="newRepository" />
-    <input type="submit" class="waitress-button" value="✚  Add new website" />
-</form>
+<section data-ng-hide="websites.isListing">
+    <table class="waitress-websites">
+        <colgroup>
+            <col />
+            <col />
+            <col />
+        </colgroup>
+
+        <thead>
+            <tr>
+                <th>Website</th>
+                <th>Public</th>
+                <th>Latest</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr data-ng-repeat="website in websites.list">
+                <td>
+                    <a data-ng-href="#/websites/{{ website.repository }}">{{ website.repository }}</a>
+                </td>
+                <td>
+                    <span class="color-success">{{ website.public }}</span>
+                </td>
+                <td>
+                    <span class="color-success">{{ website.latest }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form class="waitress-websites-form" data-ng-submit="create()">
+        <input type="text" placeholder="github-username/github-repositoryname" data-ng-model="newRepository" />
+        <input type="submit" class="waitress-button" value="✚  Add new website" />
+    </form>
+</section>

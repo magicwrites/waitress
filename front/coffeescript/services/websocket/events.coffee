@@ -11,6 +11,7 @@ window.application.service 'websocketEvents', () ->
                 create: 'waitress user create'
             website:
                 create: 'waitress website create'
+                list: 'waitress website list'
     
     exposed =
         model: model

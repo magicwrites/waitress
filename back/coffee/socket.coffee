@@ -23,6 +23,7 @@ io.sockets.on 'connection', (socket) ->
     
     socket.on 'waitress website publish', website.publish
     socket.on 'waitress website create', website.create
+    socket.on 'waitress website list', website.list
     
     socket.on 'disconnect', () ->
         winston.info 'web socket has disconnected'

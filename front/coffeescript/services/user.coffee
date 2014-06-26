@@ -8,6 +8,7 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
         isAuthorized: userSession.model.isSet
         isCreated: userSession.model.isSet
         user: if userSession.model.isSet then userSession.get() else emptyUserModel
+        initialization: $q.defer()
             
     # private
     
@@ -19,6 +20,8 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
         websocket.socket.emit websocket.events.waitress.user.isCreated
         websocket.socket.on websocket.events.waitress.user.isCreated, (isCreated) ->
             model.isCreated = isCreated
+            model.initialization.resolve()
+            
             $rootScope.$apply()
             
             console.info 'waitress user existence informations has been retrieved'

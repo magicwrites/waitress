@@ -37,7 +37,7 @@ exports.isAuthorizedProperly = (userFromClient) ->
                 winston.info 'waitress has authorized the request'
                 deferred.resolve()
             else
-                winston.info 'waitress has not authorized the request'
+                winston.warn 'waitress has not authorized the request', userFromFile, userFromClient
                 deferred.reject()
         .fail (error) ->
             winston.error 'waitress was unable to authorize the request'

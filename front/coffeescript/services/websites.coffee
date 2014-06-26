@@ -1,20 +1,35 @@
-window.application.service 'websites', ($q, websocket, user) ->
+window.application.service 'websites', ($q, $rootScope, websocket, userAuthorizer) ->
     
-    model = []
+    model =
+        isListing: yes
+        list: []
+
+    do () ->
+        console.info 'waitress is listing websites'
+            
+        requestData = {}
         
-    # mock
-    
-#    model.push { repository: 'magicwrites/partofuniverse', public: '1.12.0', latest: '1.24.5' }
-#    model.push { repository: 'magicwrites/personal-website', public: '0.1.0', latest: '0.21.1' }
+        userAuthorizer.addAuthorization requestData
+                
+        websocket.socket.emit websocket.events.waitress.website.list, requestData
+        websocket.socket.on websocket.events.waitress.website.list, (websites) ->
+            model.isListing = yes
+            model.list = websites
+            model.isListing = no
+            
+            $rootScope.$apply()
+            
+            console.info 'waitress has listed websites'
     
     create = (repository) ->
         deferred = $q.defer()
         
-        data =
-            user: user.model.user
+        requestData =
             repository: repository
+            
+        requestData = userAuthorizer.addAuthorization requestData
         
-        websocket.socket.emit websocket.events.waitress.website.create, data
+        websocket.socket.emit websocket.events.waitress.website.create, requestData
         websocket.socket.on websocket.events.waitress.website.create, (website) ->
             model.push website
             
