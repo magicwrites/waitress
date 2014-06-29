@@ -30,17 +30,27 @@ exports.create = (request) ->
     
     socket = this
     
-    user.isAuthorizedProperly request
-        .then websiteShell.create request
-        .then websiteNginx.create request
-        .then websiteGithub.createListener request
+    promisesOfCreation = [
+        websiteShell.create request
+        websiteNginx.create request
+        websiteGithub.createListener request
+    ]
+    
+    q
+        .when user.isAuthorizedProperly request
         .then () ->
-            website =
-                repository: request.repository
-                public: ''
-                latest: '0.0.1'
+            q
+                .all promisesOfCreation
+                .then () ->
+                    website =
+                        repository: request.repository
+                        public: ''
+                        latest: '0.0.1'
 
-            winston.info 'waitress has created a new website - %s/%s', request.repository.author, request.repository.name
-            socket.emit 'waitress website create', website
-        .catch (error) ->
-            winston.error 'waitress has failed to create a new website - %s/%s', request.repository.author, request.repository.name
+                    winston.info 'waitress has created a new website - %s/%s', request.repository.author, request.repository.name
+                    socket.emit 'waitress website create', website
+                    
+                    websiteShell.setup request
+                .catch (error) ->
+                    console.log error
+                    winston.error 'waitress has failed to create a new website - %s/%s', request.repository.author, request.repository.name
