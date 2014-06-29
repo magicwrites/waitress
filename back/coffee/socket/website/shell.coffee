@@ -6,11 +6,29 @@ q = require 'q'
 
 user = require './../user.coffee'
 
+# private
+
+logPrefix = 'website shell: '
+
 # public
 
-exports.create = (request) ->
-    deferred = q.defer()
+exports.setup = (request) ->
+    winston.info logPrefix + 'setting up latest %s/%s website', request.repository.author, request.repository.name
     
+    scriptParameters = [
+        'back/shell/website/setup.sh',
+        request.repository.author,
+        request.repository.name
+    ]
+
+    user.isAuthorizedProperly request
+        .then childProcess.spawn 'bash', scriptParameters
+        .then () ->
+            winston.info logPrefix + 'website %s/%s has been set up', request.repository.author, request.repository.name
+        .catch (error) ->
+            winston.warn logPrefix + 'could not setup website %s/%s', request.repository.author, request.repository.name
+
+exports.create = (request) ->
     scriptParameters = [
         'back/shell/website/create.sh',
         request.repository.author,
@@ -19,22 +37,20 @@ exports.create = (request) ->
         request.user.password
     ]
     
-    childProcess.spawn 'bash', scriptParameters
+    q
+        .when childProcess.spawn 'bash', scriptParameters
         .then () ->
             website =
                 repository: request.repository
                 public: null
                 latest: '0.0.1'
 
-            deferred.resolve website
+            website
         .catch (error) ->
-            deferred.reject error
-            winston.error 'waitress has failed to create a new website - %s/%s', request.repository.author, request.repository.name
-    
-    deferred.promise
+            winston.error logPrefix + 'waitress has failed to create a new website - %s/%s', request.repository.author, request.repository.name
 
 exports.remove = (request) ->
-    winston.info 'waitress has received a website removal request'
+    winston.info logPrefix + 'waitress has received a website removal request'
     
     socket = this
     repository = request.repository
@@ -48,7 +64,7 @@ exports.remove = (request) ->
     user.isAuthorizedProperly request
         .then childProcess.spawn 'bash', scriptParameters
         .then () ->
-            winston.info 'waitress has removed a website - ' + request.repository
+            winston.info logPrefix + 'waitress has removed a website - ' + request.repository
             socket.emit 'waitress website remove', request.repository
         .fail (error) ->
-            winston.error 'waitress has failed to remove a website', request.repository
+            winston.error logPrefix + 'waitress has failed to remove a website', request.repository
