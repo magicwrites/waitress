@@ -2,52 +2,42 @@
 
 winston = require 'winston'
 childProcess = require 'child-process-promise'
+q = require 'q'
 
 user = require './../user.coffee'
 
-# private
-
-extractFrom = (repositoryString) ->
-    parts = repositoryString.split '/'
-    
-    repository =
-        author: parts[0]
-        name: parts[1]
-
 # public
 
-exports.create = (data) ->
-    winston.info 'waitress has received a website creation request'
-    
-    socket = this
-    repository = extractFrom data.repository
+exports.create = (request) ->
+    deferred = q.defer()
     
     scriptParameters = [
         'back/shell/website/create.sh',
-        repository.author,
-        repository.name,
-        data.user.username,
-        data.user.password
+        request.repository.author,
+        request.repository.name,
+        request.user.username,
+        request.user.password
     ]
     
-    user.isAuthorizedProperly data
-        .then childProcess.spawn 'bash', scriptParameters
+    childProcess.spawn 'bash', scriptParameters
         .then () ->
             website =
-                repository: data.repository
+                repository: request.repository
                 public: null
                 latest: '0.0.1'
 
-            winston.info 'waitress has created a new website - ' + data.repository
-            socket.emit 'waitress website create', website
-        .fail (error) ->
-            winston.error 'waitress has failed to create a new website - %s', data.repository
+            deferred.resolve website
+        .catch (error) ->
+            deferred.reject error
+            winston.error 'waitress has failed to create a new website - %s/%s', request.repository.author, request.repository.name
+    
+    deferred.promise
 
-exports.remove = (data) ->
+exports.remove = (request) ->
     winston.info 'waitress has received a website removal request'
     
     socket = this
-    repository = data.repository
+    repository = request.repository
     
     scriptParameters = [
         'back/shell/website/remove.sh',
@@ -55,10 +45,10 @@ exports.remove = (data) ->
         repository.name
     ]
 
-    user.isAuthorizedProperly data
+    user.isAuthorizedProperly request
         .then childProcess.spawn 'bash', scriptParameters
         .then () ->
-            winston.info 'waitress has removed a website - ' + data.repository
-            socket.emit 'waitress website remove', data.repository
+            winston.info 'waitress has removed a website - ' + request.repository
+            socket.emit 'waitress website remove', request.repository
         .fail (error) ->
-            winston.error 'waitress has failed to remove a website - %s', data.repository
+            winston.error 'waitress has failed to remove a website', request.repository

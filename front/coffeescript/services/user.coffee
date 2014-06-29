@@ -19,6 +19,8 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
     $rootScope.$on websocket.events.connect, () ->
         websocket.emit websocket.events.waitress.user.isCreated
         websocket.on websocket.events.waitress.user.isCreated, (isCreated) ->
+            if not isCreated then userSession.remove()
+            
             model.isCreated = isCreated
             model.initialization.resolve()
             

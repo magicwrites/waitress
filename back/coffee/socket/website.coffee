@@ -8,6 +8,8 @@ q = require 'q'
 
 websiteReader = require './website/reader.coffee'
 websiteShell = require './website/shell.coffee'
+websiteNginx = require './website/nginx.coffee'
+websiteGithub = require './website/github.coffee'
     
 # public
 
@@ -20,5 +22,25 @@ exports.publish = () ->
 exports.list = websiteReader.list
 exports.get = websiteReader.get
 
-exports.create = websiteShell.create
+#exports.create = websiteShell.create
 exports.remove = websiteShell.remove
+
+exports.create = (request) ->
+    winston.info 'waitress has received a website creation request'
+    
+    socket = this
+    
+    user.isAuthorizedProperly request
+        .then websiteShell.create request
+        .then websiteNginx.create request
+        .then websiteGithub.createListener request
+        .then () ->
+            website =
+                repository: request.repository
+                public: ''
+                latest: '0.0.1'
+
+            winston.info 'waitress has created a new website - %s/%s', request.repository.author, request.repository.name
+            socket.emit 'waitress website create', website
+        .catch (error) ->
+            winston.error 'waitress has failed to create a new website - %s/%s', request.repository.author, request.repository.name

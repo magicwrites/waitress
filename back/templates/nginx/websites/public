@@ -1,7 +1,7 @@
 server {
     listen {{ some-port }};
     
-    root /var/www/{{ some-name }}/public/;
+    root /var/www/{{ repository-author }}/{{ repository-name }}/public/;
     
     location / {
         autoindex off;

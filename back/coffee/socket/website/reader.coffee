@@ -28,10 +28,12 @@ exports.list = (data) ->
                 listingPromise = fileSystem
                     .list '/var/www/' + author
                     .then (repositories) ->
-                        for repository in repositories
-                            do (repository) ->
+                        for name in repositories
+                            do (name) ->
                                 website =
-                                    repository: author + '/' + repository
+                                    repository:
+                                        author: author
+                                        name: name
                                     public: ''
                                     latest: ''
                                     stored: []

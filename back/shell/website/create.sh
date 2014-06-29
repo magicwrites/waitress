@@ -21,17 +21,3 @@ echo '[ waitress ] checkout website repositories'
 echo -e '\e[0m'
 
 (cd /var/www/$repositoryAuthor/$repositoryName && git clone https://$username:$password@github.com/$repositoryAuthor/$repositoryName latest)
-
-echo -e '\e[0;32m'
-echo '[ waitress ] move templates into place'
-echo -e '\e[0m'
-
-
-echo -e '\e[0;32m'
-echo '[ waitress ] populate templates'
-echo -e '\e[0m'
-
-
-echo -e '\e[0;32m'
-echo '[ waitress ] refresh the maintanance scripts'
-echo -e '\e[0m'

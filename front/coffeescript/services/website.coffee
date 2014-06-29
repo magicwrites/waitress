@@ -21,12 +21,12 @@ window.application.service 'website', ($q, websocket, userAuthorizer, websites, 
         
         deferred = $q.defer()
         
-        requestData =
+        request =
             repository: model.repository
             
-        userAuthorizer.addAuthorization requestData
+        userAuthorizer.addAuthorizationTo request
         
-        websocket.emit websocket.events.waitress.website.get, requestData
+        websocket.emit websocket.events.waitress.website.get, request
         websocket.on websocket.events.waitress.website.get, (website) ->
             model.isLoading = no
             
@@ -41,12 +41,12 @@ window.application.service 'website', ($q, websocket, userAuthorizer, websites, 
         
         model.isLoading = yes
         
-        requestData =
+        request =
             repository: model.repository
             
-        userAuthorizer.addAuthorization requestData
+        userAuthorizer.addAuthorizationTo request
         
-        websocket.emit websocket.events.waitress.website.remove, requestData
+        websocket.emit websocket.events.waitress.website.remove, request
         websocket.on websocket.events.waitress.website.remove, (website) ->
             model.isRemoved = yes
             model.isLoading = no

@@ -7,11 +7,11 @@ window.application.service 'websites', ($q, websocket, userAuthorizer) ->
     list = () ->
         console.info 'waitress is listing websites'
             
-        requestData = {}
+        request = {}
         
-        userAuthorizer.addAuthorization requestData
+        userAuthorizer.addAuthorizationTo request
                 
-        websocket.emit websocket.events.waitress.website.list, requestData
+        websocket.emit websocket.events.waitress.website.list, request
         websocket.on websocket.events.waitress.website.list, (websites) ->
             model.isListing = yes
             model.list = websites
@@ -20,14 +20,21 @@ window.application.service 'websites', ($q, websocket, userAuthorizer) ->
             console.info 'waitress has listed websites'
     
     create = (repository) ->
+        if !repository then throw 'you need to provide data'
+        
         deferred = $q.defer()
+        parts = repository.split '/'
         
-        requestData =
-            repository: repository
+        request =
+            repository:
+                author: parts[0]
+                name: parts[1]
             
-        userAuthorizer.addAuthorization requestData
+        userAuthorizer.addAuthorizationTo request
         
-        websocket.emit websocket.events.waitress.website.create, requestData
+        console.info 'waitress is creating a website'
+        
+        websocket.emit websocket.events.waitress.website.create, request
         websocket.on websocket.events.waitress.website.create, (website) ->
             model.list.push website
             

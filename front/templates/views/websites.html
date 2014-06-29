@@ -24,7 +24,7 @@
         <tbody>
             <tr data-ng-repeat="website in websites.list">
                 <td>
-                    <a data-ng-href="#/website/{{ website.repository }}">{{ website.repository }}</a>
+                    <a data-ng-href="#/website/{{ website.repository.author }}/{{ website.repository.name }}">{{ website.repository.author }}/{{ website.repository.name }}</a>
                 </td>
                 <td>
                     <span class="color-success">{{ website.public }}</span>

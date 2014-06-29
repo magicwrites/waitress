@@ -5,23 +5,26 @@
     <h3>Version 0.3.0</h3>
     <ul>
         <li>Disable nginx hosting when publishing website, enable afterwards. Display maintanance screen in between.</li>
-        <li>Refactor socket usage to work through websocket service only.</li>
         <li>Utility script that will assign a domain to the waitress herself.</li>
+        <li>Improved quality of loadings and user interaction.</li>
+        <li>Improved design.</li>
     </ul>
 
     <h3>Version 0.2.0</h3>
     <ul>
-        <li>Fix the breaking localStorage whenever you delete <code>user.json</code> file.</li>
-        <li>Friendly panel that will present tools to operate on website.</li>
+        <li class="done">Fix the breaking localStorage whenever you delete <code>user.json</code> file.</li>
+        <li class="done">Improved quality of the websockets communication.</li>
+        <li class="done">Improved socket usage to work through websocket service only.</li>
         <li>Friendly panel that will allow for website domain assignment.</li>
         <li>Utility script that will assign a domain to the public version of the website.</li>
         <li>Utility script that will revert the public version of the website.</li>
         <li>Utility script that will deploy the public version of the website.</li>
-        <li>Utility script that will deploy the latest version of the website.</li>
-        <li class="done">Improved quality of the websockets communication.</li>
+        <li>Utility script that will automatically deploy the latest version of the website.</li>
+        <li>Utility script that will expose public and latest version of the website on specific ports.</li>
         <li class="done">Utility script that will list the websites present in the system.</li>
         <li class="done">Utility script that will perform the initial setup of a new website.</li>
-        <li class="done">Basic security, restriction of unauthorized access.</li>
+        <li class="done">Security, restriction of unauthorized access.</li>
+        <li class="done">Friendly panel that will present tools to operate on website.</li>
     </ul>
 
     <h2>Changelog</h2>
@@ -53,6 +56,7 @@
         <li>Review whether putting event strings into constants really has any value.</li>
         <li>Review whether isLoading type of state information should be stored inside service or a controller.</li>
         <li>Review whether isolating sockets from the flow is worthwhile. See emitting data.</li>
+        <li>Review how to bubble errors with promises.</li>
     </ul>
 
     <h3>Community suggestions</h3>

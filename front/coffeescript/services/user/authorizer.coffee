@@ -1,9 +1,9 @@
 window.application.service 'userAuthorizer', (user) ->
     
-    addAuthorization = (requestData) ->
+    addAuthorizationTo = (request) ->
         console.info 'user authorizer is adding authorization data with hash - %s', user.model.user.password
         
-        requestData.user = user.model.user
+        request.user = user.model.user
     
     exposed =
-        addAuthorization: addAuthorization
+        addAuthorizationTo: addAuthorizationTo
