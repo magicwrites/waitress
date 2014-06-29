@@ -101,7 +101,7 @@ exports.create = (request) ->
     promiseOfNginxVirtualServers = q
         .all initialPromises
         .then (results) ->
-            ports = results.unshift()
+            ports = results.shift()
             addVirtualServers request.repository.author, request.repository.name, ports
             
     promiseOfRestart = q
