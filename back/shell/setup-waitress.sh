@@ -1,3 +1,6 @@
+githubUsername=$1
+githubPassword=$2
+
 echo ''
 echo '[ waitress ] install nvm'
 echo ''
@@ -35,6 +38,10 @@ echo ''
 ( cd /var/www/waitress/front && grunt setup )
 
 mkdir /var/www/logs --parents
+mkdir /var/www/waitress/configuration 
+
+echo "[]" > /var/www/waitress/configuration/ports.json
+echo "{\"username\":\"$githubUsername\",\"password\":\"$githubPassword\"}" > /var/www/waitress/configuration/github.json
 
 echo ''
 echo '[ waitress ] enable the waitress'

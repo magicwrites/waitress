@@ -29,5 +29,4 @@ bower
 javascript
 css
 
-configuration/user.json
-configuration/ports.json
+configuration/*

@@ -2,6 +2,7 @@
 
 winston = require 'winston'
 childProcess = require 'child-process-promise'
+fileSystem = require 'q-io/fs'
 q = require 'q'
 
 user = require './../user.coffee'
@@ -29,25 +30,33 @@ exports.setup = (request) ->
             winston.warn logPrefix + 'could not setup website %s/%s', request.repository.author, request.repository.name
 
 exports.create = (request) ->
-    scriptParameters = [
-        'back/shell/website/create.sh',
-        request.repository.author,
-        request.repository.name,
-        request.user.username,
-        request.user.password
-    ]
+    promiseOfAuthorizationData = fileSystem.read 'configuration/github.json'
     
-    q
-        .when childProcess.spawn 'bash', scriptParameters
-        .then () ->
-            website =
-                repository: request.repository
-                public: null
-                latest: '0.0.1'
+    promiseOfScriptParameters = q
+        .when promiseOfAuthorizationData
+        .then (fileContent) ->
+            authorizationData = JSON.parse fileContent
+            
+            scriptParameters = [
+                'back/shell/website/create.sh',
+                request.repository.author,
+                request.repository.name,
+                authorizationData.username,
+                authorizationData.password
+            ]
 
-            website
-        .catch (error) ->
-            winston.error logPrefix + 'waitress has failed to create a new website - %s/%s', request.repository.author, request.repository.name
+    q
+        .when promiseOfScriptParameters
+        .then (scriptParameters) ->
+            q
+                .when childProcess.spawn 'bash', scriptParameters
+                .then () ->
+                    website =
+                        repository: request.repository
+                        public: null
+                        latest: '0.0.1'
+                .catch (error) ->
+                    winston.error logPrefix + 'waitress has failed to create a new website - %s/%s', request.repository.author, request.repository.name
 
 exports.remove = (request) ->
     winston.info logPrefix + 'waitress has received a website removal request'
