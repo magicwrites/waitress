@@ -4,8 +4,11 @@ window.application.service 'website', ($q, websocket, userAuthorizer, websites, 
         isLoading: yes
         isRemoved: no
         repository:
-            author: null
-            name: null
+            author: undefined
+            name: undefined
+        ports:
+            latest: undefined
+            public: undefined
         versions:
             latest: ''
             public: ''
@@ -19,8 +22,6 @@ window.application.service 'website', ($q, websocket, userAuthorizer, websites, 
         model.repository.author = author
         model.repository.name = name
         
-        deferred = $q.defer()
-        
         request =
             repository: model.repository
             
@@ -30,11 +31,19 @@ window.application.service 'website', ($q, websocket, userAuthorizer, websites, 
         websocket.on websocket.events.waitress.website.get, (website) ->
             model.isLoading = no
             
-            deferred.resolve website
+            model.repository =
+                author: author
+                name: name
+            
+            model.versions =
+                latest: website.versions.latest
+                public: website.versions.public
+                stored: website.versions.stored
+                
+            model.domains = website.domains
+            model.ports = website.ports
             
             console.info 'waitress has loaded data for website %s/%s', model.repository.author, model.repository.name
-        
-        deferred.promise
 
     remove = () ->
         deferred = $q.defer()
@@ -59,5 +68,6 @@ window.application.service 'website', ($q, websocket, userAuthorizer, websites, 
         deferred.promise
     
     exposed =
+        model: model
         get: get
         remove: remove

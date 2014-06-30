@@ -5,6 +5,7 @@ window.application.controller 'website', ($scope, $routeParams, website, websock
         name: $routeParams.repositoryname
     
     $scope.isRemoved = no
+    $scope.websiteState = website.state
     $scope.website = website.model
     $scope.remove = website.remove
     

@@ -10,7 +10,7 @@ q = require 'q'
 logPrefix = 'website nginx ports: '
 fileWithJsonPorts = './configuration/ports.json'
 
-addToFile = (portsAdded) ->
+addToFile = (portsAdded, author, name) ->
     winston.info logPrefix + 'adding ports to the restricted list'
     
     promiseOfPortsFromFile = getFromFile()
@@ -18,8 +18,13 @@ addToFile = (portsAdded) ->
     promiseOfAdding = q
         .when promiseOfPortsFromFile
         .then (portsFromFile) ->
-            portsFromFile.push portsAdded.public # todo, assign per page?
-            portsFromFile.push portsAdded.latest
+            newEntry =
+                author: author
+                name: name
+                latest: portsAdded.latest
+                public: portsAdded.public
+            
+            portsFromFile.push newEntry
             
             writeToFile portsFromFile
     
@@ -53,9 +58,15 @@ getFromFile = () ->
         .catch (error) ->
             winston.error logPrefix + 'could not retrieve ports from a file'
             
-assignPortsForWebsite = (portsTaken) ->
+assignPortsForWebsite = (portsFileEntries) ->
+    checkPresence = (port) ->
+        entryUsingThatPort = _.find portsFileEntries, (entry) ->
+            condition = (entry.latest == port || entry.public == port)
+            
+        isPresent = !!entryUsingThatPort
+    
     candidate = 3000
-    candidate += 10 while _.contains portsTaken, candidate # todo, assign per page?
+    candidate += 10 while checkPresence candidate
 
     portsAssigned =
         public: candidate
@@ -72,7 +83,8 @@ exports.setForWebsite = (author, name) ->
     
     promiseOfPorts = getFromFile()
     promiseOfAssignment = promiseOfPorts.then assignPortsForWebsite
-    promiseOfPersistence = promiseOfAssignment.then addToFile
+    promiseOfPersistence = promiseOfAssignment.then (portsAssigned) ->
+        addToFile portsAssigned, author, name
     
     promiseOfPersistence
         .then () ->
@@ -81,3 +93,13 @@ exports.setForWebsite = (author, name) ->
             return promiseOfAssignment
         .catch (error) ->
             winston.error logPrefix + 'could not set ports for a website'
+            
+exports.getForWebsite = (author, name) ->
+    winston.info logPrefix + 'getting ports for a website %s/%s', author, name
+    
+    promiseOfPorts = getFromFile()
+    
+    q
+        .when promiseOfPorts
+        .then (ports) ->
+            return ports[author + '+' + name]
