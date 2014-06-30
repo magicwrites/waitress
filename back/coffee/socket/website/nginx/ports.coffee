@@ -102,4 +102,5 @@ exports.getForWebsite = (author, name) ->
     q
         .when promiseOfPorts
         .then (ports) ->
-            return ports[author + '+' + name]
+            portsForWebsite = _.find ports, (entry) ->
+                condition = (entry.author == author && entry.name == name)

@@ -5,6 +5,7 @@ fileSystem = require 'q-io/fs'
 q = require 'q'
 
 user = require './../user.coffee'
+nginxPorts = require './nginx/ports.coffee'
 
 # public
 
@@ -59,22 +60,26 @@ exports.get = (data) ->
     user.isAuthorizedProperly data
         .then () ->
             # todo, return versions and domain data rather than mock it
-            website =
-                ports:
-                    latest: 3000
-                    public: 3005
-                repository: data.repository
-                versions:
-                    public: '1.0.0'
-                    latest: '1.21.3'
-                    stored: [
-                        '0.5.0'
-                        '1.0.0'
-                    ]
-                domains: [
-                    'sample.domain.net'
-                    '*.domain.net'
-                ]
             
-            winston.info 'waitress has sent %s/%s website data', data.repository.author, data.repository.name
-            socket.emit 'waitress website get', website
+            q
+                .when nginxPorts.getForWebsite data.repository.author, data.repository.name
+                .then (ports) ->
+                    website =
+                        ports:
+                            latest: ports.latest
+                            public: ports.public
+                        repository: data.repository
+                        versions:
+                            public: '1.0.0'
+                            latest: '1.21.3'
+                            stored: [
+                                '0.5.0'
+                                '1.0.0'
+                            ]
+                        domains: [
+                            'sample.domain.net'
+                            '*.domain.net'
+                        ]
+
+                    winston.info 'waitress has sent %s/%s website data', data.repository.author, data.repository.name
+                    socket.emit 'waitress website get', website
