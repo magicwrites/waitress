@@ -25,5 +25,10 @@
     "q": "~1.0.1",
     "gith": "~1.0.4",
     "forever-monitor": "~1.2.3"
+  },
+  "devDependencies": {
+    "sinon": "~1.10.2",
+    "grunt-mocha-test": "~0.11.0",
+    "socket.io-client": "~1.0.6"
   }
 }

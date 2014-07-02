@@ -35,9 +35,19 @@ module.exports = (grunt) ->
             bower:
                 command: '(cd front && bower install --allow-root)'
         bgShell:
-            socket:
-                cmd: 'coffee back/coffee/socket.coffee'
+            loud:
+                cmd: 'coffee back-refactored/coffee/server.coffee'
+                bg: no
+            silent:
+                cmd: 'coffee back-refactored/coffee/server.coffee'
                 bg: yes
+        mochaTest:
+            test:
+                options:
+                    timeout: 5000
+                    require: 'coffee-script/register'
+                    reporter: 'spec'
+                src: ['tests/**/*.coffee']
 
     grunt.initConfig configuration
 
@@ -47,6 +57,15 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-connect'
     grunt.loadNpmTasks 'grunt-shell'
     grunt.loadNpmTasks 'grunt-bg-shell'
+    grunt.loadNpmTasks 'grunt-mocha-test'
 
-    grunt.registerTask 'setup', ['shell', 'less', 'coffee']
-    grunt.registerTask 'default', ['setup', 'bgShell', 'connect', 'watch']
+    grunt.registerTask 'server-run', ['bgShell:loud']
+    grunt.registerTask 'server-test', ['mochaTest']
+    
+    grunt.registerTask 'front-setup', ['shell', 'less', 'coffee']
+    grunt.registerTask 'front-run', ['connect']
+    
+    grunt.registerTask 'production', ['front-setup', 'bgShell:silent', 'front-run']
+    grunt.registerTask 'development', ['production', 'watch']
+    
+    grunt.registerTask 'default', ['development']

@@ -1,0 +1,10 @@
+{
+    "directories": {
+        "waitress": "/var/www/waitress"
+    },
+    "files": {
+        "user": {
+            "json": "configuration/user.json"
+        }
+    }
+}
