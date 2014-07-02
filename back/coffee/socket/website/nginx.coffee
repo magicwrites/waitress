@@ -93,25 +93,33 @@ exports.create = (request) ->
     
     winston.info logPrefix + 'creating %s/%s website nginx environment', repository.author, repository.name
     
+    promiseOfPorts = nginxPorts.setForWebsite request.repository.author, request.repository.name
+    promiseOfDirectories = ensureDirectoriesExistence()
+    
     initialPromises = [
-        nginxPorts.setForWebsite request.repository.author, request.repository.name
-        ensureDirectoriesExistence()
+        promiseOfPorts
+        promiseOfDirectories
     ]
     
     promiseOfNginxVirtualServers = q
         .all initialPromises
-        .then (results) ->
-            ports = results.shift()
+        .spread (ports, directoreis) ->
             addVirtualServers request.repository.author, request.repository.name, ports
             
     promiseOfRestart = q
         .when promiseOfNginxVirtualServers
         .then restartService
-        
+    
+    crucialPromises = [
+        promiseOfRestart
+        promiseOfPorts
+    ]
+    
     q
-        .when promiseOfRestart
-        .then () ->
+        .all crucialPromises
+        .spread (restart, ports) ->
             winston.info logPrefix + 'created nginx environment for website %s/%s', repository.author, repository.name
+            return ports
         .catch (error) ->
             console.log error
             winston.error logPrefix + 'could not create nginx environment for website %s/%s', repository.author, repository.name

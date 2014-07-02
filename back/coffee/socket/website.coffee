@@ -33,10 +33,20 @@ exports.create = (request) ->
     author = request.repository.author
     name = request.repository.name
     
+    promiseOfPorts = websiteNginx.create request
+    
+    promiseOfListener = q
+        .when promiseOfPorts
+        .then (ports) ->
+            request.ports = ports
+            websiteGithub.createListener request
+    
+    promiseOfShellOperations = websiteShell.create request
+    
     promisesOfCreation = [
-        websiteShell.create request
-        websiteNginx.create request
-        websiteGithub.createListener request
+        promiseOfShellOperations
+        promiseOfPorts
+        promiseOfListener
     ]
     
     q

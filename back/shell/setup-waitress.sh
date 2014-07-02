@@ -38,6 +38,7 @@ echo ''
 ( cd /var/www/waitress/front && grunt setup )
 
 mkdir /var/www/logs --parents
+mkdir /var/www/waitress/logs
 mkdir /var/www/waitress/configuration 
 
 echo "[]" > /var/www/waitress/configuration/ports.json
@@ -49,3 +50,4 @@ echo ''
 
 ln -s /etc/nginx/sites-available/waitress /etc/nginx/sites-enabled/waitress
 service nginx restart
+coffee /var/www/waitress/back/coffee/socket.coffee

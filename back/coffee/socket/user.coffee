@@ -24,7 +24,7 @@ exports.isCreated = () ->
         .fail (error) ->
             winston.error 'waitress has failed to respond with an user existence status', error
 
-exports.isAuthorizedProperly = (data) ->
+exports.isAuthorizedProperly = (request) ->
     winston.info 'waitress is authorizing request'
     
     deferred = q.defer()
@@ -33,11 +33,11 @@ exports.isAuthorizedProperly = (data) ->
         .then (userFromFile) ->
             userFromFile = JSON.parse userFromFile
             
-            if _.isEqual userFromFile, data.user
+            if _.isEqual userFromFile, request.user
                 winston.info 'waitress has authorized the request'
                 deferred.resolve()
             else
-                winston.warn 'waitress has not authorized the request', userFromFile, data.user
+                winston.warn 'waitress has not authorized the request', userFromFile, request.user
                 deferred.reject()
         .fail (error) ->
             winston.error 'waitress was unable to authorize the request'

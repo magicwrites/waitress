@@ -42,7 +42,7 @@ exports.list = (request) ->
                                 author: author
                                 name: name
                                 
-                            repositories.push repository
+                            if author isnt 'waitress' then repositories.push repository
                             
                         return repositories
                 
