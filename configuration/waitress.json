@@ -1,10 +1,25 @@
 {
     "directories": {
-        "waitress": "/var/www/waitress"
+        "waitress": "/var/www/waitress",
+        "websites": "/var/www/waitress-websites/"
     },
     "files": {
+        "github": {
+            "json": "configuration/github.json"
+        },
+        "ports": {
+            "json": "configuration/ports.json"
+        },
         "user": {
             "json": "configuration/user.json"
+        }
+    },
+    "characters": {
+        "separators": {
+            "website": {
+                "replaced": "+",
+                "replacer": " "
+            }
         }
     }
 }

@@ -31,3 +31,4 @@ css
 
 configuration/*
 !configuration/waitress.json
+test.coffee

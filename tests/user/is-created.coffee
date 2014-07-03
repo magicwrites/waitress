@@ -1,14 +1,17 @@
 # require
 
-io = require 'socket.io-client'
 assert = require 'assert'
 sinon = require 'sinon'
 q = require 'q'
 fileSystem = require 'q-io/fs'
 
+utilities = require '../utilities.coffee'
+user = require '../../back-refactored/coffee/server/user.coffee'
+
 # private
 
-user = require '../../back-refactored/coffee/server/user.coffee'
+stubs =
+    winston: utilities.stubWinston()
 
 # execute
 
