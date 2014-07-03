@@ -14,9 +14,13 @@ describe '0.2.0', () ->
         sinon.stub winston, 'info'
         sinon.stub winston, 'warn'
         sinon.stub winston, 'error'
+        
+    after () ->
+        winston.info.restore()
+        winston.warn.restore()
+        winston.error.restore()
     
     describe 'User interaction', () ->
-    
         require './user/create'
         require './user/is-authorized'
         require './user/is-created'
@@ -31,3 +35,5 @@ describe '0.2.0', () ->
     
         describe 'Website interaction', () ->
             require './website/list'
+            require './website/get'
+            require './website/create'

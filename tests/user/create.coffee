@@ -11,9 +11,6 @@ user = require '../../back-refactored/coffee/server/user.coffee'
 
 # private
 
-stubs =
-    winston: utilities.stubWinston()
-
 requests =
     valid:
         user:

@@ -8,11 +8,6 @@ fileSystem = require 'q-io/fs'
 utilities = require '../utilities.coffee'
 user = require '../../back-refactored/coffee/server/user.coffee'
 
-# private
-
-stubs =
-    winston: utilities.stubWinston()
-
 # execute
 
 describe 'I EXPECT to be able to determine whether user account is already created', () ->
