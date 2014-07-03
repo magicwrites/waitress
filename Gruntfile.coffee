@@ -47,7 +47,7 @@ module.exports = (grunt) ->
                     timeout: 5000
                     require: 'coffee-script/register'
                     reporter: 'spec'
-                src: ['tests/*/*.coffee']
+                src: ['tests/0.2.0.coffee']
 
     grunt.initConfig configuration
 

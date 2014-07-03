@@ -40,12 +40,12 @@ responses =
 
 describe 'I EXPECT an ability to list websites that are controlled by a waitress', () ->
     
-    before () ->
-        sinon.stub user, 'isAuthorized', () ->
-            utilities.wrapInPromise yes
-            
-    after () ->
-        user.isAuthorized.restore()
+#    before () ->
+#        sinon.stub user, 'isAuthorized', () ->
+#            utilities.wrapInPromise yes
+#            
+#    after () ->
+#        user.isAuthorized.restore()
     
     describe 'WHEN I will send a request', () ->
         response = null
