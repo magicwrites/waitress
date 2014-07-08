@@ -1,7 +1,24 @@
 {
+    "ports": {
+        "server": 2005,
+        "bases": {
+            "public": 3000
+        },
+        "steps": {
+            "latest": 5,
+            "website": 10,
+            "github": 3000
+        }
+    },
     "directories": {
         "waitress": "/var/www/waitress",
         "websites": "/var/www/waitress-websites/"
+    },
+    "templates": {
+        "nginx": {
+            "public": "/var/www/waitress/back/templates/nginx/websites/public",
+            "latest": "/var/www/waitress/back/templates/nginx/websites/latest"
+        }
     },
     "files": {
         "github": {
@@ -12,6 +29,9 @@
         },
         "user": {
             "json": "configuration/user.json"
+        },
+        "logs": {
+            "json": "logs/server.log"
         }
     },
     "characters": {
