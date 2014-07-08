@@ -3,6 +3,10 @@
 q = require 'q'
 fileSystem = require 'q-io/fs'
 path = require 'path'
+winston = require 'winston'
+
+utility = require './../../utility'
+configuration = require './../../../../configuration/waitress.json'
 
 # public
 
@@ -50,4 +54,4 @@ exports.create = (request) ->
         .then () ->
             winston.info 'github has been created for a website %s', request.repository.name
         .catch (error) ->
-            winston.error 'github could not be created: %s', JSON.stringify error, null, 4 
+            winston.error 'github could not be created: %s', error.message 

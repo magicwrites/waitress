@@ -50,4 +50,4 @@ echo ''
 
 ln -s /etc/nginx/sites-available/waitress /etc/nginx/sites-enabled/waitress
 service nginx restart
-coffee /var/www/waitress/back/coffee/socket.coffee
+coffee /var/www/waitress/back/coffee/server.coffee

@@ -36,10 +36,10 @@ module.exports = (grunt) ->
                 command: '(cd front && bower install --allow-root)'
         bgShell:
             loud:
-                cmd: 'coffee back-refactored/coffee/server.coffee'
+                cmd: 'coffee back/coffee/server.coffee'
                 bg: no
             silent:
-                cmd: 'coffee back-refactored/coffee/server.coffee'
+                cmd: 'coffee back/coffee/server.coffee'
                 bg: yes
         mochaTest:
             test:

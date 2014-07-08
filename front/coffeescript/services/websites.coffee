@@ -12,9 +12,9 @@ window.application.service 'websites', ($q, websocket, userAuthorizer) ->
         userAuthorizer.addAuthorizationTo request
                 
         websocket.emit websocket.events.waitress.website.list, request
-        websocket.on websocket.events.waitress.website.list, (websites) ->
+        websocket.on websocket.events.waitress.website.list, (response) ->
             model.isListing = yes
-            model.list = websites
+            model.list = response.result
             model.isListing = no
             
             console.info 'waitress has listed websites'

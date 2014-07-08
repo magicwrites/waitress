@@ -3,7 +3,6 @@
 winston = require 'winston'
 q = require 'q'
 fileSystem = require 'q-io/fs'
-_ = require 'lodash'
 
 configuration = require './../../../configuration/waitress.json'
 user = require './user'
@@ -15,7 +14,7 @@ websiteGithub = require './website/github'
 # public
 
 exports.list = (request) ->
-    winston.info 'received a website listing request: %s', JSON.stringify request, null, 4
+    winston.info 'received a website listing request'
     
     promiseOfResponse = q
         .when fileSystem.list configuration.directories.websites
@@ -30,12 +29,12 @@ exports.list = (request) ->
                 
             response = listing
         .catch (error) ->
-            winston.error 'could not list websites: %s', JSON.stringify error, null, 4
+            winston.error 'could not list websites: %s', error.message
 
 
 
 exports.create = (request) ->
-    winston.info 'received a website creation request: %s', JSON.stringify request, null, 4
+    winston.info 'received a website creation request'
     
     promiseOfPorts = websitePorts.create request
     promiseOfStructure = websiteFiles.create request
@@ -68,4 +67,4 @@ exports.create = (request) ->
                 nginx: nginx
                 github: github
         .catch (error) ->
-            winston.error 'could not create website: %s', JSON.stringify error, null, 4
+            winston.error 'could not create website: %s', error.message

@@ -12,12 +12,15 @@
     },
     "directories": {
         "waitress": "/var/www/waitress",
-        "websites": "/var/www/waitress-websites/"
+        "websites": "/var/www/waitress-websites/",
+        "nginx": {
+            "available": "/etc/nginx/sites-available",
+            "enabled": "/etc/nginx/sites-enabled"
+        }
     },
     "templates": {
         "nginx": {
-            "public": "/var/www/waitress/back/templates/nginx/websites/public",
-            "latest": "/var/www/waitress/back/templates/nginx/websites/latest"
+            "website": "/var/www/waitress/back/templates/nginx/website"
         }
     },
     "files": {

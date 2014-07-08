@@ -3,6 +3,9 @@
 q = require 'q'
 fileSystem = require 'q-io/fs'
 winston = require 'winston'
+path = require 'path'
+
+configuration = require './../../../../configuration/waitress.json'
 
 # private
 
@@ -18,11 +21,13 @@ exports.create = (request) ->
         
     emptyJsonArray = JSON.stringify [], null, 4
     
+    websiteDirectory = configuration.directories.websites + path.sep + repositoryDirectory + path.sep
+    
     promises = [
-        fileSystem.makeTree configuration.directories.websites + '/' + repositoryDirectory + '/latest'
-        fileSystem.makeTree configuration.directories.websites + '/' + repositoryDirectory + '/public'
-        fileSystem.makeTree configuration.directories.websites + '/' + repositoryDirectory + '/stored'
-        fileSystem.write configuration.directories.websites + '/' + repositoryDirectory + '/stored.json', emptyJsonArray
+        fileSystem.makeTree websiteDirectory + 'latest'
+        fileSystem.makeTree websiteDirectory + 'public'
+        fileSystem.makeTree websiteDirectory + 'stored'
+        fileSystem.write websiteDirectory + 'stored.json', emptyJsonArray
     ]
     
     q
@@ -30,4 +35,4 @@ exports.create = (request) ->
         .then () ->
             winston.info '%s website directory structure is created', request.repository.name
         .catch (error) ->
-            winston.error 'could not create website directory structure: %s', JSON.stringify error, null, 4
+            winston.error 'could not create website directory structure: %s', error.message

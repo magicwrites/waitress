@@ -3,6 +3,7 @@
 q = require 'q'
 fileSystem = require 'q-io/fs'
 winston = require 'winston'
+_ = require 'lodash'
 
 configuration = require './../../../../configuration/waitress.json'
 
@@ -62,11 +63,11 @@ exports.create = (request) ->
             promiseOfAssignment
         ]
         .spread (ports) ->
-            winston.info 'ports for %s website are assigned as: %s', request.repository.name, JSON.stringify, ports, null, 4
+            winston.info 'ports for %s website are assigned as: %s', request.repository.name, JSON.stringify ports, null, 4
         
             response =
                 public: ports.public
                 latest: ports.latest
                 github: ports.github
         .catch (error) ->
-            winston.error 'could not create %s website ports: %s', request.repository.name, JSON.stringify error, null, 4 
+            winston.error 'could not create %s website ports: %s', request.repository.name, error.message

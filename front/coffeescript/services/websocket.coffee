@@ -4,7 +4,7 @@ window.application.service 'websocket', ($q, $rootScope, websocketEvents) ->
         isConnected: no
         protocol: 'http'
         host: 'localhost'
-        port: 2001
+        port: 2005
         
     set = (data) ->
         model.protocol = data.protocol
