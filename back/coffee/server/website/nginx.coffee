@@ -10,28 +10,60 @@ configuration = require './../../../../configuration/waitress.json'
 
 # private
 
-# public
-
-exports.create = (request, ports) ->
-    winston.info 'received a request to create %s nginx entries', request.repository.name
-    
-    
+getWebsiteNameFrom = (request) ->
     websiteName =
         request.repository.author +
         configuration.characters.separators.website.replaced + 
         request.repository.name
         
+getDirectoriesFrom = (request, websiteName) ->
     directories =
         website: configuration.directories.websites + path.sep + websiteName
         available: configuration.directories.nginx.available + path.sep
         enabled: configuration.directories.nginx.enabled + path.sep
         
+getFilesFrom = (request, websiteName, directories) ->
     files =
         publicFile: directories.available + websiteName + configuration.characters.separators.website.replaced + 'public'
         latestFile: directories.available + websiteName + configuration.characters.separators.website.replaced + 'latest'
         publicLink: directories.enabled + websiteName + configuration.characters.separators.website.replaced + 'public'
         latestLink: directories.enabled + websiteName + configuration.characters.separators.website.replaced + 'latest'
+
+# public
+
+exports.remove = (request) ->
+    winston.info 'received a request to remove %s nginx entries', request.repository.name
     
+    websiteName = getWebsiteNameFrom request
+    directories = getDirectoriesFrom request, websiteName
+    files = getFilesFrom request, websiteName, directories
+    
+    promisesOfRemoval = [
+        fileSystem.remove files.publicFile
+        fileSystem.remove files.latestFile
+        fileSystem.remove files.publicLink
+        fileSystem.remove files.latestLink
+    ]
+
+    promiseOfNginxChanges = q
+        .when promisesOfRemoval
+        .then utility.runShell 'nginx/restart.sh'
+    
+    promiseOfResponse = q
+        .when promiseOfNginxChanges
+        .then () ->
+            winston.info 'removed nginx entries for website %s', request.repository.name
+        .catch (error) ->
+            winston.error 'could not remove nginx entries: %s', error.message 
+
+
+
+exports.create = (request, ports) ->
+    winston.info 'received a request to create %s nginx entries', request.repository.name
+    
+    websiteName = getWebsiteNameFrom request
+    directories = getDirectoriesFrom request, websiteName
+    files = getFilesFrom request, websiteName, directories
     
     promiseOfEntries = q
         .when fileSystem.read configuration.templates.nginx.website
@@ -65,7 +97,6 @@ exports.create = (request, ports) ->
     promiseOfNginxChanges = q
         .when promiseOfSymlinks
         .then utility.runShell 'nginx/restart.sh'
-        
 
     promiseOfResponse = q
         .when promiseOfNginxChanges

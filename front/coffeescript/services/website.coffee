@@ -56,12 +56,12 @@ window.application.service 'website', ($q, websocket, userAuthorizer, websites, 
         userAuthorizer.addAuthorizationTo request
         
         websocket.emit websocket.events.waitress.website.remove, request
-        websocket.on websocket.events.waitress.website.remove, (website) ->
+        websocket.on websocket.events.waitress.website.remove, (response) ->
             model.isRemoved = yes
             model.isLoading = no
             websites.list()
             
-            deferred.resolve website
+            deferred.resolve response
             
             console.info 'waitress has removed a %s/%s website', model.repository.author, model.repository.name
         

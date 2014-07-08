@@ -15,6 +15,11 @@ exports.pull = (request) ->
 
     
     
+exports.remove = (request) ->
+    #
+    
+    
+    
 exports.create = (request) ->
     winston.info 'github create request received for %s %s website', request.repository.author, request.repository.name
     

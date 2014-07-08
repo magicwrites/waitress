@@ -35,9 +35,13 @@ window.application.service 'websites', ($q, websocket, userAuthorizer) ->
         console.info 'waitress is creating a website'
         
         websocket.emit websocket.events.waitress.website.create, request
-        websocket.on websocket.events.waitress.website.create, (website) ->
-            model.list.push website
+        websocket.on websocket.events.waitress.website.create, (response) ->
+            website =
+                repository:
+                    author: request.repository.author
+                    name: request.repository.name
             
+            model.list.push website
             deferred.resolve website
             
             console.info 'waitress has created a website from repository %s', repository

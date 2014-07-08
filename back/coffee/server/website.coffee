@@ -72,3 +72,26 @@ exports.create = (request) ->
                 github: github
         .catch (error) ->
             winston.error 'could not create website: %s', error.message
+            
+            
+            
+exports.remove = (request) ->
+    winston.info 'received a website creation request'
+    
+    promisesOfRemovals = [
+        websiteNgnix.remove request
+        websitePorts.remove request
+        websiteGithub.remove request
+    ]
+
+    promiseOfFilesRemoval = q
+        .all promisesOfRemovals
+        .then () ->
+            websiteFiles.remove request
+
+    promiseOfResponse = q
+        .when promiseOfFilesRemoval
+        .then () ->
+            winston.info 'website %s was successfuly removed', request.repository.name
+        .catch (error) ->
+            winston.error 'could not create website: %s', error.message

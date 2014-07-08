@@ -9,6 +9,12 @@ configuration = require './../../../../configuration/waitress.json'
 
 # private
 
+getPromiseOfTaken = () ->
+    q
+        .when fileSystem.read configuration.files.ports.json
+        .then (fileContents) ->
+            portsEntries = JSON.parse fileContents
+
 checkPresence = (portEntriesFromFile, port) ->
     limit = configuration.ports.bases.public + configuration.ports.steps.github
     
@@ -21,13 +27,32 @@ checkPresence = (portEntriesFromFile, port) ->
 
 # public
 
+exports.remove = (request) ->
+    winston.info 'received a request to create %s website ports', request.repository.name
+    
+    promiseOfTaken = getPromiseOfTaken()
+    
+    promiseOfClearedPorts = q
+        .when promiseOfTaken
+        .then (portsTaken) ->
+            _.remove portsTaken, (entry) ->
+                entry.author is request.repository.author and entry.name is request.repository.name
+            
+            fileSystem.write configuration.files.ports.json, JSON.stringify portsTaken, null, 4
+            
+    promiseOfResponse = q
+        .when promiseOfClearedPorts
+        .then () ->
+            winston.info 'ports for %s website are cleared', request.repository.name
+        .catch (error) ->
+            winston.error 'could not clear %s website ports: %s', request.repository.name, error.message
+
+
+
 exports.create = (request) ->
     winston.info 'received a request to create %s website ports', request.repository.name
     
-    promiseOfTaken = q
-        .when fileSystem.read configuration.files.ports.json
-        .then (fileContents) ->
-            portsEntries = JSON.parse fileContents
+    promiseOfTaken = getPromiseOfTaken()
             
     promiseOfFreePorts = q
         .when promiseOfTaken
