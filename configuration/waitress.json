@@ -34,7 +34,7 @@
             "json": "configuration/user.json"
         },
         "logs": {
-            "json": "logs/server.log"
+            "json": "logs/server.json"
         }
     },
     "characters": {

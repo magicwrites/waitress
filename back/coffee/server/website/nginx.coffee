@@ -44,8 +44,8 @@ exports.create = (request, ports) ->
     winston.info 'received a request to create %s nginx entries', request.repository.name
     
     websiteName = websiteUtility.getWebsiteNameFrom request
-    directories = getDirectoriesFrom request, websiteName
-    files = getFilesFrom request, websiteName, directories
+    directories = websiteUtility.getDirectoriesFrom request, websiteName
+    files = websiteUtility.getNginxFilesFrom request, websiteName, directories
     
     promiseOfEntries = q
         .when fileSystem.read configuration.templates.nginx.website

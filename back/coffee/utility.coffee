@@ -45,7 +45,7 @@ exports.runShell = (path, providedParameters = []) ->
         'back/shell/' + path
     ]
 
-    scriptParameters = _.union scriptParameters, providedParameters
+    scriptParameters = scriptParameters.concat providedParameters
 
     childProcess.spawn 'bash', scriptParameters
     
@@ -83,7 +83,7 @@ exports.handle = (socket, eventName, handler, authorizer) ->
                         
                     socket.emit eventName, result
                     
-            .catch (error) ->
+            .fail (error) ->
                 winston.error 'event %s could not be handled successfuly: %s', eventName, error.message
 
                 result =

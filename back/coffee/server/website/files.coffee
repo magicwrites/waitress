@@ -41,8 +41,9 @@ exports.create = (request) ->
     promises = [
         fileSystem.makeTree websiteDirectory + path.sep + 'latest'
         fileSystem.makeTree websiteDirectory + path.sep + 'public'
-        fileSystem.makeTree websiteDirectory + path.sep + 'stored'
-        fileSystem.write emptyJsonArray, websiteDirectory + path.sep + 'stored.json'
+        # fileSystem.makeTree websiteDirectory + path.sep + 'stored'
+        # fileSystem.write websiteDirectory + path.sep + 'stored.json', emptyJsonArray
+        # todo? doesnt work for some reason
     ]
     
     promiseOfResponse = q

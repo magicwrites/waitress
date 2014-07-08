@@ -21,18 +21,20 @@
         <dl>    
             <dt>Github hook</dt>
             <dd>
-                <span class="color-success">✔</span>
+                <span>{{ website.ports.github }}</span>
             </dd>
         </dl>
         <dl>
             <dt>Ports used</dt>
             <dd>
-                <div data-ng-repeat="port in website.ports">
-                    <menu>
-                        <button>➤</button>
-                    </menu>
-                    <span>{{ port }}</span>
-                </div>
+                <menu>
+                    <button>➤</button>
+                </menu>
+                <span>{{ website.ports.public }}</span>
+                <menu>
+                    <button>➤</button>
+                </menu>
+                <span>{{ website.ports.latest }}</span>
             </dd>
         </dl>
         <dl>

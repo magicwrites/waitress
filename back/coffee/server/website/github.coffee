@@ -20,7 +20,7 @@ exports.remove = (request) ->
     
     
     
-exports.create = (request) ->
+exports.create = (request, ports) ->
     winston.info 'github create request received for %s %s website', request.repository.author, request.repository.name
     
     promiseOfCredentials = q
@@ -45,11 +45,22 @@ exports.create = (request) ->
                 credentials.username
                 credentials.password
             ]
+        .catch (error) ->
+            winston.warn 'there was an error during github repository setup: %s', error.message
         
     promiseOfListener = q
-        .when promiseOfRepository
-        .then () ->
-            # todo: activate listener
+        .when promiseOfCredentials
+        .then (credentials) ->
+            utility.runShell 'github/listener.sh', [
+                ports.github
+                request.repository.author
+                request.repository.name
+                credentials.username
+                credentials.password
+            ]
+        .catch (error) ->
+            console.log error
+            winston.warn 'there was an error during github listener setup: %s', error.message
     
     promiseOfResponse = q
         .all [
