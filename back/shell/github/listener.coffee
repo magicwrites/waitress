@@ -52,6 +52,6 @@ githubListener = githubInstance options.github
 
 githubListener.on 'all', (payload) ->
     console.info 'github post received'
-    if payload.branch === 'master' then performUpdate()
+    if payload.branch is 'master' then performUpdate()
 
 console.info 'github listener set on port %s for repository %s', options.port, options.github.repository
