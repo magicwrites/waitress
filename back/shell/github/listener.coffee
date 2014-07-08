@@ -11,22 +11,22 @@ configuration = require './../../../configuration/waitress.json'
 
 # private
 
-arguments = process.argv
-arguments.shift()
-arguments.shift()
+parameters = process.argv
+parameters.shift()
+parameters.shift()
 
 options =
-    port: arguments[0]
+    port: parameters[0]
     user:
-        name: arguments[3]
-        password: arguments[4]
+        name: parameters[3]
+        password: parameters[4]
     github:
-        repository: arguments[1] + path.sep + arguments[2]
+        repository: parameters[1] + path.sep + parameters[2]
 
 performUpdate = () ->
     console.info 'latest repository update incoming'
 
-    websiteDirectoryName = arguments[1] + configuration.characters.separators.website.replaced + arguments[2]
+    websiteDirectoryName = parameters[1] + configuration.characters.separators.website.replaced + parameters[2]
     websiteDirectory = configuration.directories.websites + path.sep + websiteDirectoryName
     
     scriptParameters = [
