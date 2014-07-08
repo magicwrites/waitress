@@ -27,7 +27,7 @@ exports.create = (request) ->
         fileSystem.makeTree websiteDirectory + 'latest'
         fileSystem.makeTree websiteDirectory + 'public'
         fileSystem.makeTree websiteDirectory + 'stored'
-        fileSystem.write websiteDirectory + 'stored.json', emptyJsonArray
+        fileSystem.write emptyJsonArray, websiteDirectory + 'stored.json'
     ]
     
     q

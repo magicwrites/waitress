@@ -12,7 +12,7 @@
     },
     "directories": {
         "waitress": "/var/www/waitress",
-        "websites": "/var/www/waitress-websites/",
+        "websites": "/var/www/waitress-websites",
         "nginx": {
             "available": "/etc/nginx/sites-available",
             "enabled": "/etc/nginx/sites-enabled"

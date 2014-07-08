@@ -50,8 +50,8 @@ exports.create = (request, ports) ->
         .when promiseOfEntries
         .then (entries) ->
             q.all [
-                fileSystem.write entries.public, files.publicFile
-                fileSystem.write entries.latest, files.latestFile
+                fileSystem.write files.publicFile, entries.public
+                fileSystem.write files.latestFile, entries.latest
             ]
 
     promiseOfSymlinks = q

@@ -22,10 +22,14 @@ exports.list = (request) ->
             listing = []
             
             for element in list
-                replaced = configuration.characters.separators.website.replaced
-                replacer = configuration.characters.separators.website.replacer
+                splitted = element.split configuration.characters.separators.website.replaced
                 
-                listing.push element.replace replaced, replacer
+                entry =
+                    repository:
+                        author: splitted[0]
+                        name: splitted[1]
+                
+                listing.push entry
                 
             response = listing
         .catch (error) ->

@@ -32,7 +32,7 @@ exports.create = (request) ->
     promiseOfFreePorts = q
         .when promiseOfTaken
         .then (portEntriesFromFile) ->
-            candidate = configuration.ports.bases.website
+            candidate = configuration.ports.bases.public
             candidate += 10 while checkPresence portEntriesFromFile, candidate
 
             freePorts =
@@ -63,7 +63,7 @@ exports.create = (request) ->
             promiseOfAssignment
         ]
         .spread (ports) ->
-            winston.info 'ports for %s website are assigned as: %s', request.repository.name, JSON.stringify ports, null, 4
+            winston.info 'ports for %s website are assigned', request.repository.name
         
             response =
                 public: ports.public
