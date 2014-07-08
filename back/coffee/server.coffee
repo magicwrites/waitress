@@ -28,6 +28,7 @@ io.sockets.on 'connection', (socket) ->
     utility.handle socket, 'waitress website create', website.create, user.isAuthorized    
     utility.handle socket, 'waitress website remove', website.remove, user.isAuthorized
     utility.handle socket, 'waitress website list', website.list, user.isAuthorized
+    utility.handle socket, 'waitress website get', website.get, user.isAuthorized
 
     socket.on 'disconnect', () ->
         winston.info 'web socket user has disconnected'

@@ -6,37 +6,19 @@ winston = require 'winston'
 path = require 'path'
 
 utility = require './../../utility'
+websiteUtility = require './utility'
 configuration = require './../../../../configuration/waitress.json'
 
 # private
-
-getWebsiteNameFrom = (request) ->
-    websiteName =
-        request.repository.author +
-        configuration.characters.separators.website.replaced + 
-        request.repository.name
-        
-getDirectoriesFrom = (request, websiteName) ->
-    directories =
-        website: configuration.directories.websites + path.sep + websiteName
-        available: configuration.directories.nginx.available + path.sep
-        enabled: configuration.directories.nginx.enabled + path.sep
-        
-getFilesFrom = (request, websiteName, directories) ->
-    files =
-        publicFile: directories.available + websiteName + configuration.characters.separators.website.replaced + 'public'
-        latestFile: directories.available + websiteName + configuration.characters.separators.website.replaced + 'latest'
-        publicLink: directories.enabled + websiteName + configuration.characters.separators.website.replaced + 'public'
-        latestLink: directories.enabled + websiteName + configuration.characters.separators.website.replaced + 'latest'
 
 # public
 
 exports.remove = (request) ->
     winston.info 'received a request to remove %s nginx entries', request.repository.name
     
-    websiteName = getWebsiteNameFrom request
-    directories = getDirectoriesFrom request, websiteName
-    files = getFilesFrom request, websiteName, directories
+    websiteName = websiteUtility.getWebsiteNameFrom request
+    directories = websiteUtility.getDirectoriesFrom request, websiteName
+    files = websiteUtility.getNginxFilesFrom request, websiteName, directories
     
     promisesOfRemoval = [
         fileSystem.remove files.publicFile
@@ -61,7 +43,7 @@ exports.remove = (request) ->
 exports.create = (request, ports) ->
     winston.info 'received a request to create %s nginx entries', request.repository.name
     
-    websiteName = getWebsiteNameFrom request
+    websiteName = websiteUtility.getWebsiteNameFrom request
     directories = getDirectoriesFrom request, websiteName
     files = getFilesFrom request, websiteName, directories
     

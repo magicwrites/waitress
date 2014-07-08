@@ -27,6 +27,26 @@ checkPresence = (portEntriesFromFile, port) ->
 
 # public
 
+exports.get = (request) ->
+    winston.info 'received a request to get %s website ports', request.repository.name
+    
+    promiseOfTaken = getPromiseOfTaken()
+            
+    promiseOfResponse = q
+        .when promiseOfTaken
+        .then (portsTaken) ->
+            searchedEntry = _.find portsTaken, (entry) ->
+                entry.author is request.repository.author and entry.name is request.repository.name
+                
+            ports =
+                public: searchedEntry.public
+                latest: searchedEntry.latest
+                github: searchedEntry.github
+        .catch (error) ->
+            winston.error 'could not get %s website ports: %s', request.repository.name, error.message
+
+
+
 exports.remove = (request) ->
     winston.info 'received a request to create %s website ports', request.repository.name
     

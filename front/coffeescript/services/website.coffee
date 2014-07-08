@@ -28,7 +28,7 @@ window.application.service 'website', ($q, websocket, userAuthorizer, websites, 
         userAuthorizer.addAuthorizationTo request
         
         websocket.emit websocket.events.waitress.website.get, request
-        websocket.on websocket.events.waitress.website.get, (website) ->
+        websocket.on websocket.events.waitress.website.get, (response) ->
             model.isLoading = no
             
             model.repository =
@@ -36,12 +36,12 @@ window.application.service 'website', ($q, websocket, userAuthorizer, websites, 
                 name: name
             
             model.versions =
-                latest: website.versions.latest
-                public: website.versions.public
-                stored: website.versions.stored
+                latest: response.result.versions.latest
+                public: response.result.versions.public
+                stored: response.result.versions.stored
                 
-            model.domains = website.domains
-            model.ports = website.ports
+            model.domains = response.result.domains
+            model.ports = response.result.ports
             
             console.info 'waitress has loaded data for website %s/%s', model.repository.author, model.repository.name
 

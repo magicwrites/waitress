@@ -10,8 +10,28 @@ websitePorts = require './website/ports'
 websiteNginx = require './website/nginx'
 websiteFiles = require './website/files'
 websiteGithub = require './website/github'
+websiteVersions = require './website/versions'
 
 # public
+
+exports.get = (request) ->
+    winston.info 'received a website get information request'
+    
+    promisesOfInformation = [
+        websitePorts.get request
+        websiteVersions.get request
+    ]
+
+    promiseOfResponse = q
+        .all promisesOfInformation
+        .spread (ports, versions) ->
+            response =
+                ports: ports
+                versions: versions
+        .catch (error) ->
+            winston.error 'could not get website information: %s', error.message
+
+
 
 exports.list = (request) ->
     winston.info 'received a website listing request'
@@ -79,7 +99,7 @@ exports.remove = (request) ->
     winston.info 'received a website creation request'
     
     promisesOfRemovals = [
-        websiteNgnix.remove request
+        websiteNginx.remove request
         websitePorts.remove request
         websiteGithub.remove request
     ]
@@ -94,4 +114,4 @@ exports.remove = (request) ->
         .then () ->
             winston.info 'website %s was successfuly removed', request.repository.name
         .catch (error) ->
-            winston.error 'could not create website: %s', error.message
+            winston.error 'could not remove website: %s', error.message

@@ -37,6 +37,7 @@ echo ''
 ( cd /var/www/waitress && npm install )
 ( cd /var/www/waitress/front && grunt setup )
 
+mkdir /var/www/waitress-websites --parents
 mkdir /var/www/logs --parents
 mkdir /var/www/waitress/logs
 mkdir /var/www/waitress/configuration 
