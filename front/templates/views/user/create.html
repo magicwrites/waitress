@@ -5,15 +5,15 @@
     <form>
         <fieldset data-ng-disabled="isCreating">
             <label for="name">Username</label>
-            <input  id="name" type="text" data-ng-model="forms.create.name" placeholder="Your name" />
+            <input  id="name" type="text" data-ng-model="form.name" placeholder="Your name" />
         </fieldset>
 
         <fieldset data-ng-disabled="isCreating">
             <label for="password">Password</label>
-            <input  id="password" type="text" data-ng-model="forms.create.password" placeholder="Your password" />
+            <input  id="password" type="text" data-ng-model="form.password" placeholder="Your password" />
         </fieldset>
 
-        <button class="waitress-button waitress-button-success" data-ng-hide="isCreating" data-ng-click="create()">
+        <button class="waitress-button waitress-button-success pull-right" data-ng-hide="isCreating" data-ng-click="create()">
             <div class="icon" data-ng-include="getSvgFrom('icons/check')"></div>
             <span class="title">Create account</span>
         </button>

@@ -1,4 +1,4 @@
-window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSession) ->
+window.application.service 'user', ($q, $timeout, $rootScope, $location, websocket, userSession) ->
     
     emptyUserModel =
         name: ''
@@ -31,6 +31,8 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
             model.isCreated = isCreated
             model.initialization.resolve()
             
+            if isCreated and not model.isAuthorized then $location.path 'user/authorize'
+            
             console.info 'waitress user existence informations has been retrieved'
             
     # public
@@ -57,6 +59,7 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
         
     deauthorize = () ->
         model.user = emptyUserModel
+        $location.path 'user/authorize'
         model.isAuthorized = no
         userSession.remove()
         

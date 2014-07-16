@@ -9,6 +9,9 @@ window.application.config ($routeProvider) ->
     $routeProvider.when '/user/create',
         templateUrl: 'templates/views/user/create.html'
         controller: 'userCreate'
+    $routeProvider.when '/user/authorize',
+        templateUrl: 'templates/views/user/authorize.html'
+        controller: 'userAuthorize'
 #    $routeProvider.when '/roadmap',
 #        templateUrl: 'templates/views/roadmap.html'
 #    $routeProvider.when '/authorization',

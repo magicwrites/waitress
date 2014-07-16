@@ -1,26 +1,28 @@
-<section class="waitress-content waitress-view-user-create">
-    <h1>Create user</h1>
-    <p>In order to avoid unauthorized access to your websites, please provide a username and password which will be used to recognize the rightful user.</p>
+<section class="waitress-content waitress-view-user-authorize">
+    <h1>Sign in</h1>
+    <p>You are currently unauthorized to use waitress. Provide valid credentials in order to restore access.</p>
 
     <form>
-        <fieldset data-ng-disabled="isCreating">
+        <fieldset data-ng-disabled="isAuthorizing">
             <label for="name">Username</label>
-            <input  id="name" type="text" data-ng-model="forms.create.name" placeholder="Your name" />
+            <input  id="name" type="text" data-ng-model="form.name" placeholder="Your name" />
         </fieldset>
 
-        <fieldset data-ng-disabled="isCreating">
+        <fieldset data-ng-disabled="isAuthorizing">
             <label for="password">Password</label>
-            <input  id="password" type="text" data-ng-model="forms.create.password" placeholder="Your password" />
+            <input  id="password" type="password" data-ng-model="form.password" placeholder="Your password" />
         </fieldset>
 
-        <button class="waitress-button waitress-button-success" data-ng-hide="isCreating" data-ng-click="create()">
-            <div class="icon" data-ng-include="getSvgFrom('icons/check')"></div>
-            <span class="title">Create account</span>
+        <button class="waitress-button waitress-button-success pull-right" data-ng-hide="isAuthorizing" data-ng-click="authorize()">
+            <div class="icon" data-ng-include="getSvgFrom('icons/key')"></div>
+            <span class="title">Sign in</span>
         </button>
 
-        <div class="waitress-loader pull-right" data-ng-show="isCreating">
+        <div class="waitress-loader pull-right" data-ng-show="isAuthorizing">
             <img src="images/loader.gif" alt="loader" />
-            <span>Creating account &hellip;</span>
+            <span>Authorizing &hellip;</span>
         </div>
     </form>
+    
+    <strong class="color-failure pull-left" data-ng-show="numberOfFailures">Credentials you have provided are invalid.</strong>
 </section>

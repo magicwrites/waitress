@@ -2,7 +2,6 @@
 
 winston = require 'winston'
 q = require 'q'
-_ = require 'lodash'
 
 configuration = require './../../../configuration/waitress.json'
 database = require './../database'
@@ -39,8 +38,10 @@ exports.isAuthorized = (request) ->
     promiseOfResponse = q
         .when promiseOfUser
         .then (userFromDatabase) ->
-            isAuthorized = if _.isEqual userFromDatabase, request.user then yes else no
-            
+            isNameMatching = if userFromDatabase.name is request.user.name then yes else no
+            isPasswordMatching = if userFromDatabase.password is request.user.password then yes else no
+            isAuthorized = if isNameMatching and isPasswordMatching then yes else no
+                
             winston.info 'user authorization resolved as %s', isAuthorized
             
             return isAuthorized
