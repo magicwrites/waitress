@@ -51,6 +51,7 @@ window.application.service 'user', ($q, $timeout, $rootScope, $location, websock
             model.isAuthorized = isAuthorized
 
             if isAuthorized then userSession.setFrom model.user
+            if isAuthorized then $location.path 'user'
             if isAuthorized then deferred.resolve() else deferred.reject()
                 
             console.info 'waitress has received user authorization response - %s', isAuthorized
