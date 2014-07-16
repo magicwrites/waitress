@@ -1,4 +1,7 @@
 window.application.run ($rootScope, $location, user) ->
+    $rootScope.getSvgFrom = (location) ->
+        templateLocation = 'images/' + location + '.svg'
+        
     $rootScope.getTemplateFrom = (location) ->
         templateLocation = 'templates/' + location + '.html'
 

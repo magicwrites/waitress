@@ -1,4 +1,7 @@
 {
+    "database": {
+        "string": "mongodb://localhost/waitress"
+    },
     "ports": {
         "server": 2005,
         "bases": {

@@ -1,17 +1,44 @@
-<a href="#/home">
-    <img src="images/waitress-cartoon.png" alt="logo" />
-</a>
+<div data-ng-controller="navigation">
+    <aside class="waitress-statuses">
+        <div class="waitress-status color-success" data-ng-show="user.isConnected">
+            <div class="icon" data-ng-include="getSvgFrom('icons/lightning')"></div>
+            <span class="title">Connected</span>
+        </div>
+        
+        <div class="waitress-status color-failure" data-ng-hide="user.isConnected">
+            <div class="icon" data-ng-include="getSvgFrom('icons/lightning')"></div>
+            <span class="title">Disconnected</span>
+        </div>
+        
+        <div class="waitress-status color-warning" data-ng-hide="user.isCreated">
+            <div class="icon" data-ng-include="getSvgFrom('icons/user')"></div>
+            <span class="title">No user account</span>
+        </div>
+        
+        <div class="waitress-status color-failure" data-ng-show="user.isCreated && !user.isAuthorized">
+            <div class="icon" data-ng-include="getSvgFrom('icons/user')"></div>
+            <span class="title">Unauthorized</span>
+        </div>
+        
+        <div class="waitress-status color-success" data-ng-show="user.isCreated && user.isAuthorized">
+            <div class="icon" data-ng-include="getSvgFrom('icons/user')"></div>
+            <span class="title">Authorized</span>
+        </div>
+    </aside>
 
-<div>
-    <h1>Waitress</h1>
-    <p>How can I serve you?</p>
+    <a href="#/home" class="waitress-logo">
+        <span>Waitress</span>
+    </a>
+
+    <nav class="waitress-navigation">
+        <a href="#/user">
+            <div class="icon" data-ng-include="getSvgFrom('icons/user')"></div>
+            <span class="title">User profile</span>
+        </a>
+        <a href="#/user/create" data-ng-disabled="!user.isAuthorized">
+            <div data-ng-hide="user.isAuthorized" class="icon" data-ng-include="getSvgFrom('icons/lock')"></div>
+            <div data-ng-show="user.isAuthorized" class="icon" data-ng-include="getSvgFrom('icons/network')"></div>
+            <span class="title">Websites</span>
+        </a>
+    </nav>
 </div>
-
-<nav data-ng-controller="navigation">
-    <a href="#/home">Home</a>
-    <a href="#/roadmap">Roadmap</a>
-    <a href="#/authorization">Authorization</a>
-    <br />
-    <a data-ng-disabled="!user.isAuthorized" href="#/services">Services</a>
-    <a data-ng-disabled="!user.isAuthorized" href="#/websites">Websites</a>
-</nav>

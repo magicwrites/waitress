@@ -2,28 +2,48 @@
 
 winston = require 'winston'
 q = require 'q'
-fileSystem = require 'q-io/fs'
 _ = require 'lodash'
 
 configuration = require './../../../configuration/waitress.json'
+database = require './../database'
 
 # public
 
 exports.isCreated = () ->
     winston.info 'resolving user credentials existence'
     
-    promise = fileSystem.exists configuration.files.user.json
+    promiseOfUser = database.User
+        .findOne()
+        .exec()
+        
+    promiseOfResponse = q
+        .when promiseOfUser
+        .then (user) ->
+            isCreated = if user then yes else no
+            
+            winston.info 'user existence resolved as %s', isCreated
+                
+            return isCreated
+        .catch (error) ->
+            winston.error 'could not determine user existence: %s', error.message
 
 
 
 exports.isAuthorized = (request) ->
     winston.info 'received an authorization request'
     
-    promise = q
-        .when fileSystem.read configuration.files.user.json
-        .then (fileContent) ->
-            userFromFile = JSON.parse fileContent
-            isAuthorized = if _.isEqual userFromFile, request.user then yes else no
+    promiseOfUser = database.User
+        .findOne()
+        .exec()
+    
+    promiseOfResponse = q
+        .when promiseOfUser
+        .then (userFromDatabase) ->
+            isAuthorized = if _.isEqual userFromDatabase, request.user then yes else no
+            
+            winston.info 'user authorization resolved as %s', isAuthorized
+            
+            return isAuthorized
         .catch (error) ->
             winston.error 'could not authorize request: %s', error.message
 
@@ -32,11 +52,15 @@ exports.isAuthorized = (request) ->
 exports.create = (request) ->
     winston.info 'received an creation request'
     
-    fileContent = JSON.stringify request.user, null, 4
+    console.log request
     
-    promise = q
-        .when fileSystem.write configuration.files.user.json, fileContent
+    promiseOfUser = database.User.create request.user
+    
+    promiseOfResponse = q
+        .when promiseOfUser
         .then () ->
+            winston.info 'user %s has been created successfuly', request.user.name
+            
             return request.user
         .catch (error) ->
-            winston.error 'could not save the credential file: %s', error.message
+            winston.error 'could not save the credentials: %s', error.message

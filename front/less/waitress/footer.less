@@ -1,0 +1,28 @@
+@import '../variables';
+@import '../components';
+
+.waitress-footer {
+    clear: both;
+    line-height: 5em;
+    
+    .waitress-link {
+        .waitress-tile();
+        
+        float: right;
+        font-weight: bold;
+        width: auto;
+        margin-left: @sizeForPadding * 2;
+        line-height: 5em;
+
+        .icon {
+            float: left;
+            margin: 1.5em;
+            width: 2em;
+            height: 2em;
+        }
+
+        .title {
+            white-space: nowrap;
+        }
+    }
+}

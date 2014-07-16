@@ -1,0 +1,26 @@
+<section class="waitress-content waitress-view-user-create">
+    <h1>Create user</h1>
+    <p>In order to avoid unauthorized access to your websites, please provide a username and password which will be used to recognize the rightful user.</p>
+
+    <form>
+        <fieldset data-ng-disabled="isCreating">
+            <label for="name">Username</label>
+            <input  id="name" type="text" data-ng-model="forms.create.name" placeholder="Your name" />
+        </fieldset>
+
+        <fieldset data-ng-disabled="isCreating">
+            <label for="password">Password</label>
+            <input  id="password" type="text" data-ng-model="forms.create.password" placeholder="Your password" />
+        </fieldset>
+
+        <button class="waitress-button waitress-button-success" data-ng-hide="isCreating" data-ng-click="create()">
+            <div class="icon" data-ng-include="getSvgFrom('icons/check')"></div>
+            <span class="title">Create account</span>
+        </button>
+
+        <div class="waitress-loader pull-right" data-ng-show="isCreating">
+            <img src="images/loader.gif" alt="loader" />
+            <span>Creating account &hellip;</span>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,9 @@
+<section class="waitress-content waitress-view-user-create">
+    <h1>User profile</h1>
+    <p>You are currently signed in as <strong>{{ user.name }}</strong>.</p>
+
+    <button class="waitress-button waitress-button-warning pull-right" data-ng-click="deauthorize()">
+        <div class="icon" data-ng-include="getSvgFrom('icons/check')"></div>
+        <span class="title">Sign out</span>
+    </button>
+</section>

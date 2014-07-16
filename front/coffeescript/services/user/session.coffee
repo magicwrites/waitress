@@ -16,7 +16,7 @@ window.application.service 'userSession', () ->
         window.localStorage.setItem 'user', user
         model.isPresent = yes
         
-        console.info 'user session is set with username %s', model.username
+        console.info 'user session is set with name %s', model.name
         
     remove = () ->
         window.localStorage.removeItem 'user'

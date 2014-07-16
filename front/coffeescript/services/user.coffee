@@ -1,24 +1,31 @@
 window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSession) ->
     
     emptyUserModel =
-        username: ''
+        name: ''
         password: ''
     
     model =
         isAuthorized: userSession.model.isSet
         isCreated: userSession.model.isSet
+        isConnected: no
         user: if userSession.model.isSet then userSession.get() else emptyUserModel
         initialization: $q.defer()
             
     # private
     
     setUserFrom = (form) ->
-        model.user.username = form.username
+        model.user.name = form.name
         model.user.password = window.md5 form.password
+        
+    $rootScope.$on websocket.events.disconnect, () ->
+        model.isConnected = no
             
     $rootScope.$on websocket.events.connect, () ->
+        model.isConnected = yes
+        
         websocket.emit websocket.events.waitress.user.isCreated
-        websocket.on websocket.events.waitress.user.isCreated, (isCreated) ->
+        websocket.on websocket.events.waitress.user.isCreated, (response) ->
+            isCreated = response.result
             if not isCreated then userSession.remove()
             
             model.isCreated = isCreated
@@ -33,8 +40,12 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
         
         setUserFrom form
         
-        websocket.emit websocket.events.waitress.user.isAuthorized, model.user
-        websocket.on websocket.events.waitress.user.isAuthorized, (isAuthorized) ->
+        request =
+            user: model.user
+        
+        websocket.emit websocket.events.waitress.user.isAuthorized, request
+        websocket.on websocket.events.waitress.user.isAuthorized, (response) ->
+            isAuthorized = response.result
             model.isAuthorized = isAuthorized
 
             if isAuthorized then userSession.setFrom model.user
@@ -54,7 +65,10 @@ window.application.service 'user', ($q, $timeout, $rootScope, websocket, userSes
         
         setUserFrom form
         
-        websocket.emit websocket.events.waitress.user.create, model.user
+        request =
+            user: model.user
+        
+        websocket.emit websocket.events.waitress.user.create, request
         websocket.on websocket.events.waitress.user.create, () ->
             model.isAuthorized = yes
             model.isCreated = yes

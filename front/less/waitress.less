@@ -2,139 +2,78 @@
 @import 'components';
 
 .waitress {
-    h1,
-    h2 {
-        margin: 0.5em 0;
-        font-size: 2em;
+    
+    h1, h2, h3, h4 {
         font-weight: normal;
+        color: @colorForReadingEmphased;
+        
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+    
+    h1 {
+        font-size: 1.75em;
     }
     
     h2 {
-        margin-top: 2em;
-        
-        &:first-child {
-            margin-top: 0.5em;
-        }
+        font-size: 1.5em;
     }
     
     h3 {
-        margin: 1em 0;
+        font-size: 1.25em;
+    }
+    
+    h4 {
         font-size: 1em;
     }
     
-    pre {
-        padding: 0.5em 1em;
-        border: 1px dashed @colorForReading;
+    form {
+        padding: 2em 0;
     }
     
-    input[type="password"],
-    input[type="text"] {
+    fieldset {
         margin: 0;
         padding: 0;
-        background-color: transparent;
-        border: 0;
-        line-height: 2em;
-        border-bottom: 1px dashed @colorForReadingMuted;
-        color: @colorForReadingEmphased;
-    }
-    
-    table {
-        margin: 3em auto;
-        border-collapse: collapse;
-        width: 100%;
+        border: none;
         
-        td, th {
-            border-left: 2em solid transparent;
-            border-right: 2em solid transparent;
-            border-top: 0.5em solid transparent;
-            border-bottom: 0.5em solid transparent;
-            text-align: left;
-        }
-        
-        tr:first-child th {
-            border-top: 0;
-        }
-        
-        tr:last-child td {
-            border-bottom: 0;
-        }
-        
-        tr td:first-child,
-        tr th:first-child {
-            border-left: 0;
-        }
-        
-        tr td:last-child,
-        tr th:last-child {
-            border-right: 0;
-        }
-    }
-    
-    dl {
-        menu {
-            float: right;
+        label {
             display: inline-block;
-            margin: 0 0 0 1em;
-            padding: 0;
+            font-weight: bold;
+            width: 12em;
+            line-height: 3em;
             
-            button {
-                .waitress-menu-button();
+            &:after {
+                content: ' :'
+            }
+        }
+        
+        input {
+            margin: 0;
+            padding: 0 1em;
+            line-height: 3em;
+            border: none;
+            display: inline-block;
+            font-weight: bold;
+            
+            &:disabled {
+                opacity: 0.5;
+                background-color: transparent;
             }
         }
     }
     
     .waitress-container {
-        margin: 4em auto;
-        width: @widthForContainer;
+        position: relative;
+        margin: 6em auto;
+        width: @widthForWebsite;
     }
     
-    .waitress-header {
-        position: fixed;
-        padding-top: 8em;
-        width: 10em;
-        
-        img {
-            position: absolute;
-            display: block;
-            top: -3em;
-            left: 0;
-            right: 0;
-            width: 10em;
-            height: 10em;
-        }
-        
-        h1 {
-            text-align: center;
-        }
-        
-        p {
-            font-size: 0.75em;
-            color: @colorForReadingMuted;
-            text-align: center;
-        }
-        
-        nav {
-            a {
-                display: block;
-                padding-left: 2em;
-
-                &:before {
-                    margin-left: -1.5em;
-                    position: absolute;
-                    content: '➜';
-                }
-            }
-        }
-    }
-    
-    .waitress-section,
-    .waitress-footer {
-        padding-top: 8em;
-        padding-left: 16em;
-    }
-    
-    .waitress-footer {
-        text-align: right;
-        color: @colorForReadingMuted;
+    .waitress-content {
+        float: right;
+        width: @widthForWebsite - @widthForSidemenu;
+        min-height: @widthForWebsite / 2;
+        padding: @sizeForPadding * 2;
+        padding-right: 0;
     }
 }
