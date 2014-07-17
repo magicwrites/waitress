@@ -6,4 +6,4 @@ window.application.run ($rootScope, $location, user) ->
         templateLocation = 'templates/' + location + '.html'
 
     $rootScope.$on '$routeChangeStart', (event, nextRoute) ->
-        if nextRoute.isRestricted and !user.model.isAuthorized then $location.path 'authorization'
+        if nextRoute.isRestricted and !user.model.isAuthorized then $location.path 'user/authorize'

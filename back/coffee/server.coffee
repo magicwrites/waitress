@@ -8,6 +8,7 @@ configuration = require './../../configuration/waitress.json'
 database = require './database'
 utility = require './utility'
 user = require './server/user'
+github = require './server/github'
 website = require './server/website'
 
 
@@ -30,6 +31,9 @@ do () ->
                 utility.handle socket, 'waitress user isAuthorized', user.isAuthorized
                 utility.handle socket, 'waitress user isCreated', user.isCreated
                 utility.handle socket, 'waitress user create', user.create
+                
+                utility.handle socket, 'waitress github isSet', github.isSet
+                utility.handle socket, 'waitress github set', github.set
 
                 utility.handle socket, 'waitress website create', website.create, user.isAuthorized    
                 utility.handle socket, 'waitress website remove', website.remove, user.isAuthorized

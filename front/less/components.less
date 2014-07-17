@@ -19,14 +19,34 @@
     }
 }
 
+.waitress-buttons {
+    white-space: nowrap;
+    
+    .waitress-button {
+        display: inline-block;
+    }
+    
+    &.pull-right {
+        .waitress-button {
+            margin-left: 1em;
+        }
+    }
+    
+    &.pull-left {
+        .waitress-button {
+            margin-right: 1em;
+        }
+    }
+}
+
 .waitress-button {
     .waitress-tile();
     
+    display: block;
     border: 0;
     margin: 0;
     padding: 0 1em;
     line-height: 3em;
-    color: @colorForBackgroundEmphased;
     font-weight: bold;
     cursor: pointer;
     .transition(all @timeForTransition);
@@ -42,6 +62,7 @@
     }
     
     .title {
+        color: @colorForBackgroundEmphased;
         line-height: 3em;
     }
     

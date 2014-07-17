@@ -27,6 +27,10 @@ exports.connect = () ->
 exports.User = mongoose.model 'User',
     name: { type: String }
     password: { type: String }
+    
+exports.Github = mongoose.model 'Github',
+    username: { type: String }
+    password: { type: String }
 
 exports.Repository = mongoose.model 'Repository',
     author: { type: String }

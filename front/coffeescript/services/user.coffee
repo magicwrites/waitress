@@ -1,4 +1,4 @@
-window.application.service 'user', ($q, $timeout, $rootScope, $location, websocket, userSession) ->
+window.application.service 'user', ($q, $rootScope, $location, websocket, userSession) ->
     
     emptyUserModel =
         name: ''

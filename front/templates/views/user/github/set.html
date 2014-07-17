@@ -1,0 +1,30 @@
+<section class="waitress-content waitress-view-user-github-set">
+    <h1>Set github account</h1>
+    <p>In order to clone private and restricted repositories, you might want to provide waitress with your github credentials. If you will not decide to do so, you can still clone public repositories.</p>
+
+    <strong data-ng-show="github.states.isInitializing">Please wait, loading.</strong>
+    
+    <form data-ng-hide="github.states.isInitializing">
+        <fieldset data-ng-disabled="github.states.isSetting">
+            <label for="username">Username</label>
+            <input  id="username" type="text" data-ng-model="github.data.username" placeholder="Your github username" />
+        </fieldset>
+
+        <fieldset data-ng-disabled="github.states.isSetting">
+            <label for="password">Password</label>
+            <input  id="password" type="text" data-ng-model="github.data.password" placeholder="Your github password" />
+        </fieldset>
+
+        <button class="waitress-button waitress-button-success pull-right" data-ng-hide="github.states.isSetting" data-ng-click="set()">
+            <div class="icon" data-ng-include="getSvgFrom('icons/check')"></div>
+            <span class="title">Set account</span>
+        </button>
+
+        <div class="waitress-loader pull-right" data-ng-show="github.states.isSetting">
+            <img src="images/loader.gif" alt="loader" />
+            <span>Set account &hellip;</span>
+        </div>
+    </form>
+    
+    <strong data-ng-show="github.states.isChanged && !github.states.isSetting" class="color-success">Your github account credentials have been changed.</strong>
+</section>

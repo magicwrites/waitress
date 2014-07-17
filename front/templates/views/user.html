@@ -1,9 +1,19 @@
-<section class="waitress-content waitress-view-user-create">
+<section class="waitress-content waitress-view-user">
     <h1>User profile</h1>
     <p>You are currently signed in as <strong>{{ user.user.name }}</strong>.</p>
+    
+    <strong data-ng-hide="github.states.isSet" class="color-warning">You have no github account linked with the waitress, and thus cannot clone private repositories.</strong>
+    <p data-ng-show="github.states.isSet">Your github credentials are saved for user <strong>{{ github.data.username }}</strong>.</p>
 
-    <button class="waitress-button waitress-button-warning pull-right" data-ng-click="deauthorize()">
-        <div class="icon" data-ng-include="getSvgFrom('icons/signout')"></div>
-        <span class="title">Sign out</span>
-    </button>
+    <menu class="waitress-buttons pull-right">
+        <a href="#/user/github/set" class="waitress-button waitress-button-link">
+            <div class="icon" data-ng-include="getSvgFrom('icons/github')"></div>
+            <span class="title">Set github account</span>
+        </a>
+        
+        <button class="waitress-button waitress-button-warning" data-ng-click="deauthorize()">
+            <div class="icon" data-ng-include="getSvgFrom('icons/signout')"></div>
+            <span class="title">Sign out</span>
+        </button>
+    </menu>
 </section>
