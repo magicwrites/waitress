@@ -1,43 +1,21 @@
-<h2>Websites</h2>
-<p>A list of nginx hosted websites installed and kept running by the waitress.</p>
+<section class="waitress-content">
+    <h1>Websites</h1>
+    <p>A list of nginx hosted websites installed and kept running by the waitress.</p>
 
-<section data-ng-show="websites.isListing">
-    <p>Please wait, listing the websites.</p>
-</section>
-
-<section data-ng-hide="websites.isListing">
-    <table class="waitress-websites">
-        <colgroup>
-            <col />
-            <col />
-            <col />
-        </colgroup>
-
-        <thead>
-            <tr>
-                <th>Website</th>
-                <th>Public</th>
-                <th>Latest</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr data-ng-repeat="website in websites.list">
-                <td>
-                    <a data-ng-href="#/website/{{ website.repository.author }}/{{ website.repository.name }}">{{ website.repository.author }}/{{ website.repository.name }}</a>
-                </td>
-                <td>
-                    <span class="color-success">{{ website.versions.public }}</span>
-                </td>
-                <td>
-                    <span class="color-success">{{ website.versions.latest }}</span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <form class="waitress-websites-form" data-ng-submit="create()">
-        <input type="text" placeholder="github-username/github-repositoryname" data-ng-model="newRepository" />
-        <input type="submit" class="waitress-button" value="✚  Add new website" />
-    </form>
+    <ul class="waitress-list">
+        <li>
+            <a href="#/websites/details/123">magicwrites &bull; waitress</a>
+        </li>
+        <li>
+            <a href="#/websites/details/321">magicwrites &bull; personal-website</a>
+        </li>
+        <li>
+            <a href="#/websites/details/111">magicwrites &bull; personal-website-sites</a>
+        </li>
+    </ul>
+    
+    <a href="#/websites/new" class="waitress-button waitress-button-link pull-right">
+        <div class="icon" data-ng-include="getSvgFrom('icons/network')"></div>
+        <span class="title">Add a new website</span>
+    </a>
 </section>

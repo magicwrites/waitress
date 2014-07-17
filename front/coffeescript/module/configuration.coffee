@@ -22,6 +22,14 @@ window.application.config ($routeProvider) ->
         templateUrl: 'templates/views/websites.html'
         controller: 'websites'
         isRestricted: yes
+    $routeProvider.when '/websites/new',
+        templateUrl: 'templates/views/websites/new.html'
+        controller: 'websitesNew'
+        isRestricted: yes
+    $routeProvider.when '/websites/details/:id',
+        templateUrl: 'templates/views/websites/details.html'
+        controller: 'websitesDetails'
+        isRestricted: yes
         
 #    $routeProvider.when '/roadmap',
 #        templateUrl: 'templates/views/roadmap.html'
