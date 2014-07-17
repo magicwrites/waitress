@@ -1,4 +1,4 @@
-window.application.service 'github', (websocket, userAuthorizer) ->
+window.application.service 'github', ($rootScope, websocket, userAuthorizer) ->
     
     model =
         states:
@@ -20,6 +20,9 @@ window.application.service 'github', (websocket, userAuthorizer) ->
         if model.states.isSet then model.data = response.result
 
         console.info 'github setting has been resolved to - %s', model.states.isSet
+        
+    $rootScope.$on '$routeChangeSuccess', (event) ->
+        model.states.isChanged = no
             
     # public
         
