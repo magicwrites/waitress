@@ -3,24 +3,26 @@
     <p>In order to benefit from waitress features, you need to provide it with github repository details. It will then be cloned to the hard drive, where later it will be built and exposed to the web.</p>
 
     <form>
-        <fieldset data-ng-disabled="isCreating">
+        <fieldset data-ng-disabled="states.isCreating">
             <label for="author">Author</label>
             <input  id="author" type="text" data-ng-model="form.repository.author" placeholder="Repository author name" />
         </fieldset>
 
-        <fieldset data-ng-disabled="isCreating">
+        <fieldset data-ng-disabled="states.isCreating">
             <label for="name">Project name</label>
             <input  id="name" type="text" data-ng-model="form.repository.name" placeholder="Repository project name" />
         </fieldset>
 
-        <button class="waitress-button waitress-button-success pull-right" data-ng-hide="isCreating" data-ng-click="create()">
+        <button class="waitress-button waitress-button-success pull-right" data-ng-hide="states.isCreating" data-ng-click="create()">
             <div class="icon" data-ng-include="getSvgFrom('icons/github')"></div>
             <span class="title">Add repository</span>
         </button>
 
-        <div class="waitress-loader pull-right" data-ng-show="isCreating">
+        <div class="waitress-loader pull-right" data-ng-show="states.isCreating">
             <img src="images/loader.gif" alt="loader" />
             <span>Adding repository &hellip;</span>
         </div>
     </form>
+    
+    <strong class="color-failure" data-ng-show="isError">Something went wrong during creation of a website, sorry.</strong>
 </section>

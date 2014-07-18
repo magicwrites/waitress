@@ -1,15 +1,12 @@
-window.application.controller 'websites', ($scope, websites) ->
-    $scope.websites = websites.model
+window.application.controller 'websites', ($scope, websocket, userAuthorizer) ->
+    $scope.websites = []
     
-    $scope.isCreating = no
+    request = {}
     
-    $scope.create = () ->
-        $scope.isCreating = yes
+    userAuthorizer.addAuthorizationTo request
+    
+    websocket.emit 'waitress website list', request
+    websocket.on   'waitress website list', (response) ->
+        console.info 'retrieved websites list, counted %s elements', response.result.length
         
-        websites.create $scope.newRepository
-            .then () ->
-                $scope.isCreated = yes
-                $scope.isCreating = no
-            .catch () ->
-                $scope.isCreated = no
-                $scope.isCreating = no
+        $scope.websites = response.result

@@ -3,14 +3,8 @@
     <p>A list of nginx hosted websites installed and kept running by the waitress.</p>
 
     <ul class="waitress-list">
-        <li>
-            <a href="#/websites/details/123">magicwrites &bull; waitress</a>
-        </li>
-        <li>
-            <a href="#/websites/details/321">magicwrites &bull; personal-website</a>
-        </li>
-        <li>
-            <a href="#/websites/details/111">magicwrites &bull; personal-website-sites</a>
+        <li data-ng-repeat="website in websites">
+            <a data-ng-href="#/websites/details/{{ website._id }}">{{ website.repository.author }} &bull; {{ website.repository.name }}</a>
         </li>
     </ul>
     
