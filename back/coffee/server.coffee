@@ -9,7 +9,7 @@ database = require './database'
 utility = require './utility'
 user = require './server/user'
 github = require './server/github'
-website = require './server/website'
+repository = require './server/repository'
 
 
 
@@ -35,10 +35,10 @@ do () ->
                 utility.handle socket, 'waitress github isSet', github.isSet
                 utility.handle socket, 'waitress github set', github.set
 
-                utility.handle socket, 'waitress website create', website.create, user.isAuthorized    
-                utility.handle socket, 'waitress website remove', website.remove, user.isAuthorized
-                utility.handle socket, 'waitress website list', website.list, user.isAuthorized
-                utility.handle socket, 'waitress website get', website.get, user.isAuthorized
+                utility.handle socket, 'waitress repository create', repository.create, user.isAuthorized    
+                utility.handle socket, 'waitress repository remove', repository.remove, user.isAuthorized
+                utility.handle socket, 'waitress repository list', repository.list, user.isAuthorized
+                utility.handle socket, 'waitress repository get', repository.get, user.isAuthorized
 
                 socket.on 'disconnect', () ->
                     winston.info 'web socket user has disconnected'

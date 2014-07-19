@@ -18,17 +18,17 @@ window.application.config ($routeProvider) ->
         controller: 'userGithubSet'
         isRestricted: yes
         
-    $routeProvider.when '/websites',
-        templateUrl: 'templates/views/websites.html'
-        controller: 'websites'
+    $routeProvider.when '/repositories',
+        templateUrl: 'templates/views/repositories.html'
+        controller: 'repositories'
         isRestricted: yes
-    $routeProvider.when '/websites/new',
-        templateUrl: 'templates/views/websites/new.html'
-        controller: 'websitesNew'
+    $routeProvider.when '/repositories/new',
+        templateUrl: 'templates/views/repositories/new.html'
+        controller: 'repositoriesNew'
         isRestricted: yes
-    $routeProvider.when '/websites/details/:id',
-        templateUrl: 'templates/views/websites/details.html'
-        controller: 'websitesDetails'
+    $routeProvider.when '/repositories/details/:id',
+        templateUrl: 'templates/views/repositories/details.html'
+        controller: 'repositoriesDetails'
         isRestricted: yes
         
 #    $routeProvider.when '/roadmap',

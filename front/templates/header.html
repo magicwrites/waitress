@@ -36,10 +36,10 @@
             <div data-ng-show="user.isAuthorized" class="icon" data-ng-include="getSvgFrom('icons/user')"></div>
             <span class="title">User profile</span>
         </a>
-        <a href="#/websites" data-ng-disabled="!user.isAuthorized">
+        <a href="#/repositories" data-ng-disabled="!user.isAuthorized">
             <div data-ng-hide="user.isAuthorized" class="icon" data-ng-include="getSvgFrom('icons/lock')"></div>
-            <div data-ng-show="user.isAuthorized" class="icon" data-ng-include="getSvgFrom('icons/network')"></div>
-            <span class="title">Websites</span>
+            <div data-ng-show="user.isAuthorized" class="icon" data-ng-include="getSvgFrom('icons/github')"></div>
+            <span class="title">Repositories</span>
         </a>
     </nav>
 </div>
