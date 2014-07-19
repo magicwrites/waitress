@@ -54,9 +54,14 @@ exports.list = (request) ->
 
 exports.create = (request) ->
     winston.info 'received a repository creation request'
+    
+    promiseOfGruntfilePresence = q
+        .when repositoryFiles.cloneSourceIntoLatestDirectory request
+        .then () ->
+            repositoryFiles.checkGruntfilePresence request
 
     promiseOfRepositoryInDatabase = q
-        .when repositoryFiles.cloneSourceIntoLatestDirectory request
+        .when promiseOfGruntfilePresence 
         .then () ->
             database.Repository.create request.repository
     

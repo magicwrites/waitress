@@ -26,6 +26,10 @@ constants =
 
 # public
 
+exports.getErrorFrom = (message) ->
+    error =
+        message: message
+
 exports.wrapInPromise = (something) ->
     deferred = q.defer()
     deferred.resolve something

@@ -13,3 +13,11 @@ exports.getDirectoryFrom = (author, name) ->
         author +
         configuration.characters.separators.repository.replaced +
         name
+        
+exports.getLatestDirectoryFrom = (author, name) ->
+    repositoryDirectory = exports.getDirectoryFrom author, name
+    
+    latestRepositoryDirectory =
+        repositoryDirectory +
+        path.sep +
+        'latest'
