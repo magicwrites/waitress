@@ -2,28 +2,17 @@
 
 winston = require 'winston'
 fileSystem = require 'q-io/fs'
-path = require 'path'
 q = require 'q'
 
-configuration = require './../../../configuration/waitress.json'
 database = require './../database'
 utility = require './../utility'
 user = require './user'
+
 #repositoryPorts = require './repository/ports'
 #repositoryNginx = require './repository/nginx'
-#repositoryFiles = require './repository/files'
+repositoryFiles = require './repository/files'
 #repositoryGithub = require './repository/github'
 #repositoryVersions = require './repository/versions'
-
-# private
-
-getRepositoryDirectoryFrom = (author, name) ->
-    repositoryDirectory =
-        configuration.directories.repositories +
-        path.sep +
-        author +
-        configuration.characters.separators.repository.replaced +
-        name
 
 # public
 
@@ -65,26 +54,9 @@ exports.list = (request) ->
 
 exports.create = (request) ->
     winston.info 'received a repository creation request'
-    
-    promiseOfGithubCredentials = database.Github
-        .findOne()
-        .exec()
-    
-    promiseOfClonedRepository = q
-        .when promiseOfGithubCredentials
-        .then (github) ->
-            repositoryDirectory = getRepositoryDirectoryFrom request.repository.author, request.repository.name
-            
-            utility.runShell 'repository/create.sh', [
-                repositoryDirectory
-                request.repository.author
-                request.repository.name
-                github.username
-                github.password
-            ]
 
     promiseOfRepositoryInDatabase = q
-        .when promiseOfClonedRepository
+        .when repositoryFiles.cloneSourceIntoLatestDirectory request
         .then () ->
             database.Repository.create request.repository
     
@@ -102,19 +74,8 @@ exports.create = (request) ->
 exports.remove = (request) ->
     winston.info 'received a repository removal request for repository %s', request.repository._id
     
-    promiseOfRepositoryData = database.Repository
-        .findById request.repository._id
-        .exec()
-    
-    promiseOfRemovalFromHardDrive = q
-        .when promiseOfRepositoryData
-        .then (repository) ->
-            repositoryDirectory = getRepositoryDirectoryFrom repository.author, repository.name
-            
-            fileSystem.removeTree repositoryDirectory
-    
     promiseOfRemovalFromDatabase = q
-        .when promiseOfRemovalFromHardDrive
+        .when repositoryFiles.removeFromHardDrive request
         .then () ->
             database.Repository
                 .remove

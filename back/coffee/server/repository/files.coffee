@@ -1,54 +1,63 @@
 # require
 
-q = require 'q'
-fileSystem = require 'q-io/fs'
 winston = require 'winston'
+fileSystem = require 'q-io/fs'
 path = require 'path'
+q = require 'q'
 
-configuration = require './../../../../configuration/waitress.json'
+database = require './../../database'
+utility = require './../../utility'
 
-# private
-
-getWebsiteDirectoryFrom = (request) ->
-    repositoryDirectoryName =
-        request.repository.author +
-        configuration.characters.separators.website.replaced +
-        request.repository.name
-    
-    websiteDirectory = configuration.directories.websites + path.sep + repositoryDirectoryName
+repositoryUtility = require './utility'
 
 # public
 
-exports.remove = (request) ->
-    winston.info 'received a request to remove %s repository file structure', request.repository.name
+exports.cloneSourceIntoLatestDirectory = (request) ->
+    winston.info 'cloning repository %s of %s into latest directory', request.repository.name, request.repository.author
     
-    websiteDirectory = getWebsiteDirectoryFrom request
+    promiseOfGithubCredentials = database.Github
+        .findOne()
+        .exec()
     
-    promiseOfResponse = q
-        .when fileSystem.removeTree websiteDirectory
-        .then () ->
-            winston.info '%s website directory structure has been removed', request.repository.name
-        .catch (error) ->
-            winston.error 'could not remove website directory structure: %s', error.message
-    
+    promiseOfCloning = q
+        .when promiseOfGithubCredentials
+        .then (github) ->
+            repositoryDirectory = repositoryUtility.getDirectoryFrom request.repository.author, request.repository.name
+            
+            utility.runShell 'repository/create.sh', [
+                repositoryDirectory
+                request.repository.author
+                request.repository.name
+                github.username
+                github.password
+            ]
 
-exports.create = (request) ->
-    winston.info 'received a request to create %s repository file structure', request.repository.name
-        
-    emptyJsonArray = JSON.stringify [], null, 4
-    websiteDirectory = getWebsiteDirectoryFrom request
-    
-    promises = [
-        fileSystem.makeTree websiteDirectory + path.sep + 'latest'
-        fileSystem.makeTree websiteDirectory + path.sep + 'public'
-        # fileSystem.makeTree websiteDirectory + path.sep + 'stored'
-        # fileSystem.write websiteDirectory + path.sep + 'stored.json', emptyJsonArray
-        # todo? doesnt work for some reason
-    ]
-    
     promiseOfResponse = q
-        .all promises
+        .when promiseOfCloning
         .then () ->
-            winston.info '%s website directory structure is created', request.repository.name
+            winston.info 'repository %s of %s was cloned into latest directory', request.repository.name, request.repository.name
         .catch (error) ->
-            winston.error 'could not create website directory structure: %s', error.message
+            winston.error 'could not clone the repository: %s', error.message
+            
+            
+            
+exports.removeFromHardDrive = (request) ->
+    winston.info 'removing repository %s data from hard drive', request.repository._id
+    
+    promiseOfRepositoryData = database.Repository
+        .findById request.repository._id
+        .exec()
+    
+    promiseOfRemovalFromHardDrive = q
+        .when promiseOfRepositoryData
+        .then (repository) ->
+            repositoryDirectory = repositoryUtility.getDirectoryFrom repository.author, repository.name
+            
+            fileSystem.removeTree repositoryDirectory
+            
+    promiseOfResponse = q
+        .when promiseOfRemovalFromHardDrive
+        .then () ->
+            winston.info 'repository %s was removed from hard drive', request.repository._id
+        .catch (error) ->
+            winston.error 'could not remove the repository from hard drive: %s', error.message
