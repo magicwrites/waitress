@@ -54,6 +54,9 @@ exports.list = (request) ->
 
 exports.create = (request) ->
     winston.info 'received a repository creation request'
+        
+    if not request.repository.author then throw utility.getErrorFrom 'request is missing repository author'
+    if not request.repository.name   then throw utility.getErrorFrom 'request is missing repository name'
     
     promiseOfGruntfilePresence = q
         .when repositoryFiles.cloneSourceIntoLatestDirectory request
@@ -62,8 +65,13 @@ exports.create = (request) ->
 
     promiseOfRepositoryInDatabase = q
         .when promiseOfGruntfilePresence 
-        .then () ->
-            database.Repository.create request.repository
+        .then (isGruntfilePresent) ->
+            repository =
+                author: request.repository.author
+                name: request.repository.name
+                isGruntfilePresent: isGruntfilePresent
+            
+            database.Repository.create repository
     
     promiseOfResponse = q
         .when promiseOfRepositoryInDatabase
