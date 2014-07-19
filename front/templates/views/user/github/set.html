@@ -7,12 +7,12 @@
     <form data-ng-hide="github.states.isInitializing">
         <fieldset data-ng-disabled="github.states.isSetting">
             <label for="username">Username</label>
-            <input  id="username" type="text" data-ng-model="github.data.username" placeholder="Your github username" />
+            <input  id="username" type="text" data-ng-model="form.username" placeholder="Your github username" />
         </fieldset>
 
         <fieldset data-ng-disabled="github.states.isSetting">
             <label for="password">Password</label>
-            <input  id="password" type="text" data-ng-model="github.data.password" placeholder="Your github password" />
+            <input  id="password" type="text" data-ng-model="form.password" placeholder="Your github password" />
         </fieldset>
 
         <button class="waitress-button waitress-button-success pull-right" data-ng-hide="github.states.isSetting" data-ng-click="set()">

@@ -65,7 +65,7 @@ module.exports = (grunt) ->
     grunt.registerTask 'front-setup', ['shell', 'less', 'coffee']
     grunt.registerTask 'front-run', ['connect']
     
-    grunt.registerTask 'production', ['front-setup', 'bgShell:silent', 'front-run']
-    grunt.registerTask 'development', ['production', 'watch']
+    grunt.registerTask 'waitress-public', ['front-setup', 'bgShell:silent']
+    grunt.registerTask 'waitress-latest', ['waitress-public']
     
-    grunt.registerTask 'default', ['development']
+    grunt.registerTask 'default', ['waitress-public', 'front-run', 'watch']

@@ -2,8 +2,11 @@ window.application.controller 'userGithubSet', ($scope, github, websocket) ->
     $scope.github = github.model
     
     $scope.form =
-        username: ''
-        password: ''
+        username: github.model.data.username || ''
+        password: github.model.data.password || ''
         
     $scope.set = () ->
-        github.set $scope.github.data
+        github.set $scope.form
+        
+    websocket.on 'waitress github isSet', (response) ->
+        if response.result then $scope.form = response.result
