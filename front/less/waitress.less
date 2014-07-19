@@ -34,11 +34,13 @@
         overflow: hidden;
     }
     
+    dl,
     fieldset {
         margin: 0;
         padding: 0;
         border: none;
         
+        dt,
         label {
             display: inline-block;
             font-weight: bold;
@@ -50,6 +52,7 @@
             }
         }
         
+        dd,
         input {
             margin: 0;
             padding: 0 1em;
@@ -77,5 +80,10 @@
         min-height: @widthForWebsite / 2;
         padding: @sizeForPadding * 2;
         padding-right: 0;
+    }
+    
+    .waitress-subcontent {
+        clear: both;
+        padding: 1em 0 4em 0;
     }
 }

@@ -15,7 +15,7 @@
     },
     "directories": {
         "waitress": "/var/www/waitress",
-        "websites": "/var/www/waitress-websites",
+        "repositories": "/var/www/waitress-repositories",
         "nginx": {
             "available": "/etc/nginx/sites-available",
             "enabled": "/etc/nginx/sites-enabled"
@@ -27,22 +27,13 @@
         }
     },
     "files": {
-        "github": {
-            "json": "configuration/github.json"
-        },
-        "ports": {
-            "json": "configuration/ports.json"
-        },
-        "user": {
-            "json": "configuration/user.json"
-        },
         "logs": {
             "json": "logs/server.json"
         }
     },
     "characters": {
         "separators": {
-            "website": {
+            "repository": {
                 "replaced": "+",
                 "replacer": " "
             }

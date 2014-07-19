@@ -19,30 +19,41 @@ user = require './user'
 
 getRepositoryDirectoryFrom = (author, name) ->
     repositoryDirectory =
-        configuration.directories.websites +
+        configuration.directories.repositories +
         path.sep +
         author +
-        configuration.characters.separators.website.replaced +
+        configuration.characters.separators.repository.replaced +
         name
 
 # public
 
 exports.get = (request) ->
-    winston.info 'received a repository get information request'
+    winston.info 'received a request to retrieve repository details'
     
-    # todo
+    promiseOfRepository = database.Repository
+        .findById request.repository._id
+        .exec()
+        
+    promiseOfResponse = q
+        .when promiseOfRepository
+        .then (repository) ->
+            winston.info 'repository details retrieved successfuly'
+            
+            return repository
+        .catch (error) ->
+            winston.error 'could not retrieve repository details: %s', error.message
 
 
 
 exports.list = (request) ->
     winston.info 'received a repository listing request'
     
-    promiseOfWebsites = database.Repository
+    promiseOfRepositories = database.Repository
         .find()
         .exec()
         
     promiseOfResponse = q
-        .when promiseOfWebsites
+        .when promiseOfRepositories
         .then (repositories) ->
             winston.info 'repository listing completed successfuly, found %s repositories', repositories.length
             

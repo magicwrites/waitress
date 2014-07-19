@@ -29,17 +29,17 @@ button {
 }
 
 
+    
+[disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+}
 
 a {
     color: @colorForLink;
     text-decoration: none;
     font-weight: bold;
     .transition(all @timeForTransition);
-    
-    &[disabled] {
-        pointer-events: none;
-        opacity: 0.5;
-    }
     
     svg {
         fill: @colorForLink;

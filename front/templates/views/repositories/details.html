@@ -1,11 +1,49 @@
-<section class="waitress-content waitress-view-repository-details">
+<section class="waitress-content">
     <h1>Repository details</h1>
-    <p>...</p>
+    <p>This repository has been succesfully cloned into repositories directory.</p>
     
-    <p>Bla</p>
+    <article class="waitress-subcontent">
+        <div class="waitress-loader pull-left" data-ng-show="states.isInitializing">
+            <img src="images/loader.gif" alt="loader" />
+            <span>Getting repository details &hellip;</span>
+        </div>
+
+        <section data-ng-hide="states.isInitializing">
+            <dl>
+                <dt>Repository author</dt>
+                <dd>{{ repository.author }}</dd>
+            </dl>
+            <dl>
+                <dt>Repository name</dt>
+                <dd>{{ repository.name }}</dd>
+            </dl>
+            <dl>
+                <dt>Repository source</dt>
+                <dd>http://github.com/{{ repository.author }}/{{ repository.name }}</dd>
+            </dl>
+        </section>
+
+        <menu class="waitress-buttons pull-right distant-top clear-both">
+            <button class="waitress-button waitress-button-warning" data-ng-click="states.isRemovalDisabled = !states.isRemovalDisabled">
+                <div class="icon" data-ng-include="getSvgFrom('icons/lock')"></div>
+                <span class="title" data-ng-show="states.isRemovalDisabled">Unlock removal</span>
+                <span class="title" data-ng-hide="states.isRemovalDisabled">Lock removal</span>
+            </button>
+            
+            <button class="waitress-button waitress-button-failure" data-ng-disabled="states.isRemovalDisabled" data-ng-click="remove()">
+                <div class="icon" data-ng-include="getSvgFrom('icons/trash')"></div>
+                <span class="title">Remove this repository</span>
+            </button>
+        </menu>
+    </article>
     
-    <button class="waitress-button waitress-button-failure pull-right" data-ng-click="remove()">
-        <div class="icon" data-ng-include="getSvgFrom('icons/trash')"></div>
-        <span class="title">Remove this repository</span>
-    </button>
+    <article class="waitress-subcontent">
+        <h2>Exposed websites</h2>
+        <p>On demand, you can expose this repository as a website through ngnix on a custom port.</p>
+
+        <button class="waitress-button waitress-button-success distant-top pull-right clear-both" data-ng-click="expose()">
+            <div class="icon" data-ng-include="getSvgFrom('icons/trash')"></div>
+            <span class="title">Expose repository</span>
+        </button>
+    </article>
 </section>

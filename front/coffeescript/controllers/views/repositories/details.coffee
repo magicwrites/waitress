@@ -1,5 +1,7 @@
 window.application.controller 'repositoriesDetails', ($scope, $routeParams, $location, userAuthorizer, websocket) ->
     $scope.states =
+        isRemovalDisabled: yes
+        isInitializing: yes
         isRemoving: no
     
     $scope.remove = () ->
@@ -22,3 +24,17 @@ window.application.controller 'repositoriesDetails', ($scope, $routeParams, $loc
                 $scope.states.isRemoving = no
                 console.info 'a repository was removed successfuly'
                 $location.path 'repositories'
+                
+    do () ->
+        request =
+            repository:
+                _id: $routeParams.id
+
+        userAuthorizer.addAuthorizationTo request
+
+        websocket.emit 'waitress repository get', request
+        websocket.on   'waitress repository get', (response) ->
+            console.info 'retrieved repository details'
+
+            $scope.states.isInitializing = no
+            $scope.repository = response.result
