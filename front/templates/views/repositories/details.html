@@ -21,6 +21,10 @@
                 <dt>Repository source</dt>
                 <dd>http://github.com/{{ repository.author }}/{{ repository.name }}</dd>
             </dl>
+            <dl>
+                <dt>Gruntfile presence</dt>
+                <dd>Gruntfile is {{ repository.isGruntfilePresent ? 'present' : 'absent' }}</dd>
+            </dl>
         </section>
 
         <menu class="waitress-buttons pull-right distant-top clear-both">
@@ -41,6 +45,7 @@
         <h2>Running versions</h2>
         <p>Your repository was cloned and a Gruntfile has been detected. Waitress attempted to build your repositories with <code>waitress-public</code> and <code>waitress-latest</code> tasks for the following versions:</p>
         
+        <div class="waitress-icon pull-right" data-ng-include="getSvgFrom('icons/information')" href="#/information/versions"></div>
         <dl>
             <dt>Latest version</dt>
             <dd>1.2.14</dd>
@@ -49,6 +54,11 @@
             <dt>Public version</dt>
             <dd>1.0.21</dd>
         </dl>
+
+        <button class="waitress-button waitress-button-success distant-top pull-right clear-both" data-ng-click="expose()">
+            <div class="icon" data-ng-include="getSvgFrom('icons/copy')"></div>
+            <span class="title">Publish latest version</span>
+        </button>
     </article>
     
     <article class="waitress-subcontent">
