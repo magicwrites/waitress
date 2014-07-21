@@ -16,6 +16,11 @@ repositoryFiles = require './repository/files'
 
 # public
 
+exports.expose = (request) ->
+    winston.info 'received a request to expose a repository through nginx'
+    
+#    promiseOfFreePorts = 
+
 exports.get = (request) ->
     winston.info 'received a request to retrieve repository details'
     
@@ -23,12 +28,31 @@ exports.get = (request) ->
         .findById request.repository._id
         .exec()
         
-    promiseOfResponse = q
+    promiseOfVersions = q
         .when promiseOfRepository
         .then (repository) ->
+            request.repository.author = repository.author
+            request.repository.name = repository.name
+            
+            repositoryFiles.getVersions request
+            
+    promisesOfDetails = [
+        promiseOfRepository
+        promiseOfVersions
+    ]
+        
+    promiseOfResponse = q
+        .all promisesOfDetails
+        .spread (repository, versions) ->
             winston.info 'repository details retrieved successfuly'
             
-            return repository
+            response =
+                name: repository.name
+                author: repository.author
+                isGruntfilePresent: repository.isGruntfilePresent
+                versions: versions
+            
+            return response
         .catch (error) ->
             winston.error 'could not retrieve repository details: %s', error.message
 

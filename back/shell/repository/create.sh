@@ -9,3 +9,5 @@ mkdir $repositoryDirectory --parents
 cd $repositoryDirectory
 
 git clone https://$githubUsername:$githubPassword@github.com/$repositoryAuthor/$repositoryName latest
+
+cp latest public --recursive

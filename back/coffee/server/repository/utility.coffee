@@ -21,3 +21,11 @@ exports.getLatestDirectoryFrom = (author, name) ->
         repositoryDirectory +
         path.sep +
         'latest'
+        
+exports.getPublicDirectoryFrom = (author, name) ->
+    repositoryDirectory = exports.getDirectoryFrom author, name
+    
+    publicRepositoryDirectory =
+        repositoryDirectory +
+        path.sep +
+        'public'
