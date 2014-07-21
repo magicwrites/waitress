@@ -23,7 +23,7 @@
     },
     "templates": {
         "nginx": {
-            "website": "/var/www/waitress/back/templates/nginx/website"
+            "repository": "back/templates/nginx/repository"
         }
     },
     "files": {

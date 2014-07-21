@@ -85,4 +85,4 @@ exports.create = (request, ports) ->
         .then () ->
             winston.info 'created nginx entries for website %s', request.repository.name
         .catch (error) ->
-            winston.error 'could not create nginx entries: %s', error.message 
+            winston.error 'could not create nginx entries: %s', error.message

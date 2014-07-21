@@ -7,6 +7,8 @@ q = require 'q'
 database = require './../database'
 utility = require './../utility'
 user = require './user'
+nginx = require './nginx'
+reservation = require './reservation'
 
 #repositoryPorts = require './repository/ports'
 #repositoryNginx = require './repository/nginx'
@@ -19,7 +21,22 @@ repositoryFiles = require './repository/files'
 exports.expose = (request) ->
     winston.info 'received a request to expose a repository through nginx'
     
-#    promiseOfFreePorts = 
+    promiseOfReservations = reservation.create request
+    
+    promiseOfNginxExposure = q
+        .when promiseOfReservations
+        .then (reservations) ->
+            request.reservations = reservations
+            nginx.create request
+            
+    promiseOfResponse = q
+        .all [ promiseOfReservations, promiseOfNginxExposure ]
+        .spread (reservations) ->
+            winston.info 'repository was successfuly exposed on ports %s and %s', reservations.public.port, reservations.latest.port
+        .catch (error) ->
+            winston.error 'could not expose repository through ngnix: %s', error.message
+
+
 
 exports.get = (request) ->
     winston.info 'received a request to retrieve repository details'
