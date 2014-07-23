@@ -17,8 +17,7 @@
         "waitress": "/var/www/waitress",
         "repositories": "/var/www/waitress-repositories",
         "nginx": {
-            "available": "/etc/nginx/sites-available",
-            "enabled": "/etc/nginx/sites-enabled"
+            "configurations": "/etc/nginx/conf.d"
         }
     },
     "templates": {

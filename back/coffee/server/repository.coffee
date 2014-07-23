@@ -128,8 +128,15 @@ exports.create = (request) ->
 exports.remove = (request) ->
     winston.info 'received a repository removal request for repository %s', request.repository._id
     
+    if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+    
+    promiseOfRemovals = q.all [
+        repositoryFiles.removeFromHardDrive request
+        nginx.remove request
+    ]
+    
     promiseOfRemovalFromDatabase = q
-        .when repositoryFiles.removeFromHardDrive request
+        .when promiseOfRemovals
         .then () ->
             database.Repository
                 .remove
