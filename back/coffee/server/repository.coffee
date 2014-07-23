@@ -1,5 +1,3 @@
-# require
-
 winston = require 'winston'
 fileSystem = require 'q-io/fs'
 q = require 'q'
@@ -10,13 +8,33 @@ user = require './user'
 nginx = require './nginx'
 reservation = require './reservation'
 
-#repositoryPorts = require './repository/ports'
-#repositoryNginx = require './repository/nginx'
 repositoryFiles = require './repository/files'
-#repositoryGithub = require './repository/github'
-#repositoryVersions = require './repository/versions'
 
-# public
+
+
+exports.hide = (request) ->
+    winston.info 'received a request to hide a repository nginx exposure'
+    
+    if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+    
+    promiseOfReservationsRemoval = database.Reservation
+        .remove
+            repository: request.repository._id
+        .exec()
+    
+    promiseOfNginxHiding = q
+        .when promiseOfReservationsRemoval
+        .then () ->
+            nginx.remove request
+            
+    promiseOfResponse = q
+        .all [ promiseOfReservationsRemoval, promiseOfNginxHiding ]
+        .then () ->
+            winston.info 'repository %s was successfuly removed from nginx exposure', request.repository._id
+        .catch (error) ->
+            winston.error 'could not hide repository: %s', error.message
+
+            
 
 exports.expose = (request) ->
     winston.info 'received a request to expose a repository through nginx'
@@ -56,11 +74,12 @@ exports.get = (request) ->
     promisesOfDetails = [
         promiseOfRepository
         promiseOfVersions
+        reservation.get request
     ]
         
     promiseOfResponse = q
         .all promisesOfDetails
-        .spread (repository, versions) ->
+        .spread (repository, versions, reservations) ->
             winston.info 'repository details retrieved successfuly'
             
             response =
@@ -68,6 +87,7 @@ exports.get = (request) ->
                 author: repository.author
                 isGruntfilePresent: repository.isGruntfilePresent
                 versions: versions
+                reservations: reservations
             
             return response
         .catch (error) ->
@@ -132,7 +152,7 @@ exports.remove = (request) ->
     
     promiseOfRemovals = q.all [
         repositoryFiles.removeFromHardDrive request
-        nginx.remove request
+        exports.hide request
     ]
     
     promiseOfRemovalFromDatabase = q

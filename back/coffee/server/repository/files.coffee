@@ -43,7 +43,7 @@ exports.getVersions = (request) ->
             
             return versions
         .catch (error) ->
-            winston.error 'could not retrieve versions: %s', error.message
+            winston.warn 'could not retrieve versions: %s', error.message
 
 
 

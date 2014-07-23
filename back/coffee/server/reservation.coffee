@@ -1,5 +1,3 @@
-# require
-
 winston = require 'winston'
 q = require 'q'
 _ = require 'lodash'
@@ -9,7 +7,28 @@ utility = require './../utility'
 
 configuration = require './../../../configuration/waitress.json'
 
-# public
+
+
+exports.get = (request) ->
+    winston.info 'received a request to retrieve reservation details for a repository %s', request.repository._id
+    
+    if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+        
+    promiseOfReservations = database.Reservation
+        .find
+            repository: request.repository._id
+        .exec()
+    
+    promiseOfResponse = q
+        .when promiseOfReservations
+        .then (reservations) ->
+            winston.info 'retrieved reservation data for repository', request.repository._id
+            
+            return reservations
+        .catch (error) ->
+            winston.error 'could not retrieve reservations data: %s', error.message
+    
+    
 
 exports.create = (request) ->
     winston.info 'received a request to reserve certain ports'

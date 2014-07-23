@@ -4,6 +4,7 @@ window.application.controller 'repositoriesDetails', ($scope, $routeParams, $loc
         isInitializing: yes
         isRemoving: no
         isExposing: no
+        isHiding: no
     
     $scope.remove = () ->
         console.info 'attempting to remove a repository %s', $routeParams.id
@@ -47,6 +48,27 @@ window.application.controller 'repositoriesDetails', ($scope, $routeParams, $loc
                 console.error 'there was an error during exposure of a repository: %s', response.error
             else 
                 console.info 'a repository was exposed successfuly'
+                
+    $scope.hide = () ->
+        console.info 'hiding a repository previously exposed through nginx service'
+        
+        $scope.states.isHiding = yes
+        
+        request =
+            repository:
+                _id: $routeParams.id
+                
+        userAuthorizer.addAuthorizationTo request
+        
+        websocket.emit 'waitress repository hide', request
+        websocket.on   'waitress repository hide', (response) ->
+            $scope.states.isHiding = yes
+            
+            if  response.error
+                $scope.states.isError = yes
+                console.error 'there was an error during hiding of a repository: %s', response.error
+            else 
+                console.info 'a repository was hidden successfuly'
                 
     do () ->
         request =
