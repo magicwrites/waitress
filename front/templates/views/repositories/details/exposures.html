@@ -1,0 +1,31 @@
+<h2>Exposed websites</h2>
+
+<div data-ng-hide="repository.reservations">
+    <p>On demand, you can expose this repository as a website through ngnix on a custom port.</p>
+
+    <button class="waitress-button waitress-button-success distant-top pull-right clear-both" data-ng-click="expose()">
+        <div class="icon" data-ng-include="getSvgFrom('icons/network')"></div>
+        <span class="title">Expose repository</span>
+    </button>
+</div>
+
+<div data-ng-show="repository.reservations">
+    <p>This repository is built and exposed on the following environments:</p>
+
+    <ul class="waitress-list">
+        <li data-ng-repeat="reservation in repository.reservations">
+            <a target="_blank" href="http://localhost:{{ reservation.port }}">{{ reservation.role }} environment &bull; port {{ reservation.port }}</a>
+        </li>
+    </ul>
+
+    <button class="waitress-button waitress-button-warning distant-top pull-right clear-both" data-ng-click="hide()">
+        <div class="icon" data-ng-include="getSvgFrom('icons/trash')"></div>
+        <span class="title">Hide repository</span>
+    </button>
+</div>
+
+<div class="waitress-loader pull-right" data-ng-show="states.isExposing || states.isHiding">
+    <img src="images/loader.gif" alt="loader" />
+    <span data-ng-show="states.isExposing">Exposing repository &hellip;</span>
+    <span data-ng-show="states.isHiding">Hiding repository exposure &hellip;</span>
+</div>

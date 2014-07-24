@@ -4,6 +4,6 @@ server {
     root {{ some-directory }};
     
     location / {
-        autoindex off;
+        autoindex on;
     }
 }

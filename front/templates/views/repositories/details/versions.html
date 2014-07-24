@@ -1,0 +1,17 @@
+<h2>Running versions</h2>
+
+<p>Your repository was cloned and a Gruntfile has been detected. Waitress attempted to build your repositories with <code>waitress-public</code> and <code>waitress-latest</code> tasks for the following versions:</p>
+
+<dl>
+    <dt>Latest version</dt>
+    <dd>{{ repository.versions.latest || 'Unknown' }}</dd>
+</dl>
+<dl>
+    <dt>Public version</dt>
+    <dd>{{ repository.versions.public || 'Unknown' }}</dd>
+</dl>
+
+<button class="waitress-button waitress-button-success distant-top pull-right clear-both" data-ng-click="expose()">
+    <div class="icon" data-ng-include="getSvgFrom('icons/copy')"></div>
+    <span class="title">Publish latest version</span>
+</button>

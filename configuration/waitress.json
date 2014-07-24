@@ -9,7 +9,7 @@
         },
         "steps": {
             "latest": 5,
-            "website": 10,
+            "repository": 10,
             "github": 3000
         }
     },

@@ -43,7 +43,11 @@ exports.create = (request) ->
         .when promiseOfReservations
         .then (reservations) ->
             basePort = configuration.ports.bases.public
-            basePort += 10 while _.find reservations, { port: basePort }
+            basePort += configuration.ports.steps.repository while _.find reservations, { port: basePort }
+                
+            portLimit = configuration.ports.bases.public + configuration.ports.steps.github
+            
+            if basePort >= portLimit then throw utility.getErrorFrom 'repository ports limit exceeded'
                 
             promiseOfReservation = database.Reservation.create
                 port: basePort
@@ -53,8 +57,12 @@ exports.create = (request) ->
     promiseOfLatestReservation = q
         .when promiseOfReservations
         .then (reservations) ->
-            basePort = configuration.ports.bases.public + 5
-            basePort += 10 while _.find reservations, { port: basePort }
+            basePort = configuration.ports.bases.public + configuration.ports.steps.latest
+            basePort += configuration.ports.steps.repository while _.find reservations, { port: basePort }
+                
+            portLimit = configuration.ports.bases.public + configuration.ports.steps.github
+            
+            if basePort >= portLimit then throw utility.getErrorFrom 'repository ports limit exceeded'
                 
             promiseOfReservation = database.Reservation.create
                 port: basePort
