@@ -22,8 +22,12 @@
                 <dd>http://github.com/{{ repository.author }}/{{ repository.name }}</dd>
             </dl>
             <dl>
-                <dt>Gruntfile presence</dt>
-                <dd>Gruntfile is {{ repository.isGruntfilePresent ? 'present' : 'absent' }}</dd>
+                <dt>Gruntfile</dt>
+                <dd>File is {{ repository.isGruntfilePresent ? 'present' : 'absent' }}</dd>
+            </dl>
+            <dl>
+                <dt>package.json</dt>
+                <dd>File is {{ repository.isGruntfilePresent ? 'present' : 'absent' }}</dd>
             </dl>
         </section>
 
@@ -41,6 +45,13 @@
         </menu>
     </article>
     
-    <article class="waitress-subcontent" data-ng-include="getTemplateFrom('views/repositories/details/versions')"></article>
-    <article class="waitress-subcontent" data-ng-include="getTemplateFrom('views/repositories/details/exposures')" data-ng-controller="repositoriesDetailsExposures"></article>
+    <article class="waitress-subcontent"
+             data-ng-include="getTemplateFrom('views/repositories/details/versions')"
+             data-ng-controller="repositoriesDetailsVersions"
+             data-ng-show="repository.isPackageJsonPresent"></article>
+    
+    <article class="waitress-subcontent"
+             data-ng-include="getTemplateFrom('views/repositories/details/exposures')"
+             data-ng-controller="repositoriesDetailsExposures"
+             data-ng-show="repository.isGruntfilePresent"></article>
 </section>

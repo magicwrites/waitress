@@ -3,7 +3,7 @@
 <div data-ng-hide="repository.reservations">
     <p>On demand, you can expose this repository as a website through ngnix on a custom port.</p>
 
-    <button class="waitress-button waitress-button-success distant-top pull-right clear-both" data-ng-click="expose()">
+    <button class="waitress-button waitress-button-success distant-top pull-right clear-both" data-ng-click="expose()" data-ng-hide="states.isExposing || states.isHiding">
         <div class="icon" data-ng-include="getSvgFrom('icons/network')"></div>
         <span class="title">Expose repository</span>
     </button>
@@ -18,7 +18,7 @@
         </li>
     </ul>
 
-    <button class="waitress-button waitress-button-warning distant-top pull-right clear-both" data-ng-click="hide()">
+    <button class="waitress-button waitress-button-warning distant-top pull-right clear-both" data-ng-click="hide()" data-ng-hide="states.isExposing || states.isHiding">
         <div class="icon" data-ng-include="getSvgFrom('icons/trash')"></div>
         <span class="title">Hide repository</span>
     </button>

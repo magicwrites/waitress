@@ -59,6 +59,8 @@ exports.expose = (request) ->
 exports.get = (request) ->
     winston.info 'received a request to retrieve repository details'
     
+    if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+    
     promiseOfRepository = database.Repository
         .findById request.repository._id
         .exec()
@@ -71,23 +73,44 @@ exports.get = (request) ->
             
             repositoryFiles.getVersions request
             
+    promiseOfReservations = reservation.get request
+    
+    promiseOfGruntfilePresence = q
+        .when promiseOfRepository
+        .then (repository) ->
+            request.repository.author = repository.author
+            request.repository.name = repository.name
+    
+            promiseOfGruntfilePresence = repositoryFiles.checkGruntfilePresence request
+        
+    promiseOfPackageJsonPresence = q
+        .when promiseOfRepository
+        .then (repository) ->
+            request.repository.author = repository.author
+            request.repository.name = repository.name
+            
+            promiseOfPackageJsonPresence = repositoryFiles.checkPackageJsonPresence request
+        
     promisesOfDetails = [
         promiseOfRepository
         promiseOfVersions
-        reservation.get request
+        promiseOfReservations
+        promiseOfGruntfilePresence
+        promiseOfPackageJsonPresence
     ]
         
     promiseOfResponse = q
         .all promisesOfDetails
-        .spread (repository, versions, reservations) ->
+        .spread (repository, versions, reservations, isGruntfilePresent, isPackageJsonPresent) ->
             winston.info 'repository details retrieved successfuly'
             
             response =
                 name: repository.name
                 author: repository.author
-                isGruntfilePresent: repository.isGruntfilePresent
                 versions: versions
                 reservations: reservations
+                isGruntfilePresent: isGruntfilePresent
+                isPackageJsonPresent: isPackageJsonPresent
             
             return response
         .catch (error) ->
@@ -119,20 +142,11 @@ exports.create = (request) ->
     if not request.repository.author then throw utility.getErrorFrom 'request is missing repository author'
     if not request.repository.name   then throw utility.getErrorFrom 'request is missing repository name'
     
-    promiseOfGruntfilePresence = q
-        .when repositoryFiles.cloneSourceIntoLatestDirectory request
-        .then () ->
-            repositoryFiles.checkGruntfilePresence request
+    repository =
+        author: request.repository.author
+        name: request.repository.name
 
-    promiseOfRepositoryInDatabase = q
-        .when promiseOfGruntfilePresence 
-        .then (isGruntfilePresent) ->
-            repository =
-                author: request.repository.author
-                name: request.repository.name
-                isGruntfilePresent: isGruntfilePresent
-            
-            database.Repository.create repository
+    promiseOfRepositoryInDatabase = database.Repository.create repository
     
     promiseOfResponse = q
         .when promiseOfRepositoryInDatabase

@@ -47,6 +47,25 @@ exports.getVersions = (request) ->
 
 
 
+exports.checkPackageJsonPresence = (request) ->
+    winston.info 'resolving package.json presence for repository %s', request.repository.name
+        
+    if not request.repository.author then throw utility.getErrorFrom 'request is missing repository author'
+    if not request.repository.name   then throw utility.getErrorFrom 'request is missing repository name'
+    
+    repositoryLatestDirectory = repositoryUtility.getLatestDirectoryFrom request.repository.author, request.repository.name
+    
+    promiseOfResponse = q
+        .when fileSystem.exists repositoryLatestDirectory + path.sep + 'package.json'
+        .then (isPresent) ->
+            winston.info 'package.json presence resulted in %s', isPresent
+            
+            return isPresent
+        .catch (error) ->
+            winston.error 'could not resolve package.json presence: %s', error.message
+
+
+
 exports.checkGruntfilePresence = (request) ->
     winston.info 'resolving gruntfile presence for repository %s', request.repository.name
         
