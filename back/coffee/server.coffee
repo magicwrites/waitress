@@ -41,6 +41,8 @@ do () ->
                 utility.handle socket, 'waitress repository get', repository.get, user.isAuthorized
                 utility.handle socket, 'waitress repository expose', repository.expose, user.isAuthorized
                 utility.handle socket, 'waitress repository hide', repository.hide, user.isAuthorized
+                utility.handle socket, 'waitress repository publish', repository.publish, user.isAuthorized
+                utility.handle socket, 'waitress repository pull', repository.pull, user.isAuthorized
 
                 socket.on 'disconnect', () ->
                     winston.info 'web socket user has disconnected'

@@ -47,11 +47,9 @@
     
     <article class="waitress-subcontent"
              data-ng-include="getTemplateFrom('views/repositories/details/versions')"
-             data-ng-controller="repositoriesDetailsVersions"
-             data-ng-show="repository.isPackageJsonPresent"></article>
+             data-ng-controller="repositoriesDetailsVersions"></article>
     
     <article class="waitress-subcontent"
              data-ng-include="getTemplateFrom('views/repositories/details/exposures')"
-             data-ng-controller="repositoriesDetailsExposures"
-             data-ng-show="repository.isGruntfilePresent"></article>
+             data-ng-controller="repositoriesDetailsExposures"></article>
 </section>

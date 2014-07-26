@@ -15,8 +15,13 @@ Then, use it to clone the waitress repository. At the moment the path is importa
 `git clone https://github.com/magicwrites/waitress /var/www/waitress`
 
 Finally, run the starting script so that the waitress can handle the rest.
+<<<<<<< HEAD
 Include your github credentials, if you want waitress to have the same level of access that you have. 
 
 `bash /var/www/waitress/start.sh myusername mypassword`
+=======
+
+`bash /var/www/waitress/start.sh`
+>>>>>>> 1cd731a35d705923e43b2c5961f326c1627c4d07
 
 Give the girl some time, she will be ready in a moment. Afterwards, you can visit her at localhost:2000.

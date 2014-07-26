@@ -12,6 +12,41 @@ repositoryFiles = require './repository/files'
 
 
 
+exports.pull = (request) ->
+    winston.info 'received a request to pull latest version of a %s repository', request.repository._id
+    
+    promiseOfPulling = repositoryFiles.pull request
+    
+    promiseOfPullDateUpdate = database.Repository
+        .findByIdAndUpdate request.repository._id, { dateOfLatestPull: new Date() }
+        .exec()
+        
+    promisesOfPulling = [
+        promiseOfPulling
+        promiseOfPullDateUpdate
+    ]
+    
+    promiseOfResponse = q
+        .all promisesOfPulling
+        .then () ->
+            winston.info 'repository %s was successfuly pulled', request.repository._id
+        .catch (error) ->
+            winston.error 'could not pull repository: %s', error.message
+
+
+
+exports.publish = (request) ->
+    winston.info 'received a request to publish a %s repository from latest version', request.repository._id
+    
+    promiseOfResponse = q
+        .when repositoryFiles.publish request
+        .then () ->
+            winston.info 'repository %s was successfuly published', request.repository._id
+        .catch (error) ->
+            winston.error 'could not publish repository: %s', error.message
+            
+    
+    
 exports.hide = (request) ->
     winston.info 'received a request to hide a repository nginx exposure'
     
@@ -145,12 +180,18 @@ exports.create = (request) ->
     repository =
         author: request.repository.author
         name: request.repository.name
-
+        
+    promiseOfClonedRepository = repositoryFiles.cloneSourceIntoLatestDirectory request
     promiseOfRepositoryInDatabase = database.Repository.create repository
     
+    promisesOfCreation = [
+        promiseOfRepositoryInDatabase
+        promiseOfClonedRepository
+    ]
+    
     promiseOfResponse = q
-        .when promiseOfRepositoryInDatabase
-        .then (repository) ->
+        .all promisesOfCreation
+        .spread (repository) ->
             winston.info 'repository %s was successfuly created', request.repository.name
             
             return repository

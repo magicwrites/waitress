@@ -10,7 +10,58 @@ utility = require './../../utility'
 
 repositoryUtility = require './utility'
 
-# public
+
+
+exports.pull = (request) ->
+    winston.info 'pulling repository %s', request.repository._id
+    
+    if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+    
+    promiseOfRepositoryData = database.Repository
+        .findById request.repository._id
+        .exec()
+        
+    promiseOfPulling = q
+        .when promiseOfRepositoryData
+        .then (repository) ->
+            repositoryLatestDirectory = repositoryUtility.getLatestDirectoryFrom repository.author, repository.name
+            
+            utility.runShell 'repository/pull.sh', [ repositoryLatestDirectory ]
+    
+    promiseOfResponse = q
+        .when promiseOfPulling
+        .then () ->
+            winston.info 'repository %s latest version has been pulled from its origin', request.repository._id
+        .catch (error) ->
+            winston.error 'could not pull the latest version of the repository: %s', error.message
+    
+    
+
+exports.publish = (request) ->
+    winston.info 'publishing repository %s from latest version', request.repository._id
+    
+    if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+    
+    promiseOfRepositoryData = database.Repository
+        .findById request.repository._id
+        .exec()
+        
+    promiseOfCopying = q
+        .when promiseOfRepositoryData
+        .then (repository) ->
+            repositoryLatestDirectory = repositoryUtility.getLatestDirectoryFrom repository.author, repository.name
+            repositoryPublicDirectory = repositoryUtility.getPublicDirectoryFrom repository.author, repository.name
+            
+            fileSystem.copyTree repositoryLatestDirectory, repositoryPublicDirectory
+    
+    promiseOfResponse = q
+        .when promiseOfCopying
+        .then () ->
+            winston.info 'repository %s files were copied from latest to public directory', request.repository._id
+        .catch (error) ->
+            winston.error 'could not copy the repository files: %s', error.message
+    
+    
 
 exports.getVersions = (request) ->
     winston.info 'retrieving versions for repository %s of %s', request.repository.name, request.repository.author
