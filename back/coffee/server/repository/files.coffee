@@ -72,10 +72,20 @@ exports.getVersions = (request) ->
     repositoryLatestDirectory = repositoryUtility.getLatestDirectoryFrom request.repository.author, request.repository.name
     repositoryPublicDirectory = repositoryUtility.getPublicDirectoryFrom request.repository.author, request.repository.name
     
-    promisesOfPackages = [
-        fileSystem.read repositoryLatestDirectory + path.sep + 'package.json'
-        fileSystem.read repositoryPublicDirectory + path.sep + 'package.json'
-    ]
+    promiseOfPublicPackageExistence = fileSystem.exists repositoryPublicDirectory + path.sep + 'package.json'
+    
+    promisesOfPackages = q
+        .when promiseOfPublicPackageExistence
+        .then (isPublicPackageJsonPresent) ->
+            promisesOfPackages = [ fileSystem.read repositoryLatestDirectory + path.sep + 'package.json' ]
+            
+            if  isPublicPackageJsonPresent
+                promiseOfPublicPackage = fileSystem.read repositoryPublicDirectory + path.sep + 'package.json'
+                promisesOfPackages.push promiseOfPublicPackage
+            else
+                promisesOfPackages.push '{}' # simulate file exists
+                
+            return promisesOfPackages
 
     promiseOfVersions = q
         .all promisesOfPackages
