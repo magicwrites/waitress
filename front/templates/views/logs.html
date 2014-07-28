@@ -1,0 +1,10 @@
+<section class="waitress-content">
+    <h1>Logs</h1>
+    
+    <ol class="waitress-list">
+        <li data-ng-repeat="log in logs">
+            <span class="pull-right">{{ log.timestamp | date: dateFormats.datetime }}</span>
+            <strong data-ng-class="{ 'color-success': log.level === 'info', 'color-failure': log.level === 'error', 'color-warning': log.level === 'warn' }">{{ log.message }}</strong>
+        </li>
+    </ol>
+</section>

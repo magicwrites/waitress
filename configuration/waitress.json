@@ -1,4 +1,7 @@
 {
+    "logs": {
+        "limit": 64
+    },
     "database": {
         "string": "mongodb://localhost/waitress"
     },

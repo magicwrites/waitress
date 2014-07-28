@@ -2,6 +2,8 @@
 
 q = require 'q'
 winston = require 'winston'
+winstonMongodb = require 'winston-mongodb'
+winstonMongodb = winstonMongodb.MongoDB
 moment = require 'moment'
 childProcess = require 'child-process-promise'
 _ = require 'lodash'
@@ -19,10 +21,8 @@ constants =
             console:
                 colorize: yes
                 timestamp: getNiceTimestamp
-            file:
-                colorize: yes
-                timestamp: getNiceTimestamp
-                filename: './' + configuration.files.logs.json
+            mongodb:
+                db: 'waitress'
 
 # public
 
@@ -35,12 +35,14 @@ exports.wrapInPromise = (something) ->
     deferred.resolve something
     deferred.promise
 
+
     
-        
-exports.setLoggingFor = (winston) ->
+exports.setConsoleLoggingFor = (winston) ->
     winston.remove winston.transports.Console
     winston.add winston.transports.Console, constants.configurations.winston.console
-    winston.add winston.transports.File, constants.configurations.winston.file
+        
+exports.setDatabaseLoggingFor = (winston) ->
+    winston.add winstonMongodb, constants.configurations.winston.mongodb
         
         
         

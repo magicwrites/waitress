@@ -6,7 +6,8 @@ window.application.controller 'repositories', ($scope, websocket, userAuthorizer
     userAuthorizer.addAuthorizationTo request
     
     websocket.emit 'waitress repository list', request
-    websocket.on   'waitress repository list', (response) ->
+    
+    websocket.only 'waitress repository list', (response) ->
         console.info 'retrieved repositories list, counted %s elements', response.result.length
         
         $scope.repositories = response.result

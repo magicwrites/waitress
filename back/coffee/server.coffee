@@ -10,19 +10,20 @@ utility = require './utility'
 user = require './server/user'
 github = require './server/github'
 repository = require './server/repository'
+log = require './server/log'
 
 
 
 do () ->
-    utility.setLoggingFor winston
-    
-    
+    utility.setConsoleLoggingFor winston
     
     promiseOfDatabaseConnection = database.connect()
 
     promiseOfWebsockets = q
         .when promiseOfDatabaseConnection
         .then () ->
+            utility.setDatabaseLoggingFor winston
+    
             io = socket.listen configuration.ports.server
 
             io.sockets.on 'connection', (socket) ->
@@ -43,6 +44,8 @@ do () ->
                 utility.handle socket, 'waitress repository hide', repository.hide, user.isAuthorized
                 utility.handle socket, 'waitress repository publish', repository.publish, user.isAuthorized
                 utility.handle socket, 'waitress repository pull', repository.pull, user.isAuthorized
+                
+                utility.handle socket, 'waitress log list', log.list, user.isAuthorized
 
                 socket.on 'disconnect', () ->
                     winston.info 'web socket user has disconnected'

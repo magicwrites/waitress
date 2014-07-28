@@ -18,11 +18,12 @@ window.application.controller 'repositoriesNew', ($scope, $location, websocket, 
         userAuthorizer.addAuthorizationTo request
         
         websocket.emit 'waitress repository create', request
-        websocket.on   'waitress repository create', (response) ->
-            if  response.error
-                $scope.states.isError = yes
-                console.error 'there was an error during creation of a repository: %s', response.error
-            else 
-                $scope.states.isCreating = no
-                console.info 'a repository was created successfuly'
-                $location.path 'repositories'
+        
+    websocket.only 'waitress repository create', (response) ->
+        if  response.error
+            $scope.states.isError = yes
+            console.error 'there was an error during creation of a repository: %s', response.error
+        else 
+            $scope.states.isCreating = no
+            console.info 'a repository was created successfuly'
+            $location.path 'repositories'

@@ -8,5 +8,5 @@ window.application.controller 'userGithubSet', ($scope, github, websocket) ->
     $scope.set = () ->
         github.set $scope.form
         
-    websocket.on 'waitress github isSet', (response) ->
+    websocket.only 'waitress github isSet', (response) ->
         if response.result then $scope.form = response.result

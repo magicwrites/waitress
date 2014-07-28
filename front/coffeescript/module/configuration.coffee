@@ -31,6 +31,11 @@ window.application.config ($routeProvider) ->
         controller: 'repositoriesDetails'
         isRestricted: yes
         
+    $routeProvider.when '/logs',
+        templateUrl: 'templates/views/logs.html'
+        controller: 'logs'
+        isRestricted: yes
+        
 #    $routeProvider.when '/roadmap',
 #        templateUrl: 'templates/views/roadmap.html'
 #    $routeProvider.when '/authorization',
