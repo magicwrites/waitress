@@ -1,8 +1,8 @@
-window.application.controller 'logs', ($scope, websocket, userAuthorizer) ->
+window.application.controller 'logs', ($scope, $routeParams, websocket, userAuthorizer) ->
     $scope.logs = [] 
     
     request =
-        limit: 128
+        limit: $routeParams.limit || 128
     
     userAuthorizer.addAuthorizationTo request
     
