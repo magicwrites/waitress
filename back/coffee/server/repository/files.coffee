@@ -52,7 +52,9 @@ exports.publish = (request) ->
             repositoryLatestDirectory = repositoryUtility.getLatestDirectoryFrom repository.author, repository.name
             repositoryPublicDirectory = repositoryUtility.getPublicDirectoryFrom repository.author, repository.name
             
-            fileSystem.copyTree repositoryLatestDirectory, repositoryPublicDirectory
+            console.log repositoryLatestDirectory, repositoryPublicDirectory
+            
+            utility.runShell 'repository/publish.sh', [ repositoryLatestDirectory, repositoryPublicDirectory ]
     
     promiseOfResponse = q
         .when promiseOfCopying

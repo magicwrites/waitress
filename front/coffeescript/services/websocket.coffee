@@ -39,11 +39,24 @@ window.application.service 'websocket', ($q, $rootScope, websocketEvents) ->
             
             $rootScope.$apply () ->
                 if callback then callback.apply socket, keptArguments
+                
+    socketOnce = (eventName, callback) ->
+        socket.once eventName, () ->
+            keptArguments = arguments
+            
+            $rootScope.$apply () ->
+                if callback then callback.apply socket, keptArguments
+                
+    socketOnly = (eventName, callback) ->
+        socket.removeListener eventName
+        socketOn eventName, callback
     
     exposed =
         model: model
         events: websocketEvents.model
         set: set
         on: socketOn
+        once: socketOnce
+        only: socketOnly
         emit: socketEmit
     
