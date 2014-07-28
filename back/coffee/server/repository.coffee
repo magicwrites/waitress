@@ -15,10 +15,12 @@ repositoryFiles = require './repository/files'
 exports.pull = (request) ->
     winston.info 'received a request to pull latest version of a %s repository', request.repository._id
     
+    if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+    
     promiseOfPulling = repositoryFiles.pull request
     
     promiseOfPullDateUpdate = database.Repository
-        .findByIdAndUpdate request.repository._id, { dateOfLatestPull: new Date() }
+        .findByIdAndUpdate request.repository._id, { dateOfLatestPulling: new Date() }
         .exec()
         
     promisesOfPulling = [
@@ -38,8 +40,21 @@ exports.pull = (request) ->
 exports.publish = (request) ->
     winston.info 'received a request to publish a %s repository from latest version', request.repository._id
     
+    if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+    
+    promiseOfPublishing = repositoryFiles.publish request
+    
+    promiseOfPublishingDateUpdate = database.Repository
+        .findByIdAndUpdate request.repository._id, { dateOfLatestPublishing: new Date() }
+        .exec()
+        
+    promisesOfPublishing = [
+        promiseOfPublishing
+        promiseOfPublishingDateUpdate
+    ]
+    
     promiseOfResponse = q
-        .when repositoryFiles.publish request
+        .all promisesOfPublishing
         .then () ->
             winston.info 'repository %s was successfuly published', request.repository._id
         .catch (error) ->
@@ -124,7 +139,8 @@ exports.get = (request) ->
             response =
                 name: repository.name
                 author: repository.author
-                dateOfLatestPull: repository.dateOfLatestPull
+                dateOfLatestPulling: repository.dateOfLatestPulling
+                dateOfLatestPublishing: repository.dateOfLatestPublishing
                 versions: versions
                 reservations: reservations
             

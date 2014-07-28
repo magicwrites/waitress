@@ -35,7 +35,8 @@ exports.Github = mongoose.model 'Github',
 exports.Repository = mongoose.model 'Repository',
     author: { type: String }
     name: { type: String }
-    dateOfLatestPull: { type: Date, default: Date.now }
+    dateOfLatestPulling: { type: Date, default: Date.now }
+    dateOfLatestPublishing: { type: Date, default: Date.now }
 
 exports.Reservation = mongoose.model 'Reservation',
     port: { type: Number, min: 2500, max: 9000, unique: yes }
