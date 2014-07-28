@@ -2,7 +2,12 @@
     <h1>Logs</h1>
     <p>By default you see latest 128 logs. You can switch to more, like <a href="#/logs/256">256</a>, <a href="#/logs/512">512</a> or <a href="#/logs/2048">2048</a> for example.</p>
     
-    <ol class="waitress-list">
+    <div class="waitress-loader pull-left" data-ng-hide="logs">
+        <img src="images/loader.gif" alt="loader" />
+        <span>Listing logs &hellip;</span>
+    </div>
+    
+    <ol class="waitress-list" data-ng-show="logs">
         <li data-ng-repeat="log in logs">
             <span class="pull-right">{{ log.timestamp | date: dateFormats.datetime }}</span>
             <strong data-ng-class="{ 'color-success': log.level === 'info', 'color-failure': log.level === 'error', 'color-warning': log.level === 'warn' }">{{ log.message }}</strong>

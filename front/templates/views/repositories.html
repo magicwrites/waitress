@@ -1,15 +1,22 @@
 <section class="waitress-content">
     <h1>Repositories</h1>
     <p>A list of nginx hosted repositories installed and kept running by the waitress.</p>
-
-    <ul class="waitress-list">
-        <li data-ng-repeat="repository in repositories">
-            <a data-ng-href="#/repositories/details/{{ repository._id }}">{{ repository.author }} &bull; {{ repository.name }}</a>
-        </li>
-    </ul>
     
-    <a href="#/repositories/new" class="waitress-button waitress-button-link pull-right">
-        <div class="icon" data-ng-include="getSvgFrom('icons/network')"></div>
-        <span class="title">Add a new repository</span>
-    </a>
+    <div class="waitress-loader pull-left" data-ng-hide="repositories">
+        <img src="images/loader.gif" alt="loader" />
+        <span>Listing repositories &hellip;</span>
+    </div>
+    
+    <section data-ng-show="repositories">
+        <ul class="waitress-list">
+            <li data-ng-repeat="repository in repositories">
+                <a data-ng-href="#/repositories/details/{{ repository._id }}">{{ repository.author }} &bull; {{ repository.name }}</a>
+            </li>
+        </ul>
+
+        <a href="#/repositories/new" class="waitress-button waitress-button-link pull-right">
+            <div class="icon" data-ng-include="getSvgFrom('icons/network')"></div>
+            <span class="title">Add a new repository</span>
+        </a>
+    </section>
 </section>
