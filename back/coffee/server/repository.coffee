@@ -109,43 +109,24 @@ exports.get = (request) ->
             repositoryFiles.getVersions request
             
     promiseOfReservations = reservation.get request
-    
-    promiseOfGruntfilePresence = q
-        .when promiseOfRepository
-        .then (repository) ->
-            request.repository.author = repository.author
-            request.repository.name = repository.name
-    
-            promiseOfGruntfilePresence = repositoryFiles.checkGruntfilePresence request
-        
-    promiseOfPackageJsonPresence = q
-        .when promiseOfRepository
-        .then (repository) ->
-            request.repository.author = repository.author
-            request.repository.name = repository.name
-            
-            promiseOfPackageJsonPresence = repositoryFiles.checkPackageJsonPresence request
         
     promisesOfDetails = [
         promiseOfRepository
         promiseOfVersions
         promiseOfReservations
-        promiseOfGruntfilePresence
-        promiseOfPackageJsonPresence
     ]
         
     promiseOfResponse = q
         .all promisesOfDetails
-        .spread (repository, versions, reservations, isGruntfilePresent, isPackageJsonPresent) ->
+        .spread (repository, versions, reservations) ->
             winston.info 'repository details retrieved successfuly'
             
             response =
                 name: repository.name
                 author: repository.author
+                dateOfLatestPull: repository.dateOfLatestPull
                 versions: versions
                 reservations: reservations
-                isGruntfilePresent: isGruntfilePresent
-                isPackageJsonPresent: isPackageJsonPresent
             
             return response
         .catch (error) ->

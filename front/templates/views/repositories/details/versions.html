@@ -3,6 +3,14 @@
 <p>Your repository is deployed in two environments, latest and public. The first one is used for development purposes, to test out how the latest version of the master branch behaves on the live environment. The public version is used externally, is available for public use and can be assigned domains.</p>
 
 <dl>
+    <dt>Latest pull</dt>
+    <dd>{{ repository.dateOfLatestPull | date: dateFormats.datetime }}</dd>
+</dl>
+<dl>
+    <dt>Last publishing</dt>
+    <dd>{{ repository.dateOfLatestPull | date: dateFormats.datetime }}</dd>
+</dl>
+<dl>
     <dt>Version of latest</dt>
     <dd>{{ repository.versions.latest || 'Version from package.json is unknown' }}</dd>
 </dl>
