@@ -1,9 +1,14 @@
 mongoose = require 'mongoose'
 q = require 'q'
 winston = require 'winston'
+
 configuration = require './../../configuration/waitress.json'
+utility = require './utility'
 
 
+
+exports.Setting = mongoose.model 'Setting',
+    host: { type: String, default: 'localhost' }
 
 exports.User = mongoose.model 'User',
     name: { type: String }
@@ -25,7 +30,7 @@ exports.Reservation = mongoose.model 'Reservation',
     repository: { type: mongoose.Schema.Types.ObjectId, ref: 'Repository' }
     
 exports.Log = mongoose.model 'Log', new mongoose.Schema {},
-    capped: { size: 8388608 } # 2 mbs
+    capped: { size: 8388608 } # more or less 2MB
 
 
 
@@ -37,11 +42,12 @@ exports.connect = () ->
     deferred = q.defer()
     
     mongoose.connect configuration.database.string, (error) ->
-        if error
+        if  error
             winston.error 'could not connect to the database: %s', error.message
             deferred.reject error
         else
             winston.info 'successfuly connected to the database %s', configuration.database.string
             deferred.resolve mongoose
+            utility.setDatabaseLoggingFor winston
             
     deferred.promise

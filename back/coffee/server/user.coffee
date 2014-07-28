@@ -1,12 +1,10 @@
-# require
-
 winston = require 'winston'
 q = require 'q'
 
 configuration = require './../../../configuration/waitress.json'
 database = require './../database'
 
-# public
+
 
 exports.isCreated = () ->
     winston.info 'resolving user credentials existence'

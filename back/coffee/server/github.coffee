@@ -1,12 +1,10 @@
-# require
-
 winston = require 'winston'
 q = require 'q'
 
 configuration = require './../../../configuration/waitress.json'
 database = require './../database'
 
-# public
+
 
 exports.isSet = () ->
     winston.info 'resolving github account existence'

@@ -11,6 +11,7 @@ user = require './server/user'
 github = require './server/github'
 repository = require './server/repository'
 log = require './server/log'
+setting = require './server/setting'
 
 
 
@@ -18,12 +19,15 @@ do () ->
     utility.setConsoleLoggingFor winston
     
     promiseOfDatabaseConnection = database.connect()
-
-    promiseOfWebsockets = q
+    
+    promiseOfSettingEnsurance = q
         .when promiseOfDatabaseConnection
         .then () ->
-            utility.setDatabaseLoggingFor winston
-    
+            promiseOfSettingEnsurance = setting.ensureExistence()
+
+    promiseOfWebsockets = q
+        .all [ promiseOfDatabaseConnection, promiseOfSettingEnsurance ]
+        .then () ->
             io = socket.listen configuration.ports.server
 
             io.sockets.on 'connection', (socket) ->
