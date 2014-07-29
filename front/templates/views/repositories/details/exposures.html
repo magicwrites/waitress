@@ -14,7 +14,7 @@
 
     <ul class="waitress-list">
         <li data-ng-repeat="reservation in repository.reservations">
-            <a target="_blank" href="http://localhost:{{ reservation.port }}">{{ reservation.role }} environment &bull; port {{ reservation.port }}</a>
+            <a target="_blank" data-waitress-href-to-port="{{ reservation.port }}">{{ reservation.role }} environment &bull; port {{ reservation.port }}</a>
         </li>
     </ul>
 

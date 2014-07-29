@@ -45,3 +45,6 @@ window.application.controller 'repositoriesDetailsExposures', ($scope, $routePar
             console.info 'a repository was hidden successfuly'
 
         websocket.emit 'waitress repository get', request
+        
+    $scope.getHrefToPort = (port) ->
+        href = 'http://localhost:' + port
