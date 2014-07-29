@@ -97,8 +97,11 @@ exports.expose = (request) ->
             request.reservations = reservations
             nginx.create request
             
+    promiseOfPublicBuild = repositoryFiles.buildPublic request
+    promiseOfLatestBuild = repositoryFiles.buildLatest request
+            
     promiseOfResponse = q
-        .all [ promiseOfReservations, promiseOfNginxExposure ]
+        .all [ promiseOfReservations, promiseOfNginxExposure, promiseOfPublicBuild, promiseOfLatestBuild ]
         .spread (reservations) ->
             winston.info 'repository was successfuly exposed on ports %s and %s', reservations.public.port, reservations.latest.port
         .catch (error) ->

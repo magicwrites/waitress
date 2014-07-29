@@ -1,6 +1,8 @@
-repositoryDirectory=$1
+repositoryLatestDirectory=$1
 
-cd $repositoryDirectory
-cd latest
+cd $repositoryLatestDirectory
 
-grunt build-latest
+# install dependencies and build
+
+npm install
+grunt waitress-latest
