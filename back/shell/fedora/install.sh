@@ -1,10 +1,10 @@
 echo 'install rpm fusion'
 
-yum localinstall --nogpgcheck http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+yum localinstall --nogpgcheck http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 
 echo 'install mongodb'
 
-yum --disablerepo=* --enablerepo=fedora,updates install mongodb mongodb-server      # install
+yum --disablerepo=* --enablerepo=fedora,updates install mongodb mongodb-server -y   # install
 service mongod start                                                                # start the service
 chkconfig mongod on                                                                 # restart service if system reboots
 
@@ -23,13 +23,14 @@ npm install forever -g
 
 echo 'install nginx'
 
-yum install nginx-1.4.7                                                             # install
+yum install nginx-1.4.7 -y                                                          # install
 service nginx start                                                                 # start the service
 chkconfig nginx on                                                                  # restart service if system reboots
 
 echo 'install and build waitress'
 
 coffee back/coffee/install.coffee
+npm install
 grunt waitress-public
 
 echo 'run waitress'
