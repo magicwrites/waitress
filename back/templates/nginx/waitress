@@ -1,7 +1,7 @@
 server {
     listen 2000;
     
-    root /var/www/waitress/front/;
+    root {{ waitress-directory }}/front/;
     
     location / {
         autoindex off;

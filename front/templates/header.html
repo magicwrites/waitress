@@ -28,6 +28,7 @@
 
     <a href="#/home" class="waitress-logo" data-ng-disabled="!user.isAuthorized">
         <span>Waitress</span>
+        <sup>0 . 2 . 0</sup>
     </a>
 
     <nav class="waitress-navigation">
@@ -46,9 +47,9 @@
             <div data-ng-show="user.isAuthorized" class="icon" data-ng-include="getSvgFrom('icons/note')"></div>
             <span class="title">Logs</span>
         </a>
-        <a href="#/forever" data-ng-disabled="!user.isAuthorized">
-            <div data-ng-hide="user.isAuthorized" class="icon" data-ng-include="getSvgFrom('icons/lock')"></div>
-            <div data-ng-show="user.isAuthorized" class="icon" data-ng-include="getSvgFrom('icons/infinity')"></div>
+        <a href="#/forever" data-ng-disabled="true">
+            <div data-ng-hide="false" class="icon" data-ng-include="getSvgFrom('icons/lock')"></div>
+            <div data-ng-show="false" class="icon" data-ng-include="getSvgFrom('icons/infinity')"></div>
             <span class="title">Forever js</span>
         </a>
     </nav>

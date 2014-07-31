@@ -25,12 +25,16 @@
     },
     "templates": {
         "nginx": {
+            "waitress": "back/templates/nginx/waitress",
             "repository": "back/templates/nginx/repository"
         }
     },
     "files": {
         "logs": {
             "json": "logs/server.json"
+        },
+        "nginx": {
+            "configuration": "/etc/nginx/nginx.conf"
         }
     },
     "characters": {
