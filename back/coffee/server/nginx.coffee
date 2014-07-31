@@ -1,13 +1,12 @@
-winston = require 'winston'
+winston    = require 'winston'
 fileSystem = require 'q-io/fs'
-path = require 'path'
-q = require 'q'
-_ = require 'lodash'
-
-database = require './../database'
-utility = require './../utility'
+path       = require 'path'
+q          = require 'q'
+_          = require 'lodash'
 
 configuration = require './../../../configuration/waitress.json'
+database      = require './../database'
+utility       = require './../utility'
 
 
 
@@ -39,6 +38,31 @@ getPaths = (request, repository) ->
 
 
 
+exports.getPaths = (request) ->
+    winston.info 'received a request to calculate paths for repository %s', request.repository._id
+    
+    if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+    
+    promiseOfRepository = database.Repository
+        .findById request.repository._id
+        .exec()
+        
+    promiseOfPaths = q
+        .when promiseOfRepository
+        .then (repository) ->
+            paths = getPaths request, repository
+
+    promiseOfResponse = q
+        .when promiseOfPaths
+        .then (paths) ->
+            winston.info 'paths calculated successfuly for repository %s', request.repository._id
+            
+            return paths
+        .catch (error) ->
+            winston.error 'could not calculate paths: %s', error.message
+
+
+
 exports.remove = (request) ->
     winston.info 'received a request to remove nginx entries for repository %s', request.repository._id
     
@@ -65,7 +89,8 @@ exports.remove = (request) ->
     
     promiseOfNginxChanges = q
         .when promiseOfNginxEntriesRemoval
-        .then utility.runShell 'nginx/restart.sh'
+        .then () ->
+            utility.runShell 'nginx/restart.sh'
 
     promiseOfResponse = q
         .all [ promiseOfRepository, promiseOfNginxChanges ]
@@ -115,7 +140,8 @@ exports.create = (request) ->
 
     promiseOfNginxChanges = q
         .when promiseOfSavedEntries
-        .then utility.runShell 'nginx/restart.sh'
+        .then () ->
+            utility.runShell 'nginx/restart.sh'
 
     promiseOfResponse = q
         .all [ promiseOfRepository, promiseOfNginxChanges ]

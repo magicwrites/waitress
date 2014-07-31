@@ -29,6 +29,10 @@ exports.Reservation = mongoose.model 'Reservation',
     role: { type: String, enum: [ 'public', 'latest', 'github' ] }
     repository: { type: mongoose.Schema.Types.ObjectId, ref: 'Repository' }
     
+exports.Domain = mongoose.model 'Domain',
+    name: { type: String }
+    repository: { type: mongoose.Schema.Types.ObjectId, ref: 'Repository' }
+    
 exports.Log = mongoose.model 'Log', new mongoose.Schema {},
     capped: { size: 8388608 } # more or less 2MB
 

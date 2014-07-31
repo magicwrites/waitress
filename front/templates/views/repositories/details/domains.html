@@ -1,0 +1,28 @@
+<h2>Domains</h2>
+
+<p>Nginx configuration for the publicly exposed version of the repository can be assigned domains. Those will be placed in <code>server_name</code> property.</p>
+
+<ul class="waitress-list" data-ng-disabled="states.isCreating || states.isRemoving">
+    <li data-ng-repeat="domain in domains">
+        <a class="pull-right" href="" data-ng-click="remove(domain._id)">remove</a>
+        <span>{{ domain.name }}</span>
+    </li>
+</ul>
+
+<form>
+    <fieldset data-ng-disabled="states.isCreating">
+        <label for="name">New domain</label>
+        <input  id="name" type="text" data-ng-model="form.name" placeholder="some.domain.com" />
+    </fieldset>
+
+    <button class="waitress-button waitress-button-success pull-right" data-ng-hide="states.isCreating || states.isRemoving" data-ng-click="create()">
+        <div class="icon" data-ng-include="getSvgFrom('icons/network')"></div>
+        <span class="title">Add domain</span>
+    </button>
+
+    <div class="waitress-loader pull-right" data-ng-show="states.isCreating || states.isRemoving">
+        <img src="images/loader.gif" alt="loader" />
+        <span data-ng-show="states.isCreating">Adding a domain &hellip;</span>
+        <span data-ng-show="states.isRemoving">Removing a domain &hellip;</span>
+    </div>
+</form>

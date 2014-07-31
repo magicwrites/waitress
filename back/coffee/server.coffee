@@ -1,17 +1,16 @@
-# require
-
-socket = require 'socket.io'
+socket  = require 'socket.io'
 winston = require 'winston'
-q = require 'q'
+q       = require 'q'
 
 configuration = require './../../configuration/waitress.json'
-database = require './database'
-utility = require './utility'
-user = require './server/user'
-github = require './server/github'
-repository = require './server/repository'
-log = require './server/log'
-setting = require './server/setting'
+database      = require './database'
+utility       = require './utility'
+user          = require './server/user'
+github        = require './server/github'
+repository    = require './server/repository'
+log           = require './server/log'
+setting       = require './server/setting'
+domain        = require './server/domain'
 
 
 
@@ -50,6 +49,10 @@ do () ->
                 utility.handle socket, 'waitress repository pull', repository.pull, user.isAuthorized
                 
                 utility.handle socket, 'waitress log list', log.list, user.isAuthorized
+                
+                utility.handle socket, 'waitress domain create', domain.create, user.isAuthorized
+                utility.handle socket, 'waitress domain list', domain.list, user.isAuthorized
+                utility.handle socket, 'waitress domain remove', domain.remove, user.isAuthorized
 
                 socket.on 'disconnect', () ->
                     winston.info 'web socket user has disconnected'

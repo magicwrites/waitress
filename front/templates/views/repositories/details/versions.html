@@ -2,14 +2,14 @@
 
 <p>Your repository is deployed in two environments, latest and public. The first one is used for development purposes, to test out how the latest version of the master branch behaves on the live environment. The public version is used externally, is available for public use and can be assigned domains.</p>
 
-<dl>
+<dl data-ng-disabled="states.isPulling">
     <dt>Version of latest</dt>
     <dd>
         <span class="pull-right">pulled {{ repository.dateOfLatestPulling | date: dateFormats.datetime }}</span>
         <span>{{ repository.versions.latest || 'Version from package.json is unknown' }}</span>
     </dd>
 </dl>
-<dl>
+<dl data-ng-disabled="states.isPublishing">
     <dt>Version of published</dt>
     <dd>
         <span class="pull-right">published {{ repository.dateOfLatestPublishing | date: dateFormats.datetime }}</span>

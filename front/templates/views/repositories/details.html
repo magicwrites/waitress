@@ -44,4 +44,9 @@
     <article class="waitress-subcontent"
              data-ng-include="getTemplateFrom('views/repositories/details/exposures')"
              data-ng-controller="repositoriesDetailsExposures"></article>
+    
+    <article class="waitress-subcontent"
+             data-ng-show="repository.reservations"
+             data-ng-include="getTemplateFrom('views/repositories/details/domains')"
+             data-ng-controller="repositoriesDetailsDomains"></article>
 </section>
