@@ -29,8 +29,8 @@ chkconfig nginx on                                                              
 
 echo 'install and build waitress'
 
-coffee back/coffee/install.coffee
 npm install
+coffee back/coffee/install.coffee
 grunt waitress-public
 
 echo 'run waitress'
