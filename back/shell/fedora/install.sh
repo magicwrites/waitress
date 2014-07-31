@@ -31,8 +31,7 @@ echo 'install and build waitress'
 
 npm install
 coffee back/coffee/install.coffee
-grunt waitress-public
 
 echo 'run waitress'
 
-coffee back/coffee/server.coffee
+grunt waitress-public
