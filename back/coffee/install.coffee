@@ -36,6 +36,11 @@ installNginxBasicSettings = () ->
             fileSystem.write configuration.files.nginx.configuration, nginxConfiguration
             
             
+            
+removeLinuxSecurity = () ->
+    promiseOfSecurityRemoval = utility.runShell 'fedora/unsecure.sh', [ process.cwd() ]
+            
+            
 
 do () ->
     promiseOfWaitressNginxConfiguration = installWaitressNginxConfiguration()

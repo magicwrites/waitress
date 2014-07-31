@@ -1,9 +1,9 @@
-window.application.service 'websocket', ($q, $rootScope, websocketEvents) ->
+window.application.service 'websocket', ($q, $rootScope, $location, websocketEvents) ->
     
     model =
         isConnected: no
         protocol: 'http'
-        host: 'localhost'
+        host: $location.$$host
         port: 2005
         
     set = (data) ->
