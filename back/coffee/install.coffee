@@ -85,14 +85,16 @@ do () ->
     promiseOfWaitressNginxConfiguration = installWaitressNginxConfiguration()
     promiseOfNginxBasicSettings = installNginxBasicSettings()
     promiseOfRebootScript = setupRebootScript()
-    promiseOfSecurityRemoval = removeLinuxSecurity()
     
     promiseOfCrontab = q
         .when promiseOfRebootScript
         .then () ->
-            promiseOfCrontab = setupCrontab()
+            q.all [
+                promiseOfCrontab = setupCrontab()
+                promiseOfSecurityRemoval = removeLinuxSecurity()
+            ]
     
     promiseOfNginxRestart = q
-        .all [ promiseOfWaitressNginxConfiguration, promiseOfNginxBasicSettings, promiseOfCrontab, promiseOfSecurityRemoval ]
+        .all [ promiseOfWaitressNginxConfiguration, promiseOfNginxBasicSettings, promiseOfCrontab ]
         .then () ->
             utility.runShell 'nginx/restart.sh'
