@@ -4,6 +4,6 @@ server {
     root {{ waitress-directory }}/front;
     
     location / {
-        autoindex off;
+        autoindex on;
     }
 }

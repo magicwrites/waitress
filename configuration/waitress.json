@@ -24,6 +24,9 @@
         }
     },
     "templates": {
+        "fedora": {
+            "rebootScript": "back/templates/fedora/start-on-reboot.sh"
+        },
         "nginx": {
             "waitress": "back/templates/nginx/waitress",
             "repository": "back/templates/nginx/repository"
@@ -35,6 +38,9 @@
         },
         "nginx": {
             "configuration": "/etc/nginx/nginx.conf"
+        },
+        "fedora": {
+            "rebootScript": "back/shell/fedora/start-on-reboot.sh"
         }
     },
     "characters": {

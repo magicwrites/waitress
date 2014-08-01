@@ -35,3 +35,7 @@ coffee back/coffee/install.coffee
 echo 'run waitress'
 
 grunt waitress-public
+
+echo 'reboot system for changes to take effect'
+
+reboot

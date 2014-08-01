@@ -1,5 +1,5 @@
-waitressRepository=$1
+waitressRootRepository=$1
 
-chmod 777 $waitressRepository
+chmod 755 $waitressRootRepository
 
 systemctl disable firewalld

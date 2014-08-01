@@ -1,6 +1,7 @@
 fileSystem = require 'q-io/fs'
 q          = require 'q'
 path       = require 'path'
+crontab    = require 'crontab'
 
 configuration = require './../../configuration/waitress.json'
 utility       = require './utility'
@@ -37,16 +38,60 @@ installNginxBasicSettings = () ->
             
             
             
+setupRebootScript = () ->
+    promiseOfTemplate = fileSystem.read configuration.templates.fedora.rebootScript
+    
+    promiseOfRebootScriptContent = q
+        .when promiseOfTemplate
+        .then (template) ->
+            rebootScriptContent = template.replace '{{ waitress-directory }}', process.cwd()
+        
+    promiseOfRebootScript = q
+        .when promiseOfRebootScriptContent
+        .then (rebootScriptContent) ->
+            fileSystem.write configuration.files.fedora.rebootScript, rebootScriptContent
+    
+            
+            
+setupCrontab = () ->
+    deferred = q.defer()
+    
+    crontab.load (error, crontab) ->
+        scriptLocation = process.cwd() + [ 'back', 'shell', 'fedora', 'start-on-reboot.sh' ].join path.sep
+        
+        job = crontab.create 'forever -c coffee ' + scriptLocation, '@reboot'
+        
+        crontab.save (error, crontab) ->
+            if  error
+                deferred.reject error
+            else
+                deferred.resolve crontab
+    
+    deferred.promise
+            
+            
+            
 removeLinuxSecurity = () ->
-    promiseOfSecurityRemoval = utility.runShell 'fedora/unsecure.sh', [ process.cwd() ]
+    rootDirectory = process.cwd()
+    rootDirectory = rootDirectory.split path.sep
+    rootDirectory = rootDirectory[1]
+    rootDirectory = path.sep + rootDirectory
+    
+    promiseOfSecurityRemoval = utility.runShell 'fedora/unsecure.sh', [ rootDirectory ]
             
             
 
 do () ->
     promiseOfWaitressNginxConfiguration = installWaitressNginxConfiguration()
     promiseOfNginxBasicSettings = installNginxBasicSettings()
+    promiseOfRebootScript = setupRebootScript()
+    
+    promiseOfCrontab = q
+        .when promiseOfRebootScript
+        .then () ->
+            promiseOfCrontab = setupCrontab()
     
     promiseOfNginxRestart = q
-        .all [ promiseOfWaitressNginxConfiguration, promiseOfNginxBasicSettings ]
+        .all [ promiseOfWaitressNginxConfiguration, promiseOfNginxBasicSettings, promiseOfCrontab ]
         .then () ->
             utility.runShell 'nginx/restart.sh'

@@ -2,15 +2,16 @@ socket  = require 'socket.io'
 winston = require 'winston'
 q       = require 'q'
 
-configuration = require './../../configuration/waitress.json'
-database      = require './database'
-utility       = require './utility'
-user          = require './server/user'
-github        = require './server/github'
-repository    = require './server/repository'
-log           = require './server/log'
-setting       = require './server/setting'
-domain        = require './server/domain'
+configuration   = require './../../configuration/waitress.json'
+database        = require './database'
+utility         = require './utility'
+user            = require './server/user'
+github          = require './server/github'
+repository      = require './server/repository'
+repositoryFiles = require './server/repository/files'
+log             = require './server/log'
+setting         = require './server/setting'
+domain          = require './server/domain'
 
 
 
@@ -23,10 +24,32 @@ do () ->
         .when promiseOfDatabaseConnection
         .then () ->
             promiseOfSettingEnsurance = setting.ensureExistence()
+            
+    promiseOfRepositories = q
+        .when promiseOfDatabaseConnection
+        .then () ->
+            promiseOfRepositories = repository.list()
+            
+    promiseOfBuiltRepositories = q
+        .when promiseOfRepositories
+        .then (repositories) ->
+            promises = []
+            
+            for repository in repositories
+                request =
+                    repository:
+                        _id: repository._id.toString()
+                
+                promises.push repositoryFiles.buildLatest request
+                promises.push repositoryFiles.buildPublic request
+                
+            q.all promises
 
     promiseOfWebsockets = q
-        .all [ promiseOfDatabaseConnection, promiseOfSettingEnsurance ]
+        .all [ promiseOfDatabaseConnection, promiseOfSettingEnsurance, promiseOfBuiltRepositories ]
         .then () ->
+            winston.info 'initialization of the waitress completed'
+            
             io = socket.listen configuration.ports.server
 
             io.sockets.on 'connection', (socket) ->
@@ -60,4 +83,4 @@ do () ->
             winston.info 'web sockets server is working on port %s', configuration.ports.server
             
         .catch (error) ->
-            winston.error 'could not establish websockets server %s', error.message
+            winston.error 'could not initialize waitress and establish websockets server %s', error.message

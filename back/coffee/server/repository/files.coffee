@@ -13,9 +13,10 @@ repositoryUtility = require './utility'
 
 
 exports.buildLatest = (request) ->
-    winston.info 'building latest version of the repository'
-    
+    if not request.repository     then throw utility.getErrorFrom 'request is missing repository data'
     if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+    
+    winston.info 'building latest version of the repository %s', request.repository._id
     
     promiseOfRepositoryData = database.Repository
         .findById request.repository._id
@@ -33,14 +34,15 @@ exports.buildLatest = (request) ->
         .then () ->
             winston.info 'latest version of the repository %s has been built', request.repository._id
         .catch (error) ->
-            winston.error 'latest version of the repository could not be built: %s', error.message
+            winston.warn 'latest version of the repository could not be built: %s', error.message
 
 
 
 exports.buildPublic = (request) ->
-    winston.info 'building public version of the repository'
-    
+    if not request.repository     then throw utility.getErrorFrom 'request is missing repository data'
     if not request.repository._id then throw utility.getErrorFrom 'request is missing repository identifier'
+    
+    winston.info 'building public version of the repository %s', request.repository._id
     
     promiseOfRepositoryData = database.Repository
         .findById request.repository._id
@@ -58,7 +60,7 @@ exports.buildPublic = (request) ->
         .then () ->
             winston.info 'public version of the repository %s has been built', request.repository._id
         .catch (error) ->
-            winston.error 'public version of the repository could not be built: %s', error.message
+            winston.warn 'public version of the repository could not be built: %s', error.message
 
 
 
