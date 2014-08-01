@@ -1,4 +1,7 @@
 window.application.controller 'repositories', ($scope, websocket, userAuthorizer) ->
+    $scope.states =
+        isListing: yes
+    
     $scope.repositories = []
     
     request = {}
@@ -8,6 +11,8 @@ window.application.controller 'repositories', ($scope, websocket, userAuthorizer
     websocket.emit 'waitress repository list', request
     
     websocket.only 'waitress repository list', (response) ->
+        $scope.states.isListing = no
+        
         console.info 'retrieved repositories list, counted %s elements', response.result.length
         
         $scope.repositories = response.result

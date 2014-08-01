@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd {{ waitress-directory }}
 
 source ~/.nvm/nvm.sh
