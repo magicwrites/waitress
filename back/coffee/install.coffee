@@ -57,7 +57,7 @@ setupCrontab = () ->
     deferred = q.defer()
     
     crontab.load (error, crontab) ->
-        scriptLocation = process.cwd() + [ 'back', 'shell', 'fedora', 'start-on-reboot.sh' ].join path.sep
+        scriptLocation =  [ process.cwd(), 'back', 'shell', 'fedora', 'start-on-reboot.sh' ].join path.sep
         
         job = crontab.create 'forever -c coffee ' + scriptLocation, '@reboot'
         
